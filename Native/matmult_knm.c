@@ -44,12 +44,8 @@ for(i = 0; i<k; i++){
 
 double **C = malloc_2d(m,n);
 
-matmult_nat(m,n,k,A,B,C);
-// matmult_mkn(m,n,k,m1,m2,m3);
-// matmult_nkm(m,n,k,m1,m2,m3);
-// matmult_nmk(m,n,k,m1,m2,m3);
-// matmult_knm(m,n,k,m1,m2,m3);
-// matmult_kmn(m,n,k,m1,m2,m3);
+matmult_knm(m,n,k,A,B,C);
+
 for (int i=0;i<m;i++){
     for (int p=0;p<n;p++){
         printf("%f",C[i][p]);
