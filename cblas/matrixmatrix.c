@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include <Accelerate/Accelerate.h>
+#include <stdlib.h>
+#include <cblas.h>
+#include "matmult_lib.h"
+
 
 double** malloc_2d(int m, int n){
     int i;
@@ -38,7 +41,8 @@ int main(void){
 
     double **C = malloc_2d(m,n);
   
-    cblas_dgemm(CblasRowMajor,CblasNoTrans, CblasNoTrans,m,n,k,1.0,*A,k,*B,n,0.0,*C,n);
+    // Instead of calling cblas_dgemm we can now use this wrapper function:
+    matmult_lib(m,n,k,A,B,C);
     
     for(i = 0; i<m; i++){
         for(j = 0; j<k; j++){
