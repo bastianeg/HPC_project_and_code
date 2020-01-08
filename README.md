@@ -11,6 +11,8 @@ This is the main repository for our group:
 
 ## Assignment 1
 Martin is working on matmult_nat() i.e. part 1
+
 Louis is working on matmult_lib() 
+
 Bastian is working on matmult_blk()
 
