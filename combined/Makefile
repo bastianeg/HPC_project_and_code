@@ -6,7 +6,7 @@ OPT	= -g -O3 -ffast-math -funroll-loops
 PIC	= -fPIC
 
 CC	= gcc
-CFLAGS= $(OPT) $(PIC) $(XOPTS)
+CFLAGS= $(OPT) $(PIC) $(XOPTS) -std=C99
 
 SOFLAGS = -shared 
 XLIBS	= 
