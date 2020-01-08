@@ -1,6 +1,7 @@
 TARGET	= libmatmult.so
-LIBSRCS	= matmult_blk.c native_combined.c
-LIBOBJS	= matmult_blk.o native_combined.o
+LIBSRCS	= matmult_blk.c native_combined.c cblas.c
+LIBOBJS	= matmult_blk.o native_combined.o cblas.o
+LDFLAGS = -L /usr/lib64/atlas -lsatlas
 
 OPT	= -g -O3 -ffast-math -funroll-loops
 PIC	= -fPIC
