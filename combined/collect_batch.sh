@@ -31,7 +31,7 @@ PERM="per"
 
 # uncomment and set a reasonable BLKSIZE for the blk version
 #
-# BLKSIZE=1
+BLKSIZE=5
 
 # define the max no. of iterations the driver should use - adjust to
 # get a reasonable run time.  You can get an estimate by trying this
