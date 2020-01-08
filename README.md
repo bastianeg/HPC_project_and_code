@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # HPC_project_and_code
 Hello friends
 hello
@@ -12,6 +11,6 @@ This is the main repository for our group:
 
 ## Assignment 1
 Martin is working on matmult_nat() i.e. part 1
+Louis is working on matmult_lib() 
+Bastian is working on matmult_blk()
 
-
->>>>>>> 6d5e3ae3581afecaeea12c78fe2246ce2d78f21b
