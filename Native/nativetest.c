@@ -3,7 +3,7 @@
 #include "matmult.h"
 
 // allocate a double-prec m x n matrix
-double ** dmalloc_2d(int m, int n) {
+double ** malloc_2d(int m, int n) {
     if (m <= 0 || n <= 0) return NULL;
     double **A = malloc(m * sizeof(double *));
     if (A == NULL) return NULL;
@@ -16,7 +16,7 @@ double ** dmalloc_2d(int m, int n) {
         A[i] = A[0] + i * n;
     return A;}
 // Free it again
-void dfree_2d(double **A) {
+void free_2d(double **A) {
  free(A[0]);
  free(A);
 };
@@ -24,54 +24,41 @@ void dfree_2d(double **A) {
 
 void main()
 {
-
-int k=2;
-int n=2;
-int m=2;
-int i;
-int p;
-int j;
-
-
-
-// Allocating
-double **m1=dmalloc_2d(m,k);
-double **m2=dmalloc_2d(k,n);
-double **m3=dmalloc_2d(m,n);
-
-// Fill with numbers
-for (i=0;i<m;i++){
-    for (p=0;p<k;p++){
-        m1[i][p]=1;
-    }
-}
-for (i=0;i<k;i++){
-    for (p=0;p<n;p++){
-        m2[i][p]=12000;
-    }
-}
-m2[1][1]=100;
-for (i=0;i<m;i++){
-    for (p=0;p<n;p++){
-        m3[i][p]=9999999999999999;
+int i,j,n,m,k;
+m = 3;
+n = 2;
+k = 5;
+double **A = malloc_2d(m,k);
+for(i = 0; i<m; i++){
+    for(j = 0; j<k; j++){
+        A[i][j] = 10.0*(i+1)+(j+1);
     }
 }
 
-matmult_nat(m,n,k,m1,m2,m3);
+double **B = malloc_2d(k,n);
+for(i = 0; i<k; i++){
+    for(j = 0; j<n; j++){
+        B[i][j] = 20.0*(i+1)+(j+1);
+    }
+}
+
+double **C = malloc_2d(m,n);
+
+matmult_nat(m,n,k,A,B,C);
 // matmult_mkn(m,n,k,m1,m2,m3);
 // matmult_nkm(m,n,k,m1,m2,m3);
 // matmult_nmk(m,n,k,m1,m2,m3);
 // matmult_knm(m,n,k,m1,m2,m3);
 // matmult_kmn(m,n,k,m1,m2,m3);
-for (i=0;i<m;i++){
-    for (p=0;p<n;p++){
-        printf("%f",m3[i][p]);
+for (int i=0;i<m;i++){
+    for (int p=0;p<n;p++){
+        printf("%f",C[i][p]);
     }
 }
 
 
 // Deallocating
-dfree_2d(m1);
-dfree_2d(m2);
-dfree_2d(m3);
+free_2d(A);
+free_2d(B);
+free_2d(C);
 }
