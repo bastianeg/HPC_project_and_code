@@ -1,17 +1,21 @@
 
 void matmult_nat(int m, int n, int k, double **A, double **B, double **C){
-for (int i=0;i<m;i++){
-    for (int p=0;p<n;p++){
-        C[i][p]=0;
+    for (int i=0;i<m;i++){
+        for (int p=0;p<n;p++){
+            C[i][p]=0;
+        }
     }
-}
-for (int i=0;i<m;i++) {
-    for (int p=0;p<n;p++) { 
-        for (int j=0;j<k;j++){
-            C[i][p]+=A[i][j]*B[j][p];
+    for (int i=0;i<m;i++) {
+        for (int p=0;p<n;p++) { 
+            for (int j=0;j<k;j++){
+                C[i][p]+=A[i][j]*B[j][p];
+            }
         }
     }
 }
+
+void matmult_mnk(int m, int n, int k, double **A, double **B, double **C){
+    matmult_nat(m,n,k,A,B,C);
 }
 
 void matmult_mkn(int m, int n, int k, double **A, double **B, double **C){
