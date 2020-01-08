@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #include <Accelerate/Accelerate.h>
 
 enum CBLAS_ORDER {CblasRowMajor=101, CblasColMajor=102};
@@ -19,13 +19,13 @@ void cblas_dgemm(const enum CBLAS_ORDER Order,
                  const double  alpha, const double *A, const int lda,
                  const double *B, const int ldb, const double  beta,
                  double *C, const int ldc);
-=======
+
 #ifdef __APPLE__
 #include <Accelerate/Accelerate.h>
 #else
 #include <cblas.h>
 #endif
->>>>>>> 5cd27f29784e7d9567636c55bb3b791ff151884b
+
 
 void matmult_lib(int m, int n, int k, double **A, double **B, double **C){
 
