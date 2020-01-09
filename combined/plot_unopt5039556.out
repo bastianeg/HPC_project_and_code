@@ -1,0 +1,77 @@
+     6.000    295.847 0 # matmult_mkn
+    24.000    310.462 0 # matmult_mkn
+    96.000    345.547 0 # matmult_mkn
+   384.000    358.584 0 # matmult_mkn
+  1536.000    361.060 0 # matmult_mkn
+  6144.000    362.574 0 # matmult_mkn
+ 24576.000    363.985 0 # matmult_mkn
+ 98304.000    363.193 296 # matmult_mkn
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-40>
+Subject: Job 5039556: <plot_unopt> in cluster <dcc> Done
+
+Job <plot_unopt> was submitted from host <n-62-30-5> by user <s153287> in cluster <dcc> at Thu Jan  9 13:30:54 2020
+Job was executed on host(s) <n-62-21-40>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Thu Jan  9 13:30:54 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/combined> was used as the working directory.
+Started at Thu Jan  9 13:30:54 2020
+Terminated at Thu Jan  9 13:31:58 2020
+Results reported at Thu Jan  9 13:31:58 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J plot_unopt
+#BSUB -o plot_unopt%J.out
+#BSUB -q hpcintro
+#BSUB -n 1
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 30
+
+PERM="mkn"
+SMALLSIZES="16 32 64 128"
+BIGSIZES="256 512 1024 2048"
+
+EXECUTABLE=matmult_c.gcc
+BLKSIZE=32
+HWCOUNT="-h dch,on,dcm,on,l2h,on,l2m,on"
+
+
+export MATMULT_COMPARE=1
+
+
+export MFLOPS_MAX_IT=500
+for size in $SMALLSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+
+export MFLOPS_MAX_IT=1
+for size in $BIGSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+exit 0
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   63.22 sec.
+    Max Memory :                                 139 MB
+    Average Memory :                             105.25 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1909.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   64 sec.
+    Turnaround time :                            64 sec.
+
+The output (if any) is above this job summary.
+
