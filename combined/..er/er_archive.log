@@ -1,0 +1,15 @@
+### Start Wed Jan  8 19:22:03 2020
+# /opt/oracle/developerstudio12.6/bin/../bin/er_archive -n -O /zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/er_archive.log /zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er
+Copying `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/matmult_c.gcc'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/matmult_c.gcc_pekPkw329L1'
+Copying `/usr/lib64/libgcc_s-4.8.5-20150702.so.1'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libgcc_s-4.8.5-20150702.so.1_OCEC1bthLm2'
+Copying `/usr/lib64/libquadmath.so.0.0.0'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libquadmath.so.0.0.0_OCEC1bthLm2'
+Copying `/usr/lib64/libm-2.17.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libm-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libgfortran.so.3.0.0'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libgfortran.so.3.0.0_OCEC1bthLm2'
+Copying `/usr/lib64/librt-2.17.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/librt-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libpthread-2.17.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libpthread-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libc-2.17.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libc-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libdl-2.17.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libdl-2.17.so_OCEC1bthLm2'
+Copying `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/libmatmult.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libmatmult.so_pekPkw329L1'
+Copying `/usr/lib64/atlas/libsatlas.so.3.10'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libsatlas.so.3.10_bkXz1NQ1lK8'
+Copying `/opt/oracle/developerstudio12.6/lib/analyzer/amd64/runtime/libcollector.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/libcollector.so_-C8vWEvanQd'
+Copying `/usr/lib64/ld-2.17.so'  to `/zhome/6e/9/133731/Desktop/P1/HPC_project_and_code/combined/..er/archives/ld-2.17.so_OCEC1bthLm2'
