@@ -1,0 +1,16 @@
+Functions sorted by metric: Exclusive Total CPU Time
+
+Excl.     Incl.     Excl. L1    Excl. L1  Excl. L2  Excl. L2   Name
+Total     Total     D-cache     D-cache   Cache     Cache
+CPU sec.  CPU sec.  Hits        Misses    Hits      Misses
+1.491     1.491     4724733573  9603004   3201001   5005006    <Total>
+1.471     1.481     4724733573  9603004   3201001   5005006    matmult_blk
+0.010     0.010              0        0         0         0    __GI_memset
+0.010     0.010              0        0         0         0    sigprocmask
+0.        0.010              0        0         0         0    <static>@0x2d009 (<libcollector.so>)
+0.        0.010              0        0         0         0    __collector_reallocVSize
+0.        1.491              0        0         0         0    __libc_start_main
+0.        0.010              0        0         0         0    dlclose
+0.        1.491              0        0         0         0    main
+0.        1.491              0        0         0         0    mflops
+
