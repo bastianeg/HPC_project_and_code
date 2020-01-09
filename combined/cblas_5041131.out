@@ -1,0 +1,77 @@
+     6.000   2212.858 # matmult_lib
+    24.000   3612.391 # matmult_lib
+    96.000   5720.046 # matmult_lib
+   384.000   8135.118 # matmult_lib
+  1536.000   7951.287 # matmult_lib
+  6144.000   8618.064 # matmult_lib
+ 24576.000   9272.902 # matmult_lib
+ 98304.000   9483.948 # matmult_lib
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-41>
+Subject: Job 5041131: <cblas_plot> in cluster <dcc> Done
+
+Job <cblas_plot> was submitted from host <n-62-27-19> by user <s153287> in cluster <dcc> at Thu Jan  9 16:23:44 2020
+Job was executed on host(s) <n-62-21-41>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Thu Jan  9 16:23:46 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/combined> was used as the working directory.
+Started at Thu Jan  9 16:23:46 2020
+Terminated at Thu Jan  9 16:23:49 2020
+Results reported at Thu Jan  9 16:23:49 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J cblas_plot
+#BSUB -o cblas_%J.out
+#BSUB -q hpcintro
+#BSUB -n 1
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 30
+
+PERM="lib"
+SMALLSIZES="16 32 64 128"
+BIGSIZES="256 512 1024 2048"
+
+EXECUTABLE=matmult_c.gcc
+BLKSIZE=128
+HWCOUNT="-h dch,on,dcm,on,l2h,on,l2m,on"
+
+
+export MATMULT_COMPARE=0
+
+
+export MFLOPS_MAX_IT=500
+for size in $SMALLSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+
+export MFLOPS_MAX_IT=1
+for size in $BIGSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+exit 0
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2.70 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   3 sec.
+    Turnaround time :                            5 sec.
+
+The output (if any) is above this job summary.
+
