@@ -1,0 +1,117 @@
+     6.000   1498.171 # matmult_mnk
+     6.000   1543.331 # matmult_mkn
+     6.000   1539.271 # matmult_kmn
+     6.000   1269.684 # matmult_knm
+     6.000   1269.290 # matmult_nkm
+     6.000   1499.817 # matmult_nmk
+    24.000   1780.966 # matmult_mnk
+    24.000   2063.346 # matmult_mkn
+    24.000   2067.773 # matmult_kmn
+    24.000   1522.960 # matmult_knm
+    24.000   1519.147 # matmult_nkm
+    24.000   1785.819 # matmult_nmk
+    96.000   1777.043 # matmult_mnk
+    96.000   2555.184 # matmult_mkn
+    96.000   2547.165 # matmult_kmn
+    96.000   1176.483 # matmult_knm
+    96.000   1143.221 # matmult_nkm
+    96.000   1870.053 # matmult_nmk
+   384.000   1173.297 # matmult_mnk
+   384.000   2666.589 # matmult_mkn
+   384.000   2613.420 # matmult_kmn
+   384.000    445.965 # matmult_knm
+   384.000    465.758 # matmult_nkm
+   384.000   1130.296 # matmult_nmk
+  1536.000    808.560 # matmult_mnk
+  1536.000   2719.160 # matmult_mkn
+  1536.000   2584.689 # matmult_kmn
+  1536.000    261.531 # matmult_knm
+  1536.000    261.305 # matmult_nkm
+  1536.000    737.476 # matmult_nmk
+  6144.000    676.260 # matmult_mnk
+  6144.000   2725.233 # matmult_mkn
+  6144.000   2637.772 # matmult_kmn
+  6144.000    189.699 # matmult_knm
+  6144.000    190.088 # matmult_nkm
+  6144.000    624.318 # matmult_nmk
+ 24576.000    693.575 # matmult_mnk
+ 24576.000   2761.902 # matmult_mkn
+ 24576.000   2708.617 # matmult_kmn
+ 24576.000    146.598 # matmult_knm
+ 24576.000    146.440 # matmult_nkm
+ 24576.000    652.650 # matmult_nmk
+ 98304.000    371.034 # matmult_mnk
+ 98304.000   2384.155 # matmult_mkn
+ 98304.000   2066.951 # matmult_kmn
+ 98304.000    122.869 # matmult_knm
+ 98304.000    126.685 # matmult_nkm
+ 98304.000    315.391 # matmult_nmk
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-46>
+Subject: Job 5037945: <make_per_plots> in cluster <dcc> Done
+
+Job <make_per_plots> was submitted from host <n-62-30-5> by user <s153287> in cluster <dcc> at Thu Jan  9 11:13:59 2020
+Job was executed on host(s) <n-62-21-46>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Thu Jan  9 11:13:59 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/combined> was used as the working directory.
+Started at Thu Jan  9 11:13:59 2020
+Terminated at Thu Jan  9 11:21:29 2020
+Results reported at Thu Jan  9 11:21:29 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J make_per_plots
+#BSUB -o make_per_plots%J.out
+#BSUB -q hpcintro
+#BSUB -n 1
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+
+PERM="per"
+SMALLSIZES="16 32 64 128"
+BIGSIZES="256 512 1024 2048"
+
+EXECUTABLE=matmult_c.gcc
+BLKSIZE=32
+HWCOUNT="-h dch,on,dcm,on,l2h,on,l2m,on"
+
+
+export MATMULT_COMPARE=0
+
+
+export MFLOPS_MAX_IT=500
+for size in $SMALLSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+
+export MFLOPS_MAX_IT=1
+for size in $BIGSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+exit 0
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   449.41 sec.
+    Max Memory :                                 100 MB
+    Average Memory :                             90.12 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1948.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   450 sec.
+    Turnaround time :                            450 sec.
+
+The output (if any) is above this job summary.
+
