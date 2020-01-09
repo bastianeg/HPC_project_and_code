@@ -17,16 +17,17 @@ void matmult_blk(int m,int n,int k,double **A,double **B,double **C, int bs){
             C[i][j] = 0.0;
 
     //looping through the blocks
+    //From our experiments, mkn is the fastest across all problem sizes. 
     for(bi=0; bi<mb; bi++){
-        for(bj=0; bj<nb; bj++){
-            for(bl=0; bl<kb; bl++){
+        for(bl=0; bl<kb; bl++){
+            for(bj=0; bj<nb; bj++){
                 
                 //looping within a block
-                //we make sure the i,j,l is the actual i,j,l
+                //we make sure the i,l,j is the actual i,l,j
                 //to account non multiples of bs we use MIN
                 for(i=bi*bs; i<MIN((bi+1)*bs,m); i++){
-                    for(j=bj*bs; j<MIN((bj+1)*bs,n); j++){
-                        for(l=bl*bs; l<MIN((bl+1)*bs,k); l++){
+                    for(l=bl*bs; l<MIN((bl+1)*bs,k); l++){
+                        for(j=bj*bs; j<MIN((bj+1)*bs,n); j++){
                             C[i][j] += A[i][l]*B[l][j];
                         }
                     }
