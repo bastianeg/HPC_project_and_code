@@ -3,7 +3,7 @@
 
 void matmult_blk(int m,int n,int k,double **A,double **B,double **C, int bs){
 
-    int i,j,l;
+    int i,j,l, iend, jend, lend;
     int bi,bj,bl;
 
     // The number of blocks is ceil of N/bs
