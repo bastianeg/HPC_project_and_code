@@ -1,0 +1,80 @@
+ 98304.000   1132.096 # matmult_blk 4
+ 98304.000   1797.938 # matmult_blk 8
+ 98304.000   2702.481 # matmult_blk 16
+ 98304.000   2348.194 # matmult_blk 24
+ 98304.000   2520.181 # matmult_blk 32
+ 98304.000   2521.361 # matmult_blk 36
+ 98304.000   2537.282 # matmult_blk 40
+ 98304.000   2777.357 # matmult_blk 50
+ 98304.000   2847.503 # matmult_blk 56
+ 98304.000   2838.046 # matmult_blk 60
+ 98304.000   3019.789 # matmult_blk 64
+ 98304.000   3186.287 # matmult_blk 86
+ 98304.000   3309.582 # matmult_blk 104
+ 98304.000   3702.198 # matmult_blk 128
+ 98304.000   3650.692 # matmult_blk 148
+ 98304.000   3828.428 # matmult_blk 168
+ 98304.000   3964.000 # matmult_blk 182
+ 98304.000   4090.822 # matmult_blk 192
+ 98304.000   4084.093 # matmult_blk 204
+ 98304.000   4558.891 # matmult_blk 256
+ 98304.000   4490.337 # matmult_blk 320
+ 98304.000   4976.381 # matmult_blk 512
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-48>
+Subject: Job 5047240: <this_blocksize_plot> in cluster <dcc> Done
+
+Job <this_blocksize_plot> was submitted from host <n-62-27-21> by user <s153287> in cluster <dcc> at Fri Jan 10 11:07:59 2020
+Job was executed on host(s) <n-62-21-48>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Fri Jan 10 11:08:00 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/combined> was used as the working directory.
+Started at Fri Jan 10 11:08:00 2020
+Terminated at Fri Jan 10 11:10:12 2020
+Results reported at Fri Jan 10 11:10:12 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J this_blocksize_plot
+#BSUB -o this_blocksize_plot%J.out
+#BSUB -q hpcintro
+#BSUB -n 1
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+
+PERM="blk"
+BLKSIZES="4 8 16 24 32 36 40 50 56 60 64 86 104 128 148 168 182 192 204 256 320 512"
+SIZE="2048"
+EXECUTABLE=matmult_c.gcc
+
+export MATMULT_COMPARE=0
+
+export MFLOPS_MAX_IT=1
+for BLKSIZE in $BLKSIZES
+do
+    ./$EXECUTABLE $PERM $SIZE $SIZE $SIZE $BLKSIZE
+done
+exit 0
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   131.88 sec.
+    Max Memory :                                 100 MB
+    Average Memory :                             100.00 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1948.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   132 sec.
+    Turnaround time :                            133 sec.
+
+The output (if any) is above this job summary.
+
