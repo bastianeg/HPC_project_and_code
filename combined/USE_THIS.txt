@@ -1,0 +1,89 @@
+ 98304.000    821.639 # matmult_blk 4
+ 98304.000   1220.885 # matmult_blk 8
+ 98304.000   2231.541 # matmult_blk 16
+ 98304.000   2021.785 # matmult_blk 24
+ 98304.000   2122.934 # matmult_blk 32
+ 98304.000   2227.079 # matmult_blk 36
+ 98304.000   2277.967 # matmult_blk 40
+ 98304.000   2424.872 # matmult_blk 50
+ 98304.000   2505.444 # matmult_blk 56
+ 98304.000   2506.582 # matmult_blk 60
+ 98304.000   2552.090 # matmult_blk 64
+ 98304.000   2595.293 # matmult_blk 86
+ 98304.000   2681.110 # matmult_blk 96
+ 98304.000   2746.729 # matmult_blk 104
+ 98304.000   2778.666 # matmult_blk 112
+ 98304.000   2865.351 # matmult_blk 118
+ 98304.000   2841.983 # matmult_blk 124
+ 98304.000   2988.060 # matmult_blk 128
+ 98304.000   2961.099 # matmult_blk 132
+ 98304.000   2956.498 # matmult_blk 142
+ 98304.000   2988.783 # matmult_blk 148
+ 98304.000   3058.510 # matmult_blk 168
+ 98304.000   3289.099 # matmult_blk 182
+ 98304.000   3322.272 # matmult_blk 192
+ 98304.000   3418.305 # matmult_blk 204
+ 98304.000   3673.489 # matmult_blk 256
+ 98304.000   3672.340 # matmult_blk 320
+ 98304.000   4067.519 # matmult_blk 512
+ 98304.000   4287.773 # matmult_blk 1024
+ 98304.000   4264.628 # matmult_blk 1560
+ 98304.000   3366.757 # matmult_blk 2048
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-43>
+Subject: Job 5047700: <this_blocksize_plot> in cluster <dcc> Done
+
+Job <this_blocksize_plot> was submitted from host <n-62-27-21> by user <s153287> in cluster <dcc> at Fri Jan 10 12:08:49 2020
+Job was executed on host(s) <n-62-21-43>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Fri Jan 10 12:08:50 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/combined> was used as the working directory.
+Started at Fri Jan 10 12:08:50 2020
+Terminated at Fri Jan 10 12:12:22 2020
+Results reported at Fri Jan 10 12:12:22 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J this_blocksize_plot
+#BSUB -o this_blocksize_plot%J.out
+#BSUB -q hpcintro
+#BSUB -n 1
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+
+PERM="blk"
+BLKSIZES="4 8 16 24 32 36 40 50 56 60 64 86 96 104 112 118 124 128 132 142 148 168 182 192 204 256 320 512 1024 1560 2048"
+SIZE="2048"
+EXECUTABLE=matmult_c.gcc
+
+export MATMULT_COMPARE=0
+
+export MFLOPS_MAX_IT=1
+for BLKSIZE in $BLKSIZES
+do
+    ./$EXECUTABLE $PERM $SIZE $SIZE $SIZE $BLKSIZE
+done
+exit 0
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   211.59 sec.
+    Max Memory :                                 100 MB
+    Average Memory :                             100.00 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1948.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   236 sec.
+    Turnaround time :                            213 sec.
+
+The output (if any) is above this job summary.
+
