@@ -1,0 +1,8 @@
+     6.000   1426.681 # matmult_blk 32
+    24.000   1982.215 # matmult_blk 32
+    96.000   2045.411 # matmult_blk 32
+   384.000   2269.164 # matmult_blk 32
+  1536.000   2162.570 # matmult_blk 32
+  6144.000   2188.880 # matmult_blk 32
+ 24576.000   2076.446 # matmult_blk 32
+ 98304.000   1530.771 # matmult_blk 32
