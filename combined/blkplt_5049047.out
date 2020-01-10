@@ -1,0 +1,77 @@
+     6.000   1678.689 # matmult_blk 128
+    24.000   2837.302 # matmult_blk 128
+    96.000   3503.849 # matmult_blk 128
+   384.000   3692.247 # matmult_blk 128
+  1536.000   3393.793 # matmult_blk 128
+  6144.000   3039.660 # matmult_blk 128
+ 24576.000   3001.190 # matmult_blk 128
+ 98304.000   3010.396 # matmult_blk 128
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-45>
+Subject: Job 5049047: <block_plot> in cluster <dcc> Done
+
+Job <block_plot> was submitted from host <n-62-27-21> by user <s153287> in cluster <dcc> at Fri Jan 10 13:58:32 2020
+Job was executed on host(s) <n-62-21-45>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Fri Jan 10 13:58:32 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/combined> was used as the working directory.
+Started at Fri Jan 10 13:58:32 2020
+Terminated at Fri Jan 10 13:58:40 2020
+Results reported at Fri Jan 10 13:58:40 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J block_plot
+#BSUB -o blkplt_%J.out
+#BSUB -q hpcintro
+#BSUB -n 1
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 30
+
+PERM="blk"
+SMALLSIZES="16 32 64 128"
+BIGSIZES="256 512 1024 2048"
+
+EXECUTABLE=matmult_c.gcc
+BLKSIZE=128
+HWCOUNT="-h dch,on,dcm,on,l2h,on,l2m,on"
+
+
+export MATMULT_COMPARE=0
+
+
+export MFLOPS_MAX_IT=500
+for size in $SMALLSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+
+export MFLOPS_MAX_IT=1
+for size in $BIGSIZES
+do
+    ./$EXECUTABLE $PERM $size $size $size $BLKSIZE
+done
+exit 0
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   7.49 sec.
+    Max Memory :                                 100 MB
+    Average Memory :                             100.00 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1948.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   8 sec.
+    Turnaround time :                            8 sec.
+
+The output (if any) is above this job summary.
+
