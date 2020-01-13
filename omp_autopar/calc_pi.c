@@ -11,6 +11,7 @@ double pi_int(int N){
     }
     pi *= Nr;
     return pi;
+    printf("%d\n",i);
 }
 
 int main(int argc, char *argv[]){
