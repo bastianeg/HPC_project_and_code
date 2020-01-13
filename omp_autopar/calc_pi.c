@@ -8,14 +8,15 @@ double pi_int(int N){
     for(i=0;i<N;i++){
         tmp = 4/(1+Nr*Nr*(i-0.5)*(i-0.5));
         pi += tmp;
+        printf("%d\n",i);
     }
     pi *= Nr;
-    printf("%d\n",i);
+    
     return pi;
 }
 
 int main(int argc, char *argv[]){
-    int N = 10000;
+    int N = 10;
     double pi = pi_int(N);
     printf("Pi is %.5f with %d iterations\n",pi,N);
     
