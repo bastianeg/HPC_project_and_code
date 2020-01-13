@@ -8,7 +8,7 @@ double pi_int(int N){
     double Nr = 1.0/N;
     double pi = 0.0;
     #pragma omp parallel for default(none) \
-            shared(Nr,N) private(i,pi) \
+            shared(Nr,N) private(i) \
             reduction(+: pi)
     for(i=1;i<=N;i++){
         pi += 4/(1+Nr*Nr*(i-0.5)*(i-0.5));
