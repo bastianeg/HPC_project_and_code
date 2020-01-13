@@ -2,7 +2,7 @@ CC	= suncc
 OPT	= -g -fast -xrestrict
 CHIP	= 
 ISA	= 
-PARALELL= -xautopar -xloopinfo -xreduction
+PARALELL= #-xautopar -xloopinfo -xreduction
 LIBS	= -lm -xopenmp
 CFLAGS  = $(OPT) $(CHIP) $(ISA) $(PARALELL) $(XOPT)
 
