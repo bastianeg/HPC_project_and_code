@@ -17,7 +17,7 @@ void mvx(int m, int n, double *a, double *b, double *c){
 
 int main(int argc, char* argv[]){
     int i,j;
-    int n = 1000;
+    int n = 100000;
     int m = n;
     double *a = malloc(m*sizeof(double));
     double *c = malloc(n*sizeof(double));
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
     mvx(m,n,a,b,c);
     
     for(i=0;i<m;i++){
-        printf("%.1f\n",a[i]);
+        //printf("%.1f\n",a[i]);
     }
 
     free(a);
