@@ -5,10 +5,10 @@ double pi_int(int N){
     double Nr = 1.0/N;
     double pi = 0.0;
     double tmp;
-    for(i=0;i<N;i++){
+    for(i=1;i<=N;i++){
         tmp = 4/(1+Nr*Nr*(i-0.5)*(i-0.5));
         pi += tmp;
-        printf("%d\n",i);
+
     }
     pi *= Nr;
     
