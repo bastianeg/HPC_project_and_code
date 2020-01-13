@@ -1,8 +1,8 @@
-CC	= gcc
-OPT	= -g -O3 -ffast-math
+CC	= suncc
+OPT	= -g -fast -xrestrict
 CHIP	= 
 ISA	= 
-PARALELL= -ftree-parallelize-loops=4
+PARALELL= -xautopar -xloopinfo -xreduction
 LIBS	= -lm -xopenmp
 CFLAGS  = $(OPT) $(CHIP) $(ISA) $(PARALELL) $(XOPT)
 
