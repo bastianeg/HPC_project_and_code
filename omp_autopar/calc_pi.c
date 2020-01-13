@@ -10,8 +10,8 @@ double pi_int(int N){
         pi += tmp;
     }
     pi *= Nr;
-    return pi;
     printf("%d\n",i);
+    return pi;
 }
 
 int main(int argc, char *argv[]){
