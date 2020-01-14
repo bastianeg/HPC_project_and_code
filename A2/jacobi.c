@@ -12,10 +12,11 @@ jacobi() { //inputs from main(): tol, iter_max, N
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6, b, squarenorm;
     int iter = 0;
+    int d = 9999999; //inf
     
     
     //while condition is not satisfied
-    while(tol>norm || max_iter >= iter)
+    while(tol>d || max_iter >= iter)
     {
         // from  i to j to k
         // for i
@@ -43,7 +44,7 @@ jacobi() { //inputs from main(): tol, iter_max, N
         }
     
     // norm calc
-    norm = sqrt(squarenorm);
+    d = sqrt(squarenorm);
 
     // update iteration and Uold
     iter ++;

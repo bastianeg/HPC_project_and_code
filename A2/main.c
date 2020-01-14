@@ -16,6 +16,46 @@
 
 #define N_DEFAULT 100
 
+
+void init_data(int N, /*U F*/){
+    int i, j, k;
+
+    // Fylla in i U
+    for (int i = 1; i<=N; i++){
+        for(int j = 1; j<N; j++){
+            for (int k = 1; k<N; k++){
+                U[i][j][k] = 3; //could change this later
+            }
+        }
+    }
+
+    //fill in boundaries of U
+    for (int i = 0; i<=N+1; i++){
+        for(int j = 0; j<N+1; j++){
+                U[i][1][j] = 20;
+                U[i][-1][j] = 0;
+                U[1][i][j] = 20;
+                U[-1][i][j] = 20;
+                U[i][j][1] = 20;
+                U[i][j][-1] = 20;
+        }
+    }
+
+    // make F
+    for (int i = 0; i<=N+1; i++){
+        for(int j = 0; j<N+1; j++){
+            for (int k = 0; k<N+1; k++){
+                U[i][j][k] = 0;
+
+                //then check conditions 
+            }
+        }
+    }
+
+
+}
+
+
 int
 main(int argc, char *argv[]) {
 
@@ -51,6 +91,11 @@ main(int argc, char *argv[]) {
      *
      *
      */
+    ///////////
+    U = alloc_3d(N+2, N+2, N+2);
+    F = alloc_3d(N,N,N);
+    init_data(N, U, F);
+     ///////////////
 
     // dump  results if wanted 
     switch(output_type) {
