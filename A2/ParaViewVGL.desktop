@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ParaView (VGL)
+Comment=
+Exec=/apps/dcc/thinlinc/bin/paraviewvgl
+Icon=anaconda
+Path=
+Terminal=false
+StartupNotify=false

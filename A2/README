@@ -1,0 +1,49 @@
+The Poisson problem in 3D
+-------------------------
+
+The files provided here are meant as a starting point for your second
+assignment in the DTU course 02614.  
+
+Makefile	- the project Makefile
+main.c		- template for the main() method 
+alloc3d.c	- memory allocation for 3d arrays
+gauss_seidel.c  - a placeholder for the Gauss-Seidel iterator subroutine
+jacobi.c	- a placeholder for the Jacobi iterator subroutine
+print.c	        - some helper functions for dumping the grid to disk
+
+In main.c, you can find a suggestion for reasonable program structure,
+and it shows how to allocate 3d arrays, as well as how to dump data to
+the disk.  You will need to write code for the two iterators, the data
+initialization, etc.
+
+The print.c source contains two subroutines:
+    void print_binary(char *fname, int n, double ***u);
+    void print_vtk(const char *fname, int n, double ***u);
+The first one dumps the whole grid in binary format, the print_vtk()
+adds some additional header information, that will allow to open the
+file in ParaView.
+
+
+How to use ParaView
+-------------------
+1) To open ParaView under ThinLinc, do the following: 
+
+* either copy the file ParaViewVGL.desktop from this folder into your 
+Desktop folder:
+    cp ParaViewVGL.desktop ~/Desktop
+
+* or in the ThinLinc session, right click on the desktop background,
+choose 'Create Launcher' and fill in the text fields with he following
+information:
+    + Name: ParaViewVGL
+    + Command: /apps/dcc/thinlinc/bin/paraviewvgl
+and then click the 'Create' button.  This will place an icon on your
+Desktop.  
+
+The first time you click on the ParaViewVGL icon, you will get a
+warning: just click 'Mark Executable', and ParaView should start up.
+
+In ParaView, you can open the .vtk file created by your program.
+After you have opened the file, you need to click on the green 'Apply'
+button (to the left), and then you can choose a visualization
+(Outline), e.g.  'Slice' or 'Volume'.
