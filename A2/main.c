@@ -105,8 +105,23 @@ main(int argc, char *argv[]) {
 
     /////////////////
     init_data(N, u, f, start_T);
+
+    int k = N/2;
+    for (int i = 0; i<=N+1; i++){
+        for(int j = 0; j<=N+1; j++){
+                printf("  %lf  ", u[i][j][k]);
+        }
+        printf("\n");   
+    }
     //--->> Jacobi
     jacobi(u, f, u_old, N, iter_max, tolerance);
+    int k = N/2;
+    for (int i = 0; i<=N+1; i++){
+        for(int j = 0; j<=N+1; j++){
+                printf("  %lf  ", u[i][j][k]);
+        }
+        printf("\n");   
+    }
     //--->> Gauss_Seidel
     //...
      ///////////////
