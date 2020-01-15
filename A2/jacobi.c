@@ -12,7 +12,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double *to
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6, b, squarenorm;
     int iter = 0;
-    double d = tol+10; //inf
+    double *d = &(tol)+10; //inf
     
     Uold = U;
     
@@ -23,9 +23,9 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double *to
         // for i
         for (int i = 1; i<(N-1); i++){
             //for j
-            for (int j = 1; j<(N-1; j++){
+            for (int j = 1; j<(N-1); j++){
                 //for k
-                for (int k = 2; k<(N-1; k++){
+                for (int k = 2; k<(N-1); k++){
 
                     //update all Us
                     U1 = Uold[i-1][j][k];
@@ -45,7 +45,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double *to
         }
     
     // norm calc
-    d = sqrt(squarenorm);
+    *d = sqrt(squarenorm);
 
     // update iteration and Uold
     iter ++;

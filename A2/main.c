@@ -102,8 +102,11 @@ main(int argc, char *argv[]) {
     /////////////////
     init_data(N, u, f);
     //--->> Jacobi
+    jacobi(U, F, Uold, N, iter_max, tolerance);
+    //--->> Gauss_Seidel
+    //...
      ///////////////
-    
+
     // dump  results if wanted 
     switch(output_type) {
 	case 0:
