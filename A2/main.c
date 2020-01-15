@@ -77,6 +77,7 @@ main(int argc, char *argv[]) {
     char        *output_ext    = "";
     char	output_filename[FILENAME_MAX];
     double 	***u = NULL;
+    double  ***f = NULL;
 
 
     /* get the paramters from the command line */
@@ -89,20 +90,20 @@ main(int argc, char *argv[]) {
     }
 
     // allocate memory
-    if ( (u = d_malloc_3d(N, N, N)) == NULL ) {
+    if ( (u = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+        perror("array u: allocation failed");
+        exit(-1);
+    }
+    if ( (f = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
 
     /////////////////
-    double ***U;
-    double ***F;
-    U = d_malloc_3d(N+2, N+2, N+2);
-    F = d_malloc_3d(N+2, N+2, N+2);
-    init_data(N, U, F);
+    init_data(N, u, f);
     //--->> Jacobi
      ///////////////
-
+    
     // dump  results if wanted 
     switch(output_type) {
 	case 0:
