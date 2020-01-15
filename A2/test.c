@@ -7,7 +7,6 @@
 
 
 
-
 int
 main(int argc, char *argv[]) {
     
@@ -17,8 +16,8 @@ main(int argc, char *argv[]) {
     double x, y, z;
 
 
-    ***U = alloc_3d(N+2, N+2, N+2);
-    ***F = alloc_3d(N+2, N+2, N+2);
+    U = d_malloc_3d(N+2, N+2, N+2);
+    F = d_malloc_3d(N+2, N+2, N+2);
 
 
 
@@ -72,4 +71,15 @@ main(int argc, char *argv[]) {
     }
 
 
+
+//print F
+
+    // make F
+    int k = 0;
+    for (int i = 0; i<=N+1; i++){
+        for(int j = 0; j<N+1; j++){
+                    printf("%ld ", U[i][j][k]);
+        }
+        printf("\n");
+    }
 }
