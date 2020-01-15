@@ -15,10 +15,8 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
 
     double d = tol+10; //inf
     for (int i = 1; i<(N-1); i++){
-        //for j
         for (int j = 1; j<(N-1); j++){
-            //for k
-            for (int k = 2; k<(N-1); k++){
+            for (int k = 1; k<(N-1); k++){
                 Uold[i][j][k] = U[i][j][k];
             }
         }
@@ -60,10 +58,8 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
         iter ++;
         
         for (int i = 1; i<(N-1); i++){
-            //for j
             for (int j = 1; j<(N-1); j++){
-                //for k
-                for (int k = 2; k<(N-1); k++){
+                for (int k = 1; k<(N-1); k++){
                     Uold[i][j][k] = U[i][j][k];
                 }
             }
