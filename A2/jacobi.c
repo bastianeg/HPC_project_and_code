@@ -8,7 +8,7 @@
 void
 jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
     
-    double deltasq = 4.0/(double) N*N;
+    double deltasq = 4.0/((double) N*N);
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6;
     int iter = 0;
