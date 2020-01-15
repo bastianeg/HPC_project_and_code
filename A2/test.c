@@ -38,13 +38,8 @@ main(void) {
     double ***F;
     double x, y, z;
 
-
     U = d_malloc_3d(N+2, N+2, N+2);
     F = d_malloc_3d(N+2, N+2, N+2);
-
-
-
-
 
     // Fill in U
     for (int i = 1; i<=N; i++){
@@ -70,18 +65,11 @@ main(void) {
 
     // make F
     for (int i = 0; i<=N+1; i++){
-
         x = ((2*i)/(double) (N+1))-1;
-
         for(int j = 0; j<N+1; j++){
-
             y = (2*j)/(double) (N+1)-1;
-
             for (int k = 0; k<N+1; k++){
-
                 z = (2*k)/(double) (N+1)-1;
-
-
                 //then check conditions 
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
                     F[i][j][k] = 200;
@@ -94,7 +82,7 @@ main(void) {
     }
 
 
-
+/*
 //print F
 
     // make F
@@ -105,4 +93,5 @@ main(void) {
         }
         printf("\n");   
     }
+    */
 }
