@@ -22,7 +22,7 @@ gauss_seidel(int tol,double ***U, double ***F, int N, int iter_max) {
 
                     // U = 1/6 * (sum of us)
                     tempval = U[i][j][k] ;
-                    U[i][j][k] = (1/6)*(U[i-1][j][k]+U[i+1][j][k]+U[i][j-1][k]+U[i][j+1][k]+U[i][j][k-1]+U[i][j][k+1]+F[i][j][k]);
+                    U[i][j][k] = (1/6)*(U[i-1][j][k]+U[i+1][j][k]+U[i][j-1][k]+U[i][j+1][k]+U[i][j][k-1]+U[i][j][k+1]+((2/N)^2)*sF[i][j][k]);
                     squarenorm += (U[i][j][k]-tempval)*(U[i][j][k]-tempval);
                 }
             }
