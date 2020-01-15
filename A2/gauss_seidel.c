@@ -4,7 +4,7 @@
 #include <math.h>
 
 void
-gauss_seidel(int tol,double ***U, double ***F, int N, int iter_max) {
+gauss_seidel(double ***U, double ***F, int N, int iter_max,int tol) {
     double deltasq=((2/N)^2);
     double d = tol+10; //inf
     int iter = 0;
