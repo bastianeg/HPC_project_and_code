@@ -109,16 +109,17 @@ main(int argc, char *argv[]) {
     int k = N/2;
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
-                printf("  %lf  ", u[i][j][k]);
+                printf("  %.1lf  ", u[i][j][k]);
         }
         printf("\n");   
     }
     //--->> Jacobi
+    printf("Jacobi done!\n");
     jacobi(u, f, u_old, N, iter_max, tolerance);
 
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
-                printf("  %lf  ", u[i][j][k]);
+                printf("  %.1lf  ", u[i][j][k]);
         }
         printf("\n");   
     }
