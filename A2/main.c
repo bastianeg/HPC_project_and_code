@@ -15,59 +15,53 @@
 #endif
 
 #define N_DEFAULT 100
-#define Uinit 3
 
-void init_data(int N /*U F*/){
-    int i, j, k;
+
+void init_data(int N, double ***U, double ***F){
+      
+    double Uinit=3;
     double x, y, z;
-
 
     // Fill in U
     for (int i = 1; i<=N; i++){
-        for(int j = 1; j<N; j++){
-            for (int k = 1; k<N; k++){
+        for(int j = 1; j<=N; j++){
+            for (int k = 1; k<=N; k++){
                 U[i][j][k] = Uinit; //could change this later
             }
         }
     }
 
     //fill in boundaries of U
+    
     for (int i = 0; i<=N+1; i++){
-        for(int j = 0; j<N+1; j++){
-                U[i][1][j] = 20;
-                U[i][-1][j] = 0;
-                U[1][i][j] = 20;
-                U[-1][i][j] = 20;
-                U[i][j][1] = 20;
-                U[i][j][-1] = 20;
+        for(int j = 0; j<=N+1; j++){
+                U[i][N+1][j] = 20;
+                U[i][0][j] = 0;
+                U[N+1][i][j] = 20;
+                U[0][i][j] = 20;
+                U[i][j][N+1] = 20;
+                U[i][j][0] = 20;
         }
     }
 
     // make F
     for (int i = 0; i<=N+1; i++){
-
-        x = (2*i)/(N+1)-1;
-
+        x = ((2*i)/(double) (N+1))-1;
         for(int j = 0; j<N+1; j++){
-
-            y = (2*j)/(N+1)-1;
-
+            y = (2*j)/(double) (N+1)-1;
             for (int k = 0; k<N+1; k++){
-
-                z = (2*k)/(N+1)-1;
-
-
+                z = (2*k)/(double) (N+1)-1;
                 //then check conditions 
-                if ((-1 <= x <= (3/8)) && (-1 <= y <= (-1/2)) && ((-2/3) <= z <= 0)){
-                    U[i][j][k] = 200;
+                if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
+                    F[i][j][k] = 200;
                 }
                 else {
-                    U[i][j][k] = 0;
+                    F[i][j][k] = 0;
                 }
-                
             }
         }
     }
+
 }
 
 
@@ -100,16 +94,13 @@ main(int argc, char *argv[]) {
         exit(-1);
     }
 
-    /*
-     *
-     * fill in your code here 
-     *
-     *
-     */
-    ///////////
-    U = alloc_3d(N+2, N+2, N+2);
-    F = alloc_3d(N+2,N+2,N+2);
+    /////////////////
+    double ***U;
+    double ***F;
+    U = d_malloc_3d(N+2, N+2, N+2);
+    F = d_malloc_3d(N+2, N+2, N+2);
     init_data(N, U, F);
+    //--->> Jacobi
      ///////////////
 
     // dump  results if wanted 
