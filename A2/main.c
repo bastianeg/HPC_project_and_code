@@ -8,6 +8,7 @@
 
 #ifdef _JACOBI
 #include "jacobi.h"
+void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol);
 #endif
 
 #ifdef _GAUSS_SEIDEL
@@ -16,7 +17,6 @@
 
 #define N_DEFAULT 100
 
-void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol);
 
 void init_data(int N, double ***U, double ***F, double start_T){
       
@@ -115,9 +115,13 @@ main(int argc, char *argv[]) {
         printf("\n");   
     }
     //--->> Jacobi
-    printf("Jacobi done!\n");
+    printf("init done!\n");
+    #ifdef _JACOBI
     jacobi(u, f, u_old, N, iter_max, tolerance);
-
+    #endif
+    #ifdef _GAUSS_SEIDEL
+    
+    #endif
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
                 printf("  %.1lf  ", u[i][j][k]);
