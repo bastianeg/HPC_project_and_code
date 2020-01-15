@@ -33,7 +33,7 @@ int
 main(void) {
     
     int N = 4;
-    double Uinit=3;
+    double Uinit=3; //could change this later
     double ***U;
     double ***F;
     double x, y, z;
@@ -45,7 +45,7 @@ main(void) {
     for (int i = 1; i<=N; i++){
         for(int j = 1; j<=N; j++){
             for (int k = 1; k<=N; k++){
-                U[i][j][k] = Uinit; //could change this later
+                U[i][j][k] = Uinit; 
             }
         }
     }
@@ -54,12 +54,12 @@ main(void) {
     
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
-                U[i][N+1][j] = 20;
-                U[i][0][j] = 0;
-                U[N+1][i][j] = 20;
-                U[0][i][j] = 20;
-                U[i][j][N+1] = 20;
-                U[i][j][0] = 20;
+                U[i][N+1][j] = 20.0;
+                U[i][0][j] = 0.0;
+                U[N+1][i][j] = 20.0;
+                U[0][i][j] = 20.0;
+                U[i][j][N+1] = 20.0;
+                U[i][j][0] = 20.0;
         }
     }
 
@@ -72,10 +72,10 @@ main(void) {
                 z = (2*k)/(double) (N+1)-1;
                 //then check conditions 
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
-                    F[i][j][k] = 200;
+                    F[i][j][k] = 200.0;
                 }
                 else {
-                    F[i][j][k] = 0;
+                    F[i][j][k] = 0.0;
                 }
             }
         }
