@@ -7,8 +7,8 @@
 
 void
 jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
-    // fill in your code here
-
+    
+    double deltasq = 4.0/(double) N*N;
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6;
     int iter = 0;
@@ -46,7 +46,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
                     U6 = Uold[i][j][k+1];
 
                     // U = 1/6 * (sum of us)
-                    U[i][j][k] = (1/6)*(U1+U2+U3+U4+U5+U6+F[i][j][k]);
+                    U[i][j][k] = (1/6)*(U1+U2+U3+U4+U5+U6+deltasq*F[i][j][k]);
 
                     d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
                 }
