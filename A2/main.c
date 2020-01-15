@@ -77,6 +77,7 @@ main(int argc, char *argv[]) {
     char        *output_ext    = "";
     char	output_filename[FILENAME_MAX];
     double 	***u = NULL;
+    double 	***u_old = NULL;
     double  ***f = NULL;
 
 
@@ -94,6 +95,10 @@ main(int argc, char *argv[]) {
         perror("array u: allocation failed");
         exit(-1);
     }
+    if ( (u_old = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+        perror("array u: allocation failed");
+        exit(-1);
+    }
     if ( (f = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
@@ -102,7 +107,7 @@ main(int argc, char *argv[]) {
     /////////////////
     init_data(N, u, f);
     //--->> Jacobi
-    jacobi(U, F, Uold, N, iter_max, tolerance);
+    jacobi(u, f, u_old, N, iter_max, tolerance);
     //--->> Gauss_Seidel
     //...
      ///////////////
