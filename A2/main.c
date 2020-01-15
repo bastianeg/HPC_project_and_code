@@ -97,10 +97,15 @@ main(int argc, char *argv[]) {
     /////////////////
     double ***U;
     double ***F;
+    double ***Uold;
     U = d_malloc_3d(N+2, N+2, N+2);
     F = d_malloc_3d(N+2, N+2, N+2);
+    Uold = d_malloc_3d(N+2, N+2, N+2);
     init_data(N, U, F);
     //--->> Jacobi
+    jacobi(U, F, Uold, N, iter_max, tolerance);
+    //--->> Gauss_Seidel
+    //...
      ///////////////
 
     // dump  results if wanted 
