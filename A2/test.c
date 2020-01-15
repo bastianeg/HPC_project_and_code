@@ -32,7 +32,7 @@ d_malloc_3d(int m, int n, int k) {
 int
 main(void) {
     
-    int N = 10;
+    int N = 4;
     double Uinit=3;
     double ***U;
     double ***F;
@@ -71,25 +71,24 @@ main(void) {
     // make F
     for (int i = 0; i<=N+1; i++){
 
-        x = (2*i)/(N+1)-1;
+        x = ((2*i)/(double) (N+1))-1;
 
         for(int j = 0; j<N+1; j++){
 
-            y = (2*j)/(N+1)-1;
+            y = (2*j)/(double) (N+1)-1;
 
             for (int k = 0; k<N+1; k++){
 
-                z = (2*k)/(N+1)-1;
+                z = (2*k)/(double) (N+1)-1;
 
 
                 //then check conditions 
-                if ((-1 <= x <= -(3/8)) && (-1 <= y <= (-1/2)) && ((-2/3) <= z <= 0)){
+                if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
                     F[i][j][k] = 200;
                 }
                 else {
                     F[i][j][k] = 0;
                 }
-                
             }
         }
     }
@@ -99,11 +98,11 @@ main(void) {
 //print F
 
     // make F
-    int k = 4;
+    int k = 0;
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
-                    printf("  %lf  ", F[i][j][k]);
+                printf("  %lf  ", F[i][j][k]);
         }
-        printf("\n");
+        printf("\n");   
     }
 }
