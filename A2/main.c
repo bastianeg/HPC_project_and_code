@@ -15,16 +15,16 @@
 #endif
 
 #define N_DEFAULT 100
+#define Uinit 3
 
-
-void init_data(int N, /*U F*/){
+void init_data(int N /*U F*/){
     int i, j, k;
 
-    // Fylla in i U
+    // Fill in U
     for (int i = 1; i<=N; i++){
         for(int j = 1; j<N; j++){
             for (int k = 1; k<N; k++){
-                U[i][j][k] = 3; //could change this later
+                U[i][j][k] = Uinit; //could change this later
             }
         }
     }
@@ -48,6 +48,10 @@ void init_data(int N, /*U F*/){
                 U[i][j][k] = 0;
 
                 //then check conditions 
+                if ((-1 <= x <= (3/8)) && (-1 <= y <= (-1/2)) && ((-2/3)<=z<=0)){
+                    
+                }
+                
             }
         }
     }
