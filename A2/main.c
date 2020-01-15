@@ -17,16 +17,15 @@
 #define N_DEFAULT 100
 
 
-void init_data(int N, double ***U, double ***F){
+void init_data(int N, double ***U, double ***F, double start_T){
       
-    double Uinit=3;
     double x, y, z;
 
     // Fill in U
     for (int i = 1; i<=N; i++){
         for(int j = 1; j<=N; j++){
             for (int k = 1; k<=N; k++){
-                U[i][j][k] = Uinit; //could change this later
+                U[i][j][k] = start_T;
             }
         }
     }
@@ -105,7 +104,7 @@ main(int argc, char *argv[]) {
     }
 
     /////////////////
-    init_data(N, u, f);
+    init_data(N, u, f, start_T);
     //--->> Jacobi
     jacobi(u, f, u_old, N, iter_max, tolerance);
     //--->> Gauss_Seidel
