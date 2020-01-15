@@ -19,6 +19,8 @@
 
 void init_data(int N /*U F*/){
     int i, j, k;
+    double x, y, z;
+
 
     // Fill in U
     for (int i = 1; i<=N; i++){
@@ -43,20 +45,29 @@ void init_data(int N /*U F*/){
 
     // make F
     for (int i = 0; i<=N+1; i++){
+
+        x = (2*i)/(N+1)-1;
+
         for(int j = 0; j<N+1; j++){
+
+            y = (2*j)/(N+1)-1;
+
             for (int k = 0; k<N+1; k++){
-                U[i][j][k] = 0;
+
+                z = (2*k)/(N+1)-1;
+
 
                 //then check conditions 
-                if ((-1 <= x <= (3/8)) && (-1 <= y <= (-1/2)) && ((-2/3)<=z<=0)){
-                    
+                if ((-1 <= x <= (3/8)) && (-1 <= y <= (-1/2)) && ((-2/3) <= z <= 0)){
+                    U[i][j][k] = 200;
+                }
+                else {
+                    U[i][j][k] = 0;
                 }
                 
             }
         }
     }
-
-
 }
 
 
@@ -97,7 +108,7 @@ main(int argc, char *argv[]) {
      */
     ///////////
     U = alloc_3d(N+2, N+2, N+2);
-    F = alloc_3d(N,N,N);
+    F = alloc_3d(N+2,N+2,N+2);
     init_data(N, U, F);
      ///////////////
 
