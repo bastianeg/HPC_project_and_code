@@ -16,6 +16,7 @@
 
 #define N_DEFAULT 100
 
+void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol);
 
 void init_data(int N, double ***U, double ***F, double start_T){
       
