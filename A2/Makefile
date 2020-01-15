@@ -13,17 +13,17 @@ OBJS_GS	= $(MAIN_GS) gauss_seidel.o
 # options and settings for the GCC compilers
 #
 CC	= gcc
-DEFS	= 
-OPT	= -g 
-IPO	= 
-ISA	= 
-CHIP	= 
-ARCH	= 
-PARA	= 
+DEFS	=
+OPT	= -g -O3 -funroll-loops -ffast-math
+IPO	=
+ISA	=
+CHIP	=
+ARCH	=
+PARA	=
 CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS)
-LDFLAGS = -lm 
+LDFLAGS = -lm
 
-all: $(TARGET_J) $(TARGET_GS) 
+all: $(TARGET_J) $(TARGET_GS)
 
 $(TARGET_J): $(OBJECTS) $(OBJS_J)
 	$(CC) -o $@ $(CFLAGS) $(OBJS_J) $(OBJECTS) $(LDFLAGS)
@@ -32,10 +32,10 @@ $(TARGET_GS): $(OBJECTS) $(OBJS_GS)
 	$(CC) -o $@ $(CFLAGS) $(OBJS_GS) $(OBJECTS) $(LDFLAGS)
 
 $(MAIN_J):
-	$(CC) -o $@ -D_JACOBI $(CFLAGS) -c main.c 
+	$(CC) -o $@ -D_JACOBI $(CFLAGS) -c main.c
 
 $(MAIN_GS):
-	$(CC) -o $@ -D_GAUSS_SEIDEL $(CFLAGS) -c main.c 
+	$(CC) -o $@ -D_GAUSS_SEIDEL $(CFLAGS) -c main.c
 
 clean:
 	@/bin/rm -f core *.o *~
@@ -45,6 +45,6 @@ realclean: clean
 
 # DO NOT DELETE
 
-main_j.o: main.c print.h jacobi.h 
+main_j.o: main.c print.h jacobi.h
 main_gs.o: main.c print.h gauss_seidel.h
 print.o: print.h
