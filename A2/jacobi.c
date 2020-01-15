@@ -6,13 +6,13 @@
 
 
 void
-jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double *tol) {
+jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
     // fill in your code here
 
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6, b, squarenorm;
     int iter = 0;
-    double *d = &(tol)+10; //inf
+    double d = tol+10; //inf
     
     Uold = U;
     
@@ -45,7 +45,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double *to
         }
     
     // norm calc
-    *d = sqrt(squarenorm);
+    d = sqrt(squarenorm);
 
     // update iteration and Uold
     iter ++;
