@@ -13,7 +13,6 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
-    double U1, U2, U3, U4, U5, U6;
     int iter = 0;
     double onesixth = 1.0/6.0;
     double d = tol+10; //inf
@@ -46,7 +45,8 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
                     // U = 1/6 * (sum of us +Delta^2 f)
                     U[i][j][k] = onesixth*(Uold[i-1][j][k]+Uold[i+1][j][k]+Uold[i][j-1][k]+\
                     Uold[i][j+1][k]+Uold[i][j][k-1]+Uold[i][j][k+1]+F[i][j][k]);
-
+                    
+                    // frobenius norm
                     d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
                 }
             }

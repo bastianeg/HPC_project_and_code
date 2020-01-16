@@ -4,14 +4,21 @@
 #include <math.h>
 #include <stdio.h>
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 void
 gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     double deltasq = 4.0/((double) N * (double) N);
     double onesixth = 1.0/6.0;
     double d = tol+10.0; //inf
     int iter = 0; 
-    int tempval;
+    double tempval;
     double squarenorm;
+
+    double ts = omp_get_wtime(); // start wallclock timer
+
     while((d>tol) && (iter < iter_max))
     {
         d=0;
@@ -35,6 +42,8 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
 
     // update iteration and Uold
     iter ++;
-}
+    }
+    double te = omp_get_wtime() - ts;
+    printf("%.5lf, %.5lf\n", te, 1e-6*12*N*N*N*iter/te);
 }
 
