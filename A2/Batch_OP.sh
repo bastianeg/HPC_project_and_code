@@ -11,13 +11,14 @@
 # load the needed compiler here (uncomment and adjust compiler and version!)
 # module load COMPILER/VERSION
 
-N="10 50 100 200"
+THREADS="1 2 4 8 12 16 20 24"
 CMD=poisson_j
+N=100
 IT=2000
 TOL=0.05
 TS=15
 
 for t in $THREADS
 do
-    ./$CMD $N $IT $TOL $TS 
+    OMP_NUM_THREADS=$t ./$CMD $N $IT $TOL $TS 
 done
