@@ -69,4 +69,5 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
     }
     te = omp_get_wtime() - ts;
     printf("Elapsed time: %.5lf\n", te);
+    printf("Speed is %.5f\n", 1e-6*12*N*N*N/te);
 }
