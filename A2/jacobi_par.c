@@ -14,27 +14,25 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6;
-    int iter = 0, i, j, k;
     double onesixth = 1.0/6.0;
     double d = tol+10; //inf
 
     ts = omp_get_wtime(); // start wallclock timer
 
     // update Uold = U
-    for (i = 0; i<(N+2); i++){
-        for (j = 0; j<(N+2); j++){
-            for (k = 0; k<(N+2); k++){
+    for (int i = 0; i<(N+2); i++){
+        for (int j = 0; j<(N+2); j++){
+            for (int k = 0; k<(N+2); k++){
                 Uold[i][j][k] = U[i][j][k];
             }
         }
     }
 
 
-    #pragma omp parallel default(none) shared(N, U1, U2, U3, U4, U5, U6, Uold, onesixth, deltasq, d, tol, iter, iter_max, F, U) \
-                                      private(i, j, k)
+    #pragma omp parallel default(none) shared(N, U1, U2, U3, U4, U5, U6, Uold, onesixth, deltasq, d, tol, iter_max, F, U)
     {
      //while condition is not satisfied
-     for (iter = 0; iter < iter_max; iter++){
+     for (int iter = 0; iter < iter_max; iter++){
          if (d < tol) break;
     
         d = 0.0;
@@ -42,11 +40,11 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         // from  i to j to k
         #pragma omp for 
         {
-        for (i = 1; i<(N+1); i++){
+        for (int i = 1; i<(N+1); i++){
             //for j
-            for (j = 1; j<(N+1); j++){
+            for (int j = 1; j<(N+1); j++){
                 //for k
-                for (k = 1; k<(N+1); k++){
+                for (int k = 1; k<(N+1); k++){
 
                     //update all Us
                     U1 = Uold[i-1][j][k];
@@ -72,9 +70,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         // norm calc
         d = sqrt(d);
 
-        // update iteration and Uold
-        iter ++;
-
+        // update Uold
         for (int i = 0; i<(N+2); i++){
             for (int j = 0; j<(N+2); j++){
                 for (int k = 0; k<(N+2); k++){
@@ -84,5 +80,5 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         }
     } // end parallel
     te = omp_get_wtime() - ts;
-    printf("Elapsed time: %lf\n", te);
+    printf("Elapsed time: %.5lf\n", te);
 }
