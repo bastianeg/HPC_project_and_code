@@ -18,7 +18,7 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
     double squarenorm;
     
     // starting parralel region. Each iteration has a barrier
-    #pragma omp parallel default(none) shared(N,onesixth,U,F,deltasq,iter,itermax)
+    #pragma omp parallel default(none) shared(N,onesixth,U,F,deltasq,iter,iter_max)
     {
         // main iteration loop
         while(iter < iter_max)
