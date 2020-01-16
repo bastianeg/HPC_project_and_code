@@ -156,6 +156,8 @@ main(int argc, char *argv[]) {
 
     // de-allocate memory
     free(u);
+    free(f);
+    free(u_old);
 
     return(0);
 }
