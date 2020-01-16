@@ -18,7 +18,7 @@ OBJS_GSP	= $(MAIN_GSP) gauss_seidel_par.o
 
 # options and settings for the GCC compilers
 #
-CC	= gcc
+CC	= clang
 DEFS	=
 OPT	= -g -O3 -funroll-loops -ffast-math
 IPO	=
@@ -26,7 +26,7 @@ ISA	=
 CHIP	=
 ARCH	=
 PARA	=
-CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS) -xopenmp
+CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS) -fopenmp
 LDFLAGS = -lm
 
 all: $(TARGET_J) $(TARGET_GS) $(TARGET_JP) $(TARGET_GSP)

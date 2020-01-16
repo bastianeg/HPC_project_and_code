@@ -27,7 +27,7 @@ void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, doubl
 
 
 void init_data(int N, double ***U, double ***F, double start_T){
-      
+
     double x, y, z;
 
     // Fill in U
@@ -40,7 +40,7 @@ void init_data(int N, double ***U, double ***F, double start_T){
     }
 
     //fill in boundaries of U
-    
+
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
                 U[i][N+1][j] = 20;
@@ -59,7 +59,7 @@ void init_data(int N, double ***U, double ***F, double start_T){
             y = (2*j)/(double) (N+1)-1;
             for (int k = 0; k<N+1; k++){
                 z = (2*k)/(double) (N+1)-1;
-                //then check conditions 
+                //then check conditions
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
                     F[i][j][k] = 200;
                 }
@@ -132,7 +132,7 @@ main(int argc, char *argv[]) {
     gauss_seidel_par(u, f, N, iter_max);
     #endif
 
-    // dump  results if wanted 
+    // dump  results if wanted
     switch(output_type) {
 	case 0:
 	    // no output at all
@@ -157,7 +157,7 @@ main(int argc, char *argv[]) {
     // de-allocate memory
     free(u);
     free(u_old);
-    free(f)
+    free(f);
 
     return(0);
 }
