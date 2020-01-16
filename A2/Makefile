@@ -13,8 +13,8 @@ MAIN_JP	= main_jp.o
 MAIN_GSP = main_gsp.o
 OBJS_J	= $(MAIN_J) jacobi.o
 OBJS_GS	= $(MAIN_GS) gauss_seidel.o
-OBJS_JP	= $(MAIN_J) jacobi_par.o
-OBJS_GSP	= $(MAIN_GS) gauss_seidel_par.o
+OBJS_JP	= $(MAIN_JP) jacobi_par.o
+OBJS_GSP	= $(MAIN_GSP) gauss_seidel_par.o
 
 # options and settings for the GCC compilers
 #
