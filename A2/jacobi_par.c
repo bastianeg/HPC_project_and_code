@@ -12,7 +12,6 @@ void
 jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
-    double U1, U2, U3, U4, U5, U6;
     double onesixth = 1.0/6.0;
     double d = tol+10; //initialize norm to inf
     int iter = 0;
@@ -36,7 +35,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         d = 0.0;
 
         // from  i to j to k
-        #pragma omp parallel for reduction(+ : d) default(none) shared(N, U1, U2, U3, U4, U5, U6, Uold, onesixth, deltasq, F, U)
+        #pragma omp parallel for reduction(+ : d)
         {
             for (int i = 1; i<(N+1); i++){
                 //for j
