@@ -6,16 +6,18 @@
 #endif
 
 #include <math.h>
+#include <stdio.h>
 
 void
 jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
-
+    double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6;
-    int iter = 0;
     double onesixth = 1.0/6.0;
     double d = tol+10; //inf
+
+    ts = omp_get_wtime(); // start wallclock timer
 
     // update Uold = U
     for (int i = 0; i<(N+2); i++){
@@ -26,13 +28,18 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         }
     }
 
-    //while condition is not satisfied
-    while((d>tol) && (iter < iter_max))
+
+    #pragma omp parallel default(none) shared(N, U1, U2, U3, U4, U5, U6, Uold, onesixth, deltasq, d, tol, iter_max, F, U)
     {
+     //while condition is not satisfied
+     for (int iter = 0; iter < iter_max; iter++){
+         if (d < tol) break;
+    
         d = 0.0;
 
         // from  i to j to k
-        // for i
+        #pragma omp for 
+        {
         for (int i = 1; i<(N+1); i++){
             //for j
             for (int j = 1; j<(N+1); j++){
@@ -52,15 +59,18 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
 
                     d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
                 }
+              } 
             }
-        }
+        } // end omp for
+
+    } 
+
+        #pragma omp barrier
 
         // norm calc
         d = sqrt(d);
 
-        // update iteration and Uold
-        iter ++;
-
+        // update Uold
         for (int i = 0; i<(N+2); i++){
             for (int j = 0; j<(N+2); j++){
                 for (int k = 0; k<(N+2); k++){
@@ -68,5 +78,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
                 }
             }
         }
-    }
+    } // end parallel
+    te = omp_get_wtime() - ts;
+    printf("Elapsed time: %.5lf\n", te);
 }
