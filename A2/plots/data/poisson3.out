@@ -1,0 +1,18 @@
+Loaded module: python3/3.6.2
+mpi(6):ERROR:105: Unable to locate a modulefile for 'mpi/gcc-6.1.0-openmpi-2.0.0-thread-multiple'
+Loaded dependency [scalapack/2.0.2-openblas-0.2.15]: mpi/gcc-6.1.0-openmpi-2.0.0-thread-multiple
+binutils(4):ERROR:105: Unable to locate a modulefile for 'binutils'
+Loaded dependency [scalapack/2.0.2-openblas-0.2.15]: binutils
+Loaded dependency [gcc/6.1.0]: binutils/2.29
+Loaded dependency [scalapack/2.0.2-openblas-0.2.15]: gcc/6.1.0
+Loaded dependency [scalapack/2.0.2-openblas-0.2.15]: openblas/0.2.15
+Loaded module: scalapack/2.0.2-openblas-0.2.15
+Loaded module: clang/9.0.0
+10.22841, 2346.40667
+5.13647, 4672.47236
+2.60670, 9207.05369
+1.36733, 17552.43081
+0.95849, 25039.30664
+0.76588, 31336.53641
+0.61247, 39185.27809
+0.57399, 41812.56737
