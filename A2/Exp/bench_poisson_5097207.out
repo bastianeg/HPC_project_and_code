@@ -1,0 +1,13 @@
+Loaded module: clang/snapshot20181017
+/bin/time: cannot run ./poisson_j: No such file or directory
+0.00user 0.00system 0:00.00elapsed 26%CPU (0avgtext+0avgdata 356maxresident)k
+0inputs+8outputs (0major+76minor)pagefaults 0swaps
+/bin/time: cannot run ./poisson_j: No such file or directory
+0.00user 0.00system 0:00.00elapsed 23%CPU (0avgtext+0avgdata 360maxresident)k
+0inputs+8outputs (0major+76minor)pagefaults 0swaps
+/bin/time: cannot run ./poisson_j: No such file or directory
+0.00user 0.00system 0:00.00elapsed 24%CPU (0avgtext+0avgdata 364maxresident)k
+0inputs+8outputs (0major+76minor)pagefaults 0swaps
+/bin/time: cannot run ./poisson_j: No such file or directory
+0.00user 0.00system 0:00.00elapsed 23%CPU (0avgtext+0avgdata 356maxresident)k
+0inputs+8outputs (0major+76minor)pagefaults 0swaps

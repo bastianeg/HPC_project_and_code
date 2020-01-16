@@ -15,27 +15,22 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
-
-
-    tol = tol * sqrt(N*N*N);
-
     double d = tol+10; //inf
+
+    ts = omp_get_wtime(); // start wallclock timer
 
     // update Uold = U
     for (int i = 0; i<(N+2); i++){
         for (int j = 0; j<(N+2); j++){
             for (int k = 0; k<(N+2); k++){
                 Uold[i][j][k] = U[i][j][k];
-                F[i][j][k] *= deltasq;
             }
         }
     }
-    ts = omp_get_wtime();
+
     //while condition is not satisfied
     while((d>tol) && (iter < iter_max))
     {
-        // start wallclock timer
-        
         d = 0.0;
 
         // from  i to j to k
@@ -47,8 +42,8 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
                 for (int k = 1; k<(N+1); k++){
 
                     // U = 1/6 * (sum of us +Delta^2 f)
-                    U[i][j][k] = onesixth*(Uold[i-1][j][k]+Uold[i+1][j][k]+Uold[i][j-1][k]+\
-                    Uold[i][j+1][k]+Uold[i][j][k-1]+Uold[i][j][k+1]+F[i][j][k]);
+                    U[i][j][k] = 1.0/6.0*(Uold[i-1][j][k]+Uold[i+1][j][k]+Uold[i][j-1][k]+\
+                    Uold[i][j+1][k]+Uold[i][j][k-1]+Uold[i][j][k+1]+(2.0/(N*N))*(2.0/(N*N))*F[i][j][k]);
                     
                     // frobenius norm
                     d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
@@ -71,13 +66,5 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
         }
     }
     te = omp_get_wtime() - ts;
-<<<<<<< HEAD
-    
-    printf("Number of iterations: %d\n", iter);
-    printf("Norm: %lf\n", d);
-    printf("Elapsed time: %lf\n", te);
-    printf("Iterations per second: %lf\n", iter/te);
-=======
     printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
->>>>>>> be390a603d01419a8a0142e3b471964f1c233e8d
 }
