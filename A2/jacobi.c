@@ -3,17 +3,17 @@
  */
 #include <math.h>
 
-
-
 void
 jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
-
+    double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6;
     int iter = 0;
     double onesixth = 1.0/6.0;
     double d = tol+10; //inf
+
+    ts = omp_get_wtime(); // start wallclock timer
 
     // update Uold = U
     for (int i = 0; i<(N+2); i++){
@@ -67,4 +67,6 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
             }
         }
     }
+    te = omp_get_wtime() - ts;
+    printf("Elapsed time: %lf\n", te);
 }
