@@ -16,11 +16,11 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
         squarenorm=0;
         // from  i to j to k
         // for i
-        for (int i = 1; i<(N-1); i++){
+        for (int i = 1; i<(N+1); i++){
             //for j
-            for (int j = 1; j<(N-1); j++){
+            for (int j = 1; j<(N+1); j++){
                 //for k
-                for (int k = 1; k<(N-1); k++){
+                for (int k = 1; k<(N+1); k++){
 
                     // U = 1/6 * (sum of us)
                     tempval = U[i][j][k];
