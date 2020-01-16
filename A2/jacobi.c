@@ -25,6 +25,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
         for (int j = 0; j<(N+2); j++){
             for (int k = 0; k<(N+2); k++){
                 Uold[i][j][k] = U[i][j][k];
+                F[i][j][k] *= deltasq;
             }
         }
     }
@@ -42,16 +43,9 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
                 //for k
                 for (int k = 1; k<(N+1); k++){
 
-                    //update all Us
-                    U1 = Uold[i-1][j][k];
-                    U2 = Uold[i+1][j][k];
-                    U3 = Uold[i][j-1][k];
-                    U4 = Uold[i][j+1][k];
-                    U5 = Uold[i][j][k-1];
-                    U6 = Uold[i][j][k+1];
-
                     // U = 1/6 * (sum of us +Delta^2 f)
-                    U[i][j][k] = onesixth*(U1+U2+U3+U4+U5+U6+deltasq*F[i][j][k]);
+                    U[i][j][k] = onesixth*(Uold[i-1][j][k]+Uold[i+1][j][k]+Uold[i][j-1][k]+\
+                    Uold[i][j+1][k]+Uold[i][j][k-1]+Uold[i][j][k+1]+F[i][j][k]);
 
                     d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
                 }
@@ -73,5 +67,5 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
         }
     }
     te = omp_get_wtime() - ts;
-    printf("Elapsed time: %lf\n", te);
+    printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
 }
