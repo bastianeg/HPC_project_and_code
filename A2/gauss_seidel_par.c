@@ -38,5 +38,5 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
         }
     }//ending parralel region
     double te = omp_get_wtime() - ts;
-    printf("%.5lf, %.5lf\n", te, 1e-6*12*N*N*N/te);
+    printf("%.5lf, %.5lf\n", te, 1e-6*12*N*N*N*iter_max/te);
 }
