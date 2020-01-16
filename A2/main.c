@@ -106,14 +106,6 @@ main(int argc, char *argv[]) {
 
     /////////////////
     init_data(N, u, f, start_T);
-
-    int k = N/2;
-    for (int i = 0; i<=N+1; i++){
-        for(int j = 0; j<=N+1; j++){
-                printf("  %.1lf  ", u[i][j][k]);
-        }
-        printf("\n");   
-    }
     //--->> Jacobi
     printf("init done!\n");
     #ifdef _JACOBI
