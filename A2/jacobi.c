@@ -71,13 +71,10 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
         }
     }
     te = omp_get_wtime() - ts;
-<<<<<<< HEAD
     
     printf("Number of iterations: %d\n", iter);
     printf("Norm: %lf\n", d);
     printf("Elapsed time: %lf\n", te);
     printf("Iterations per second: %lf\n", iter/te);
-=======
-    printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
->>>>>>> be390a603d01419a8a0142e3b471964f1c233e8d
+    //printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
 }

@@ -1,0 +1,25 @@
+Loaded module: clang/snapshot20181017
+Write VTK file to poisson_res_10.vtk: Number of iterations: 17
+Norm: 1.534408
+Elapsed time: 0.000080
+Iterations per second: 212845.277612
+0.00user 0.00system 0:00.00elapsed 20%CPU (0avgtext+0avgdata 956maxresident)k
+64inputs+40outputs (0major+304minor)pagefaults 0swaps
+Write VTK file to poisson_res_50.vtk: Number of iterations: 23
+Norm: 17.059935
+Elapsed time: 0.016501
+Iterations per second: 1393.859153
+0.01user 0.00system 0:00.03elapsed 61%CPU (0avgtext+0avgdata 3176maxresident)k
+0inputs+2208outputs (0major+863minor)pagefaults 0swaps
+Write VTK file to poisson_res_100.vtk: Number of iterations: 17
+Norm: 49.142130
+Elapsed time: 0.099640
+Iterations per second: 170.613987
+0.12user 0.01system 0:00.20elapsed 63%CPU (0avgtext+0avgdata 17740maxresident)k
+0inputs+16592outputs (0major+1438minor)pagefaults 0swaps
+Write VTK file to poisson_res_200.vtk: Number of iterations: 12
+Norm: 135.181312
+Elapsed time: 0.569614
+Iterations per second: 21.066900
+0.72user 0.09system 0:01.37elapsed 59%CPU (0avgtext+0avgdata 130664maxresident)k
+0inputs+128800outputs (0major+1563minor)pagefaults 0swaps
