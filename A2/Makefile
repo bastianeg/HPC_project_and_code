@@ -1,5 +1,5 @@
 # Makefile
-#
+# hello
 TARGET_J  = poisson_j		# Jacobi
 TARGET_GS = poisson_gs		# Gauss-Seidel
 TARGET_JP  = poisson_jp		# Jacobi parallel
