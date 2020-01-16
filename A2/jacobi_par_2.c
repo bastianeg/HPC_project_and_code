@@ -36,7 +36,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         d = 0.0;
 
         // from  i to j to k
-        #pragma omp parallel for reduction(+ : d) default(none) shared(N, U1, U2, U3, U4, U5, U6, Uold, onesixth, deltasq, d, tol, iter_max, F, U)
+        #pragma omp parallel for reduction(+ : d) default(none) shared(N, U1, U2, U3, U4, U5, U6, Uold, onesixth, deltasq, F, U)
         {
             for (int i = 1; i<(N+1); i++){
                 //for j
