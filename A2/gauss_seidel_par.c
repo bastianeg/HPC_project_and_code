@@ -27,7 +27,7 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
             for (int i = 1; i<(N+1); i++){
                 for (int j = 1; j<(N+1); j++){
                     //pragma omp ordered here?
-                    #pragma omp ordered depend(sink:i-1,j) depend(i,j-1)
+                    #pragma omp ordered depend(sink:i-1,j) depend(sink:i,j-1)
                     for (int k = 1; k<(N+1); k++){             
                         U[i][j][k] = onesixth*(U[i-1][j][k]+U[i+1][j][k]+U[i][j-1][k]+U[i][j+1][k]+U[i][j][k-1]+U[i][j][k+1]+deltasq*F[i][j][k]);
                     }
