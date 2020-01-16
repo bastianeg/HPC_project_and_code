@@ -114,12 +114,6 @@ main(int argc, char *argv[]) {
     #ifdef _GAUSS_SEIDEL
     gauss_seidel(u, f, N, iter_max, tolerance);
     #endif
-    for (int i = 0; i<=N+1; i++){
-        for(int j = 0; j<=N+1; j++){
-                printf("  %.1lf  ", u[i][j][k]);
-        }
-        printf("\n");   
-    }
     //--->> Gauss_Seidel
     //...
      ///////////////
