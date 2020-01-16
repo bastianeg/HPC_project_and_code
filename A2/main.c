@@ -120,7 +120,7 @@ main(int argc, char *argv[]) {
     jacobi(u, f, u_old, N, iter_max, tolerance);
     #endif
     #ifdef _GAUSS_SEIDEL
-    
+    gauss_seidel(U, F, N, iter_max, tol);
     #endif
     for (int i = 0; i<=N+1; i++){
         for(int j = 0; j<=N+1; j++){
