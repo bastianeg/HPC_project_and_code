@@ -8,6 +8,10 @@
 #endif
 
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 void
 gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     double deltasq = 4.0/((double) N * (double) N);
@@ -22,8 +26,12 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     double tempval;
     double squarenorm;
 
+<<<<<<< HEAD
     double ts, te; // for timing
     ts = omp_get_wtime(); // start wallclock timer
+=======
+    double ts = omp_get_wtime(); // start wallclock timer
+>>>>>>> be390a603d01419a8a0142e3b471964f1c233e8d
 
     while((d>tol) && (iter < iter_max))
     {
@@ -48,6 +56,7 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
 
     // update iteration and Uold
     iter ++;
+<<<<<<< HEAD
 
 }
 te = omp_get_wtime() - ts;
@@ -55,5 +64,10 @@ printf("Number of iterations: %d\n", iter);
 printf("Norm: %lf\n", d);
 printf("Elapsed time: %lf\n", te);
 printf("Iterations per second: %lf\n", iter/te);
+=======
+    }
+    double te = omp_get_wtime() - ts;
+    printf("%.5lf, %.5lf\n", te, 1e-6*12*N*N*N*iter/te);
+>>>>>>> be390a603d01419a8a0142e3b471964f1c233e8d
 }
 

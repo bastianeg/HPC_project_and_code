@@ -26,7 +26,7 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
             #pragma omp for ordered(2)
             for (int i = 1; i<(N+1); i++){
                 for (int j = 1; j<(N+1); j++){
-                    //depending on the two outer dimensions such that we are doing one line at a time.
+                    //depending on the two outer dimensions such that we are doing one line in each process.
                     #pragma omp ordered depend(sink:i-1,j) depend(sink:i,j-1)
                     for (int k = 1; k<(N+1); k++){             
                         U[i][j][k] = onesixth*(U[i-1][j][k]+U[i+1][j][k]+U[i][j-1][k]+U[i][j+1][k]+U[i][j][k-1]+U[i][j][k+1]+deltasq*F[i][j][k]);
@@ -38,5 +38,5 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
         }
     }//ending parralel region
     double te = omp_get_wtime() - ts;
-    printf("%.5lf, %.5lf\n", te, 1e-6*12*N*N*N*iter_max/te);
+    printf("%.5lf, %.5lf\n", te, 1e-6*8*N*N*N*iter_max/te);
 }
