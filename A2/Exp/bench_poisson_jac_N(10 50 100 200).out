@@ -1,0 +1,9 @@
+Loaded module: clang/snapshot20181017
+Write VTK file to poisson_res_10.vtk: 0.00user 0.00system 0:00.00elapsed 12%CPU (0avgtext+0avgdata 936maxresident)k
+784inputs+40outputs (2major+296minor)pagefaults 0swaps
+Write VTK file to poisson_res_50.vtk: 0.94user 0.00system 0:00.96elapsed 98%CPU (0avgtext+0avgdata 4244maxresident)k
+0inputs+2208outputs (0major+1129minor)pagefaults 0swaps
+Write VTK file to poisson_res_100.vtk: 9.31user 0.02system 0:09.41elapsed 99%CPU (0avgtext+0avgdata 26000maxresident)k
+0inputs+16592outputs (0major+6918minor)pagefaults 0swaps
+Write VTK file to poisson_res_200.vtk: 89.23user 0.12system 1:30.02elapsed 99%CPU (0avgtext+0avgdata 195024maxresident)k
+0inputs+128800outputs (0major+11954minor)pagefaults 0swaps
