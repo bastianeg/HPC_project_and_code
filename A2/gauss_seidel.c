@@ -24,7 +24,6 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
 
                     // U = 1/6 * (sum of us)
                     tempval = U[i][j][k];
-                    // This is still just the same as jacobi – we need to use previous and current iteration
                     U[i][j][k] = onesixth*(U[i-1][j][k]+U[i+1][j][k]+U[i][j-1][k]+U[i][j+1][k]+U[i][j][k-1]+U[i][j][k+1]+deltasq*F[i][j][k]);
                     squarenorm += (U[i][j][k]-tempval)*(U[i][j][k]-tempval);
                 }
