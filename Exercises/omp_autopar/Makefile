@@ -1,12 +1,12 @@
 CC	= suncc
 OPT	= -g -fast -xrestrict
-CHIP	= 
-ISA	= 
+CHIP	=
+ISA	=
 PARALELL= #-xautopar -xloopinfo -xreduction
 LIBS	= -lm -xopenmp
-CFLAGS  = $(OPT) $(CHIP) $(ISA) $(PARALELL) $(XOPT)
+CFLAGS  = $(OPT) $(CHIP) $(ISA) $(PARALELL) $(XOPT) -xopenmp
 
-SOURCES = calc_pi.c 
+SOURCES = calc_pi.c
 OBJECTS = $(SOURCES:.c=.o)
 
 TARGET = progam.$(CC)

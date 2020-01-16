@@ -2,8 +2,8 @@
 #
 TARGET_J  = poisson_j		# Jacobi
 TARGET_GS = poisson_gs		# Gauss-Seidel
-TARGET_JP  = poisson_jp		# Jacobi
-TARGET_GSP = poisson_gsp		# Gauss-Seidel
+TARGET_JP  = poisson_jp		# Jacobi parallel
+TARGET_GSP = poisson_gsp		# Gauss-Seidel parallel
 
 SOURCES	= main.c print.c alloc3d.c
 OBJECTS	= print.o alloc3d.o
@@ -26,7 +26,7 @@ ISA	=
 CHIP	=
 ARCH	=
 PARA	=
-CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS)
+CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS) -xopenmp
 LDFLAGS = -lm
 
 all: $(TARGET_J) $(TARGET_GS) $(TARGET_JP) $(TARGET_GSP)

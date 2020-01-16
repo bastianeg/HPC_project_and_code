@@ -1,27 +1,31 @@
 /* jacobi.c - Poisson problem in 3d
- * 
+ *
  */
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #include <math.h>
 
-
-
 void
-jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
-    
+jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
+
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     double U1, U2, U3, U4, U5, U6;
     int iter = 0;
     double onesixth = 1.0/6.0;
     double d = tol+10; //inf
+
+    // update Uold = U
     for (int i = 0; i<(N+2); i++){
         for (int j = 0; j<(N+2); j++){
             for (int k = 0; k<(N+2); k++){
                 Uold[i][j][k] = U[i][j][k];
             }
         }
-    } 
-    
+    }
+
     //while condition is not satisfied
     while((d>tol) && (iter < iter_max))
     {
@@ -50,19 +54,19 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
                 }
             }
         }
-    
+
         // norm calc
         d = sqrt(d);
 
         // update iteration and Uold
         iter ++;
-        
+
         for (int i = 0; i<(N+2); i++){
             for (int j = 0; j<(N+2); j++){
                 for (int k = 0; k<(N+2); k++){
                     Uold[i][j][k] = U[i][j][k];
                 }
             }
-        }  
-    }      
+        }
+    }
 }

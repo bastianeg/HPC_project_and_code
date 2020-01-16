@@ -1,15 +1,19 @@
 /* gauss_seidel.c - Poisson problem in 3d
  *
  */
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #include <math.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 void
-gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
+gauss_seidel_par(double ***U, double ***F, int N, int iter_max,double tol) {
     double deltasq = 4.0/((double) N * (double) N);
     double onesixth = 1.0/6.0;
     double d = tol+10.0; //inf
-    int iter = 0; 
+    int iter = 0;
     int tempval;
     double squarenorm;
     while((d>tol) && (iter < iter_max))
@@ -37,4 +41,3 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     iter ++;
 }
 }
-
