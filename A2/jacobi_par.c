@@ -29,17 +29,20 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         }
     }
 
-    //while condition is not satisfied
+     //while condition is not satisfied
     while((d>tol) && (iter < iter_max))
     {
         d = 0.0;
 
         // from  i to j to k
-        // for i
+        #pragma omp parallel {
+
         for (int i = 1; i<(N+1); i++){
             //for j
             for (int j = 1; j<(N+1); j++){
                 //for k
+                #pragma omp for default(none) shared(N, U1, U2, U3, U4, U5, U6) \
+                                private(k){
                 for (int k = 1; k<(N+1); k++){
 
                     //update all Us
@@ -55,8 +58,10 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
 
                     d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
                 }
+              } // end omp for
             }
         }
+        } // end parallel
 
         // norm calc
         d = sqrt(d);
