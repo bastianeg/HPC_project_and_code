@@ -8,10 +8,8 @@
 #BSUB -R "rusage[mem=4GB]"
 #BSUB -R "span[hosts=1]"
 
-# load the needed compiler here (uncomment and adjust compiler and version!)
 
 
-module load gcc
 
 N="100"
 CMD=poisson_j
