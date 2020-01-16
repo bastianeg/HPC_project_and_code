@@ -13,7 +13,7 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     double squarenorm;
     while((tol<d) || (iter_max >= iter))
     {
-        squarenorm=0;
+        d=0;
         // from  i to j to k
         // for i
         for (int i = 1; i<(N+1); i++){
@@ -25,15 +25,16 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
                     // U = 1/6 * (sum of us)
                     tempval = U[i][j][k];
                     U[i][j][k] = onesixth*(U[i-1][j][k]+U[i+1][j][k]+U[i][j-1][k]+U[i][j+1][k]+U[i][j][k-1]+U[i][j][k+1]+deltasq*F[i][j][k]);
-                    squarenorm += (U[i][j][k]-tempval)*(U[i][j][k]-tempval);
+                    d += (U[i][j][k]-tempval)*(U[i][j][k]-tempval);
                 }
             }
         }
     // norm calc
-    d = sqrt(squarenorm);
+    d = sqrt(d);
 
     // update iteration and Uold
     iter ++;
+    printf("completed iteration %d\n",iter);
 }
 }
 
