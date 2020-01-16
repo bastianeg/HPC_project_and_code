@@ -15,6 +15,14 @@ void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, doubl
 #include "gauss_seidel.h"
 #endif
 
+#ifdef _JACOBI_PAR
+#include "jacobi_par.h"
+#endif
+
+#ifdef _GAUSS_SEIDEL_PAR
+#include "gauss_seidel_par.h"
+#endif
+
 #define N_DEFAULT 100
 
 
@@ -107,30 +115,22 @@ main(int argc, char *argv[]) {
     /////////////////
     init_data(N, u, f, start_T);
 
-    int k = N/2;
-    for (int i = 0; i<=N+1; i++){
-        for(int j = 0; j<=N+1; j++){
-                printf("  %.1lf  ", u[i][j][k]);
-        }
-        printf("\n");   
-    }
-    //--->> Jacobi
-    printf("init done!\n");
+    //--->> iterations
     #ifdef _JACOBI
     jacobi(u, f, u_old, N, iter_max, tolerance);
     #endif
+
     #ifdef _GAUSS_SEIDEL
     gauss_seidel(u, f, N, iter_max, tolerance);
     #endif
-    for (int i = 0; i<=N+1; i++){
-        for(int j = 0; j<=N+1; j++){
-                printf("  %.1lf  ", u[i][j][k]);
-        }
-        printf("\n");   
-    }
-    //--->> Gauss_Seidel
-    //...
-     ///////////////
+
+    #ifdef _JACOBI_PAR
+    jacobi_par(u, f, u_old, N, iter_max, tolerance);
+    #endif
+
+    #ifdef _GAUSS_SEIDEL_PAR
+    gauss_seidel_par(u, f, N, iter_max);
+    #endif
 
     // dump  results if wanted 
     switch(output_type) {
@@ -156,6 +156,8 @@ main(int argc, char *argv[]) {
 
     // de-allocate memory
     free(u);
+    free(u_old);
+    free(f);
 
     return(0);
 }

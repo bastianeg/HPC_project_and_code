@@ -1,12 +1,14 @@
 /* jacobi.c - Poisson problem in 3d
  *
  */
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #include <math.h>
 
-
-
 void
-jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
+jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
 
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
