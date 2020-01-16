@@ -1,7 +1,12 @@
 /* jacobi.c - Poisson problem in 3d
  *
  */
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #include <math.h>
+#include <stdio.h>
 
 void
 jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
