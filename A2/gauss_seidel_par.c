@@ -17,13 +17,12 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
     int tempval;
     double squarenorm;
     
-    // main iteration loop
-    while(iter < iter_max)
+    // starting parralel region. Each iteration has a barrier
+    #pragma omp parallel default(none) shared(N,onesixth,U,F,deltasq)
     {
-        // starting parralel region. Each iteration has a barrier
-        #pragma omp parallel default(none) shared(N,onesixth,U,F,deltasq)
+        // main iteration loop
+        while(iter < iter_max)
         {
-            
             //starting doacross loop for the 3-nested for loop.
             #pragma omp for ordered(3)
             for (int i = 1; i<(N+1); i++){
@@ -37,8 +36,10 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
                     }
                 }
             }
-        }//ending parralel region
-
-    iter ++;
-}
+            
+        // barrier after iteration is complete
+        #pragma omp barrier
+        iter ++;
+        }
+    }//ending parralel region
 }
