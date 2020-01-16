@@ -12,6 +12,10 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     int iter = 0; 
     int tempval;
     double squarenorm;
+
+    double ts, te; // for timing
+    ts = omp_get_wtime(); // start wallclock timer
+
     while((d>tol) && (iter < iter_max))
     {
         d=0;
@@ -35,6 +39,12 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
 
     // update iteration and Uold
     iter ++;
+
 }
+te = omp_get_wtime() - ts;
+printf("Number of iterations: %d\n", iter);
+printf("Norm: %lf\n", d);
+printf("Elapsed time: %lf\n", te);
+printf("Iterations per second: %lf\n", iter/te);
 }
 
