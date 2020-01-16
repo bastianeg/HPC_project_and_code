@@ -11,7 +11,7 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     int iter = 0; 
     int tempval;
     double squarenorm;
-    while((tol<d) && (iter_max >= iter))
+    while((tol<d) || (iter_max >= iter))
     {
         squarenorm=0;
         // from  i to j to k
