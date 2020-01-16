@@ -24,8 +24,8 @@ gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
         #pragma omp parallel default(none) shared(N,onesixth,U,F,deltasq)
         {
             
-            //starting doacross loop for the 3-nested for loop. I don't know if ordered(1) is correct
-            #pragma omp for ordered(1)
+            //starting doacross loop for the 3-nested for loop.
+            #pragma omp for ordered(3)
             for (int i = 1; i<(N+1); i++){
                 for (int j = 1; j<(N+1); j++){
                     for (int k = 1; k<(N+1); k++){
