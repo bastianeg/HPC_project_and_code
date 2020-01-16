@@ -3,14 +3,23 @@
  */
 #include <math.h>
 #include <stdio.h>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 
 void
 gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     double deltasq = 4.0/((double) N * (double) N);
     double onesixth = 1.0/6.0;
+
+
+    tol = tol * sqrt(N*N*N);
     double d = tol+10.0; //inf
+
+
     int iter = 0; 
-    int tempval;
+    double tempval;
     double squarenorm;
 
     double ts, te; // for timing

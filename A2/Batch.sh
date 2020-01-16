@@ -12,7 +12,7 @@ module load clang
 
 Ns="10 50 100 200"
 CMD=poisson_gs
-IT=100000
+IT=10000
 TOL=0.05
 TS=15
 
