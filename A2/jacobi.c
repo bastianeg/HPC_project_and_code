@@ -23,7 +23,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     } 
     
     //while condition is not satisfied
-    while((tol<d) || (iter_max >= iter))
+    while((d>tol) && (iter < iter_max))
     {
         d = 0.0;
 
