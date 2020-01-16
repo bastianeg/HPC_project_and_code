@@ -6,7 +6,7 @@
 #endif
 
 #include <math.h>
-// #include <stdio.h>
+#include <stdio.h>
 
 void
 gauss_seidel_par(double ***U, double ***F, int N, int iter_max) {
