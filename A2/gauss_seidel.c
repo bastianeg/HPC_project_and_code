@@ -35,7 +35,6 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
 
     // update iteration and Uold
     iter ++;
-    printf("completed iteration %d\n",iter);
 }
 }
 
