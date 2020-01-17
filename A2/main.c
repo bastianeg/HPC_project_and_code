@@ -35,18 +35,17 @@ void init_data(int N, double ***U, double ***F, double start_T){
     // Initialize U leveraging first touch
     double x, y, z;
     #pragma omp parallel for schedule(static)
-    for (int i = 1; i<=N; i++){
-        for(int j = 1; j<=N; j++){
-            for (int k = 1; k<=N; k++){
+    for (int i = 0; i<=(N+1); i++){
+        for(int j = 0; j<=(N+1); j++){
+            for (int k = 0; k<=(N+1); k++){
                 U[i][j][k] = start_T;
             }
         }
     }
 
     //fill in boundaries of U
-
-    for (int i = 0; i<=N+1; i++){
-        for(int j = 0; j<=N+1; j++){
+    for (int i = 0; i<=(N+1); i++){
+        for(int j = 0; j<=(N+1); j++){
                 U[i][N+1][j] = 20;
                 U[i][0][j] = 0;
                 U[N+1][i][j] = 20;
@@ -57,6 +56,7 @@ void init_data(int N, double ***U, double ***F, double start_T){
     }
 
     // make F
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i<=N+1; i++){
         x = ((2*i)/(double) (N+1))-1;
         for(int j = 0; j<N+1; j++){
