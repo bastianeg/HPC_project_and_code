@@ -1,0 +1,104 @@
+Loaded module: clang/9.0.0
+0.00638, 0.16042
+0.01427, 1.93074
+1.03471, 2.12088
+10.13509, 2.17068
+98.72136, 1.78280
+0.00253, 0.40448
+0.00970, 2.84048
+0.53543, 4.09861
+5.09699, 4.31627
+49.91176, 3.52622
+0.00806, 0.12694
+0.01843, 1.49419
+0.28867, 7.60216
+2.63506, 8.34894
+25.95218, 6.78170
+0.00867, 0.11795
+0.01092, 2.52167
+0.16699, 13.14165
+1.37573, 15.99151
+13.87281, 12.68668
+0.01201, 0.08516
+0.00772, 3.56601
+0.13741, 15.97068
+0.97817, 22.49107
+10.37818, 16.95865
+0.01458, 0.07016
+0.02720, 1.01246
+0.12400, 17.69788
+0.79618, 27.63191
+9.68892, 18.16509
+0.02848, 0.03592
+0.03545, 0.77687
+0.10924, 20.08953
+0.64355, 34.18543
+8.97635, 19.60709
+0.01691, 0.06049
+0.04107, 0.67059
+0.14892, 14.73562
+0.59601, 36.91227
+9.01430, 19.52453
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-37>
+Subject: Job 5108371: <jacobi> in cluster <dcc> Done
+
+Job <jacobi> was submitted from host <n-62-30-6> by user <s153287> in cluster <dcc> at Fri Jan 17 12:58:21 2020
+Job was executed on host(s) <24*n-62-21-37>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Fri Jan 17 12:58:23 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/A2> was used as the working directory.
+Started at Fri Jan 17 12:58:23 2020
+Terminated at Fri Jan 17 13:02:36 2020
+Results reported at Fri Jan 17 13:02:36 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -q hpcintro
+#BSUB -n 24
+#BSUB -W 15
+#BSUB -J jacobi
+#BSUB -o jac_%J.out
+#BSUB -R "rusage[mem=4GB]"
+#BSUB -R "span[hosts=1]"
+
+# load the needed compiler here (uncomment and adjust compiler and version!)
+module load clang/9.0.0
+
+THREADS="1 2 4 8 12 16 20 24"
+N="10 20 50 100 200"
+CMD=poisson_jp
+IT=2000
+TOL=0.05
+TS=15
+
+for t in $THREADS
+do
+    for n in $N
+    do
+	OMP_NUM_THREADS=$t OMP_PROC_BIND=close OMP_PLACES=sockets ./$CMD $n $IT $TOL $TS 
+    done
+done
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1198.36 sec.
+    Max Memory :                                 196 MB
+    Average Memory :                             134.73 MB
+    Total Requested Memory :                     98304.00 MB
+    Delta Memory :                               98108.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                28
+    Run time :                                   253 sec.
+    Turnaround time :                            255 sec.
+
+The output (if any) is above this job summary.
+
