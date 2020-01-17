@@ -11,8 +11,8 @@
 # load the needed compiler here (uncomment and adjust compiler and version!)
 module load clang/9.0.0
 
-THREADS="1 2 4 8 12 16 20 24"
-CMD=poisson_jp
+THREADS="1 2 44"
+CMD=poisson_gsp
 N=100
 IT=2000
 TOL=0.0
