@@ -6,6 +6,10 @@
 #include "alloc3d.h"
 #include "print.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #ifdef _JACOBI
 #include "jacobi.h"
 void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol);
@@ -28,9 +32,9 @@ void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, doubl
 
 void init_data(int N, double ***U, double ***F, double start_T){
 
+    // Initialize U leveraging first touch
     double x, y, z;
-
-    // Fill in U
+    #pragma omp parallel for schedule(static)
     for (int i = 1; i<=N; i++){
         for(int j = 1; j<=N; j++){
             for (int k = 1; k<=N; k++){
