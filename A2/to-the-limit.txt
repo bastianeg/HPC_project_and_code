@@ -1,0 +1,6 @@
+1. take best Gflop/s result from a problem outside of L3 (~20)
+2. calculate flop / cycle = 11
+3. divide 1. by 2. ~ 2 Gcycles/s
+4. how much memory do we need per cycle? 7 x 8bytes = 56 bytes
+5. 2 Gcycles/s * 56 bytes
+6. this result should be as close as possible to ~156 Gb/s

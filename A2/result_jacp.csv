@@ -1,0 +1,145 @@
+Loaded module: clang/9.0.0
+thread count 1 N 10 20 50 100 200
+0.00178, 0.10511
+thread count 1 N 10 20 50 100 200
+0.00165, 0.11361
+thread count 1 N 10 20 50 100 200
+0.00164, 0.11389
+thread count 1 N 10 20 50 100 200
+0.00164, 0.11397
+thread count 1 N 10 20 50 100 200
+0.00160, 0.11660
+thread count 2 N 10 20 50 100 200
+0.00179, 0.10424
+thread count 2 N 10 20 50 100 200
+0.00181, 0.10354
+thread count 2 N 10 20 50 100 200
+0.00180, 0.10401
+thread count 2 N 10 20 50 100 200
+0.00180, 0.10400
+thread count 2 N 10 20 50 100 200
+0.00179, 0.10476
+thread count 4 N 10 20 50 100 200
+0.00282, 0.06628
+thread count 4 N 10 20 50 100 200
+0.00280, 0.06667
+thread count 4 N 10 20 50 100 200
+0.00280, 0.06679
+thread count 4 N 10 20 50 100 200
+0.00281, 0.06657
+thread count 4 N 10 20 50 100 200
+0.00277, 0.06741
+thread count 8 N 10 20 50 100 200
+0.00458, 0.04085
+thread count 8 N 10 20 50 100 200
+0.00249, 0.07525
+thread count 8 N 10 20 50 100 200
+0.00386, 0.04846
+thread count 8 N 10 20 50 100 200
+0.00391, 0.04784
+thread count 8 N 10 20 50 100 200
+0.00774, 0.02417
+thread count 12 N 10 20 50 100 200
+0.00920, 0.02032
+thread count 12 N 10 20 50 100 200
+0.00932, 0.02007
+thread count 12 N 10 20 50 100 200
+0.00538, 0.03477
+thread count 12 N 10 20 50 100 200
+0.00402, 0.04648
+thread count 12 N 10 20 50 100 200
+0.00513, 0.03642
+thread count 16 N 10 20 50 100 200
+0.00699, 0.02675
+thread count 16 N 10 20 50 100 200
+0.00374, 0.05005
+thread count 16 N 10 20 50 100 200
+0.00689, 0.02716
+thread count 16 N 10 20 50 100 200
+0.00480, 0.03893
+thread count 16 N 10 20 50 100 200
+0.00677, 0.02761
+thread count 20 N 10 20 50 100 200
+0.00761, 0.02456
+thread count 20 N 10 20 50 100 200
+0.00384, 0.04866
+thread count 20 N 10 20 50 100 200
+0.00385, 0.04861
+thread count 20 N 10 20 50 100 200
+0.00387, 0.04837
+thread count 20 N 10 20 50 100 200
+0.01056, 0.01771
+thread count 24 N 10 20 50 100 200
+0.01410, 0.01326
+thread count 24 N 10 20 50 100 200
+0.02250, 0.00831
+thread count 24 N 10 20 50 100 200
+0.01339, 0.01396
+thread count 24 N 10 20 50 100 200
+0.01193, 0.01567
+thread count 24 N 10 20 50 100 200
+0.00803, 0.02328
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-38>
+Subject: Job 5108359: <jacobi> in cluster <dcc> Done
+
+Job <jacobi> was submitted from host <n-62-30-6> by user <s153287> in cluster <dcc> at Fri Jan 17 12:55:28 2020
+Job was executed on host(s) <24*n-62-21-38>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Fri Jan 17 12:56:14 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/A2> was used as the working directory.
+Started at Fri Jan 17 12:56:14 2020
+Terminated at Fri Jan 17 12:56:15 2020
+Results reported at Fri Jan 17 12:56:15 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -q hpcintro
+#BSUB -n 24
+#BSUB -W 15
+#BSUB -J jacobi
+#BSUB -o jac_%J.out
+#BSUB -R "rusage[mem=4GB]"
+#BSUB -R "span[hosts=1]"
+
+# load the needed compiler here (uncomment and adjust compiler and version!)
+module load clang/9.0.0
+
+THREADS="1 2 4 8 12 16 20 24"
+N="10 20 50 100 200"
+CMD=poisson_jp
+IT=2000
+TOL=0.05
+TS=15
+
+for t in $THREADS
+do
+    for n in $N
+    do
+    	echo thread count $t N $N
+	OMP_NUM_THREADS=$t OMP_PROC_BIND=close OMP_PLACES=sockets ./$CMD $N $IT $TOL $TS 
+    done
+done
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2.44 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     98304.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            47 sec.
+
+The output (if any) is above this job summary.
+
