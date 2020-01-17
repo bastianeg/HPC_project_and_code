@@ -1,0 +1,25 @@
+Loaded module: clang/snapshot20181017
+Number of iterations: 73
+Norm: 0.014649
+Elapsed time: 0.000333
+Iterations per second: 219172.649964
+0.00user 0.00system 0:00.00elapsed 50%CPU (0avgtext+0avgdata 1356maxresident)k
+64inputs+8outputs (0major+415minor)pagefaults 0swaps
+Number of iterations: 189
+Norm: 1.873765
+Elapsed time: 0.135467
+Iterations per second: 1395.175648
+0.13user 0.00system 0:00.13elapsed 98%CPU (0avgtext+0avgdata 3348maxresident)k
+0inputs+8outputs (0major+975minor)pagefaults 0swaps
+Number of iterations: 71
+Norm: 14.909486
+Elapsed time: 0.415577
+Iterations per second: 170.846825
+0.41user 0.00system 0:00.42elapsed 99%CPU (0avgtext+0avgdata 17900maxresident)k
+0inputs+8outputs (0major+1550minor)pagefaults 0swaps
+Number of iterations: 14
+Norm: 119.678194
+Elapsed time: 0.666271
+Iterations per second: 21.012472
+0.69user 0.02system 0:00.72elapsed 99%CPU (0avgtext+0avgdata 130864maxresident)k
+0inputs+8outputs (0major+1675minor)pagefaults 0swaps
