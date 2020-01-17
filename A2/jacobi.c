@@ -28,7 +28,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     }
     ts = omp_get_wtime();
     //while condition is not satisfied
-    while((d/(N*N*N)>tol) && (iter < iter_max))
+    while((d/sqrt(N*N*N)>tol) && (iter < iter_max))
     {
         // start wallclock timer
         
