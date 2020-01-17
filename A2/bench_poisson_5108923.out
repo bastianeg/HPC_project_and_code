@@ -1,0 +1,29 @@
+Loaded module: clang/9.0.0
+0.01654, 99.08709
+Number of iterations: 149
+Norm: 0.004815
+Elapsed time: 0.016541
+Iterations per second: 9007.917438
+0.20user 0.01system 0:00.02elapsed 852%CPU (0avgtext+0avgdata 3972maxresident)k
+1832inputs+8outputs (8major+682minor)pagefaults 0swaps
+0.23229, 16598.14290
+Number of iterations: 2804
+Norm: 0.004993
+Elapsed time: 0.232285
+Iterations per second: 12071.376652
+5.18user 0.17system 0:00.23elapsed 2270%CPU (0avgtext+0avgdata 6056maxresident)k
+0inputs+8outputs (0major+1494minor)pagefaults 0swaps
+2.98290, 36876.85124
+Number of iterations: 10000
+Norm: 0.005858
+Elapsed time: 2.982901
+Iterations per second: 3352.441022
+70.04user 1.31system 0:02.99elapsed 2384%CPU (0avgtext+0avgdata 29024maxresident)k
+0inputs+8outputs (0major+4273minor)pagefaults 0swaps
+43.16261, 20388.01636
+Number of iterations: 10000
+Norm: 0.205086
+Elapsed time: 43.162610
+Iterations per second: 231.682004
+1025.37user 9.50system 0:43.21elapsed 2394%CPU (0avgtext+0avgdata 198148maxresident)k
+0inputs+8outputs (0major+11440minor)pagefaults 0swaps
