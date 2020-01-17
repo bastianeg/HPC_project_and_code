@@ -31,7 +31,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
 
 
      //while condition is not satisfied
-    while((d>tol) && (iter < iter_max)){
+    while((d/(N*N*N)>tol) && (iter < iter_max)){
     
         d = 0.0;
 
