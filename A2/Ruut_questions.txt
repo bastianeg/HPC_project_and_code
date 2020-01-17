@@ -1,0 +1,15 @@
+Ruud van der Paas: "OpenMP Does Not Scale"
+https://www.youtube.com/watch?v=5-ZepxpwmUU
+
+Make sure the program is fairly well optimized in sequential mode (compiler flags!). 
+If it runs badly on one core, things will go worse. Here's what you should ask yourself:
+
+- Did you use Amdahl’s Law to estimate the speedup you could expect?
+- Did you identify where you’re spending most of your time?
+- Did you avoid parallelizing the innermost loops?
+- Did you minimize the number of parallel regions?
+- Did you at least use the nowait clause to minimize the use of barriers?
+- Do all threads roughly perform the same amount of work?
+- Did you maximize the use of private data?
+- Did you take into account that you’re using a cc-NUMA system?
+- Could there be false sharing affecting your performance?
