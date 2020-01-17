@@ -69,5 +69,5 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
         }
     }
     te = omp_get_wtime() - ts;
-    printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
+    printf("%.5lf, %.5lf\n", te, 1e-9*11*N*N*N*iter/te);
 }
