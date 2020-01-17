@@ -29,7 +29,7 @@ gauss_seidel(double ***U, double ***F, int N, int iter_max,double tol) {
     double ts, te; // for timing
     ts = omp_get_wtime(); // start wallclock timer
 
-    while((d>tol) && (iter < iter_max))
+    while((d/sqrt(N*N*N)>tol) && (iter < iter_max))
     {
         d=0;
         // from  i to j to k
