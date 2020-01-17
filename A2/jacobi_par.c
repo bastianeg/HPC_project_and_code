@@ -13,7 +13,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     double onesixth = 1.0/6.0;
-    double d = tol+10; //initialize norm to inf
+    double d = tol*N*N*N+10; //initialize norm to inf
     int iter = 0;
 
     ts = omp_get_wtime(); // start wallclock timer
@@ -31,7 +31,7 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
 
 
      //while condition is not satisfied
-    while((d>tol) && (iter < iter_max)){
+    while((d/(N*N*N)>tol) && (iter < iter_max)){
     
         d = 0.0;
 
@@ -77,5 +77,9 @@ jacobi_par(double ***U, double ***F, double ***Uold, int N, int iter_max, double
     printf("Iterations per second: %lf\n", iter/te);
 =======
     printf("%.5lf, %.5lf\n", te, 1e-9*11*N*N*N*iter/te);
+<<<<<<< HEAD
 >>>>>>> ec52d8caa54d1c1fc467d296a7dcbd8aad4f8def
+=======
+    printf("Num iter is: %d for tol %.10lf\n",iter,tol);
+>>>>>>> 5cd2918c543274b8b35e488230250e2e1d681dbc
 }
