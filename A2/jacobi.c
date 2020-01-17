@@ -15,11 +15,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
-
-
-    tol = tol * sqrt(N*N*N);
-
-    double d = tol+10; //inf
+    double d = tol*N*N*N+10; //inf
 
     // update Uold = U
     for (int i = 0; i<(N+2); i++){
@@ -32,7 +28,7 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     }
     ts = omp_get_wtime();
     //while condition is not satisfied
-    while((d>tol) && (iter < iter_max))
+    while((d/(N*N*N)>tol) && (iter < iter_max))
     {
         // start wallclock timer
         
