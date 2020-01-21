@@ -1,0 +1,135 @@
+0.00078, 1.02300
+0.00672, 0.95251
+0.11457, 0.87280
+0.39276, 0.85930
+0.93826, 0.85264
+3.20462, 0.84253
+7.63063, 0.83872
+14.93216, 0.83712
+25.84733, 0.83568
+0.00143, 0.55868
+0.00637, 1.00519
+0.07292, 1.37146
+0.23161, 1.45718
+0.52540, 1.52264
+1.71688, 1.57262
+4.00694, 1.59723
+7.76055, 1.61071
+13.32219, 1.62136
+0.00138, 0.57803
+0.00445, 1.43717
+0.03930, 2.54479
+0.11945, 2.82548
+0.26907, 2.97322
+0.87447, 3.08758
+2.01588, 3.17478
+3.92363, 3.18583
+6.68984, 3.22878
+0.00136, 0.58826
+0.00369, 1.73542
+0.02250, 4.44448
+0.06556, 5.14834
+0.14512, 5.51286
+0.44601, 6.05370
+1.01674, 6.29460
+1.99742, 6.25807
+3.40024, 6.35250
+0.00138, 0.57922
+0.00408, 1.56861
+0.01908, 5.24085
+0.04672, 7.22418
+0.10007, 7.99416
+0.30491, 8.85519
+0.69380, 9.22455
+1.32701, 9.41965
+2.25460, 9.58041
+0.00175, 0.45796
+0.00623, 1.02727
+0.02978, 3.35797
+0.05868, 5.75193
+0.11373, 7.03415
+0.31590, 8.54704
+0.61566, 10.39530
+1.23038, 10.15945
+2.00010, 10.79945
+0.00174, 0.46060
+0.00734, 0.87146
+0.02913, 3.43278
+0.05525, 6.10868
+0.09576, 8.35465
+0.25243, 10.69586
+0.50812, 12.59555
+1.03022, 12.13330
+1.69666, 12.73093
+0.00170, 0.47061
+0.00652, 0.98177
+0.02823, 3.54234
+0.05003, 6.74579
+0.08649, 9.24943
+0.21734, 12.42299
+0.50242, 12.73822
+0.89531, 13.96168
+1.53558, 14.06638
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-36>
+Subject: Job 5117017: <gs> in cluster <dcc> Done
+
+Job <gs> was submitted from host <n-62-30-4> by user <s153287> in cluster <dcc> at Fri Jan 17 21:16:18 2020
+Job was executed on host(s) <24*n-62-21-36>, in queue <hpcintro>, as user <s153287> in cluster <dcc> at Fri Jan 17 21:16:19 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/A2> was used as the working directory.
+Started at Fri Jan 17 21:16:19 2020
+Terminated at Fri Jan 17 21:18:21 2020
+Results reported at Fri Jan 17 21:18:21 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -q hpcintro
+#BSUB -n 24
+#BSUB -W 40
+#BSUB -J gs
+#BSUB -o gs_%J.out
+#BSUB -R "rusage[mem=4GB]"
+#BSUB -R "span[hosts=1]"
+
+# load the needed compiler here (uncomment and adjust compiler and version!)
+module load clang/9.0.0
+
+THREADS="1 2 4 8 12 16 20 24"
+N="10 20 50 75 100 150 200 250 300"
+CMD=poisson_gsp
+IT=100
+TOL=0.05
+TS=15
+
+for t in $THREADS
+do
+    for n in $N
+    do
+    	OMP_NUM_THREADS=$t OMP_PROC_BIND=close OMP_PLACES=cores ./$CMD $n $IT $TOL $TS 
+    done
+done
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   543.76 sec.
+    Max Memory :                                 429 MB
+    Average Memory :                             336.83 MB
+    Total Requested Memory :                     98304.00 MB
+    Delta Memory :                               97875.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                8
+    Run time :                                   122 sec.
+    Turnaround time :                            123 sec.
+
+The output (if any) is above this job summary.
+
