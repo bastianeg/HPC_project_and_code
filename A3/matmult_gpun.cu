@@ -18,7 +18,6 @@ extern "C"{
         }
         printf("is\n");
         
-        
         //allocate memory on GPU
         double* d_A;
         double* d_B;
@@ -37,12 +36,6 @@ extern "C"{
 
         //move C back to host
         cudaMemcpy(C, d_C, m*n*sizeof(double), cudaMemcpyDeviceToHost);
-        for(int i = 0; i<m; i++){
-            for(int j = 0; j<n; j++){
-                printf("%.2lf ",C[i*n+j]);
-            }
-            printf("\n");
-        }
         
     }
 
