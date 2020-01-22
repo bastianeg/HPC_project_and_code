@@ -81,7 +81,7 @@ extern "C"{
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
 
         //number of blocks is ceil of N/bs 
-        if(getenv("BLOCK_SIZE")!==NULL){
+        if(getenv("BLOCK_SIZE")!=NULL){
             int bs = atoi(getenv("BLOCK_SIZE"));
         }
         int mblocks = m/bs + (int) (m%bs!=0);
