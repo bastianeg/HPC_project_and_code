@@ -16,7 +16,7 @@ extern "C"{
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
         
         //call kernel
-        matmult_kernel1<<<1,1>>>(int m, int n, int k, double *A, double *B, double *C);
+        matmult_kernel1<<<1,1>>>(m, n, k, *A, *B, *C);
         cudaDeviceSynchronize();
 
         //move C back to host
