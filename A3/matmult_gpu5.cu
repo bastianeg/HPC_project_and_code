@@ -1,11 +1,6 @@
 // Matrices are stored in row-major order:
 // M(row, col) = *(M.elements + row * M.stride + col)
-typedef struct {
-    int width;
-    int height;
-    int stride; 
-    float* elements;
-} Matrix;
+
 
 // Get a matrix element
 __device__ float GetElement(const Matrix A, int row, int col)
@@ -35,8 +30,14 @@ __device__ void SetElement(Matrix A, int row, int col, float value)
 
 #define BLOCK_SIZE 16
 // Matrix multiplication kernel called by MatMul()
- __global__ void MatMulKernel(double* A, double* B, double* C)
+ __global__ void MatMulKernel5(double* A, double* B, double* C)
 {
+
+    //set A, B and C as structs
+    //??
+
+
+
     // Block row and column
     int blockRow = blockIdx.y;
     int blockCol = blockIdx.x;

@@ -139,7 +139,7 @@ extern "C"{
         // Invoke kernel
         dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
         dim3 dimGrid(n / dimBlock.x, m / dimBlock.y);
-        MatMulKernel<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
+        MatMulKernel5<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
 
         // Read C from device memory
         cudaMemcpy(C, d_C, n * m * sizeof(double), cudaMemcpyDeviceToHost);
