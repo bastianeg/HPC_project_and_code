@@ -15,7 +15,7 @@ module load gcc/8.3.0
 ELEMPT="2,4,8,16,32"
 CMD=matmult_f.nvcc
 N=800
-TYPE=800
+TYPE=gpu4
 export MFLOPS_MAX_IT=1
 export MATMULT_COMPARE=0
 
