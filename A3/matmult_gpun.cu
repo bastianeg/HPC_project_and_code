@@ -1,5 +1,8 @@
 #include "matmult_kernels.h"
 #include <stdio.h>
+#include "cublas_v2.h"
+#include <cuda_runtime.h>
+
 extern "C"{
 
     void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C){
@@ -60,7 +63,26 @@ extern "C"{
     }
 
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
+    }
+
+    void matmult_gpulib(int m, int n, int k, double *A, double *B, double *C) {
         
+        int lda=m,ldb=k,ldc=m;
+        double alf = 1.0;
+        double bet = 0.0;
+        double *alpha = &alf;
+        double *beta = &bet;
+     
+        // Create a handle for CUBLAS
+        cublasHandle_t handle;
+        cublasCreate(&handle);
+
+        // Do the actual multiplication using the library function
+        cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+
+        // Destroy the handle
+        cublasDestroy(handle);
+     
     }
 
 }
