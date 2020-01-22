@@ -44,8 +44,8 @@ extern "C"{
 
         //number of blocks is ceil of N/bs 
         int bs = 32;
-        int mblocks = m/bs + (int) m%bs!=0;
-        int nblocks = n/bs + (int) n%bs!=0;
+        int mblocks = m/bs + (int) (m%bs!=0);
+        int nblocks = n/bs + (int) (n%bs!=0);
         printf("mblocks is %d, and nblocks is %d\n",mblocks,nblocks);
         //call kernel
         matmult_kernel2<<<dim3 (mblocks,nblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C);
