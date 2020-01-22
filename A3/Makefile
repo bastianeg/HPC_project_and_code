@@ -1,6 +1,6 @@
 TARGET	= libmatmult.so
-LIBSRCS	= 
-LIBOBJS	= 
+LIBSRCS	= matmult_gpun.cu matmult_kernels.cu
+LIBOBJS	= matmult_gpun.o matmult_kernels.o
 
 OPT	= -g -O3
 PIC = -fpic
@@ -28,3 +28,6 @@ $(TARGET): $(LIBOBJS)
 
 clean:
 	/bin/rm -f $(TARGET) $(LIBOBJS) 
+
+matmult_gpun.o: matmult_gpun.cu matmult_kernels.h
+matmult_kernels.o: matmult_kernels.cu
