@@ -46,8 +46,12 @@ extern "C"{
         cudaMemcpy(d_A, A, m*k*sizeof(double), cudaMemcpyHostToDevice);
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
 
-        //number of blocks is ceil of N/bs 
-        int bs = 32;
+        //number of blocks is ceil of N/bs
+        if(getenv("BLOCK_SIZE")==NULL){
+            int bs = 16;
+        }else{
+            int bs = atoi(getenv("BLOCK_SIZE"));
+        }
         int mblocks = m/bs + (int) (m%bs!=0);
         int nblocks = n/bs + (int) (n%bs!=0);
 
@@ -77,7 +81,11 @@ extern "C"{
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
 
         //number of blocks is ceil of N/bs 
-        int bs = 32;
+        if(getenv("BLOCK_SIZE")==NULL){
+            int bs = 16;
+        }else{
+            int bs = atoi(getenv("BLOCK_SIZE"));
+        }
         int mblocks = m/bs + (int) (m%bs!=0);
         int nblocks = n/bs/2 + (int) (n%(bs*2)!=0);
 
@@ -110,7 +118,11 @@ extern "C"{
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
 
         //number of blocks is ceil of N/bs 
-        int bs = 32;
+        if(getenv("BLOCK_SIZE")==NULL){
+            int bs = 16;
+        }else{
+            int bs = atoi(getenv("BLOCK_SIZE"));
+        }
         int mblocks = m/bs + (int) (m%bs!=0);
         int nblocks = n/bs/s + (int) (n%(bs*s)!=0);
 
