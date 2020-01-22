@@ -9,14 +9,14 @@ extern "C"{
             }
             printf("\n");
         }
-        printf("times\n")
+        printf("times\n");
         for(int i = 0; i<k; i++){
             for(int j = 0; j<n; j++){
                 printf("%.2lf ",B[i*n+j]);
             }
             printf("\n");
         }
-        printf("is\n")
+        printf("is\n");
         
         
         //allocate memory on GPU
