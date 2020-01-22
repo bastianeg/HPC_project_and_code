@@ -174,6 +174,9 @@ extern "C"{
         double *beta = &bet;
         double *d_alpha;
         double *d_beta;
+        double* d_A;
+        double* d_B;
+        double* d_C;
 
         cudaMalloc((void **)&d_A,  m * k * sizeof(double));
         cudaMalloc((void **)&d_B,  k * n * sizeof(double));
