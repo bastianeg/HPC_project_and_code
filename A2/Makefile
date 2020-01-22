@@ -18,7 +18,7 @@ OBJS_GSP	= $(MAIN_GSP) gauss_seidel_par.o
 
 # options and settings for the GCC compilers
 #
-CC	= clang
+CC	= gcc
 DEFS	=
 OPT	= -g -O3 -funroll-loops -ffast-math
 IPO	=
@@ -41,7 +41,7 @@ $(TARGET_JP): $(OBJECTS) $(OBJS_JP)
 	$(CC) -o $@ $(CFLAGS) $(OBJS_JP) $(OBJECTS) $(LDFLAGS)
 
 $(TARGET_GSP): $(OBJECTS) $(OBJS_GSP)
-	$(CC) -o $@ $(CFLAGS) $(OBJS_GSP) $(OBJECTS) $(LDFLAGS)
+	clang -o $@ $(CFLAGS) $(OBJS_GSP) $(OBJECTS) $(LDFLAGS)
 
 $(MAIN_J):
 	$(CC) -o $@ -D_JACOBI $(CFLAGS) -c main.c

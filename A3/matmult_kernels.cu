@@ -67,7 +67,7 @@ __global__ void
 matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
     int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
-    int j = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only half as many threads/blocks)
+    int j = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only 1/s as many threads/blocks)
 
     if((i<m)&&(j<n)){
         //additional j to compute (here, from 0 to s-1)
@@ -78,9 +78,9 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
             C[i*n+j+u] = 0.0;
         }
         C[i*n+j+1] = 0.0;
-        for(int p=0; p<k; p++){
-            //row of A and col of B
-            for(int u=0; u<=j_add; u++){
+        for(int u=0; u<=j_add; u++){
+            for(int p=0; p<k; p++){
+                //row of A and col of B
                 C[i*n+j+u] += A[i*k+p] * B[p*n+j+u];
             }
         }
