@@ -172,15 +172,36 @@ extern "C"{
         double bet = 0.0;
         double *alpha = &alf;
         double *beta = &bet;
-     
+        double *d_alpha;
+        double *d_beta;
+
+        cudaMalloc((void **)&d_A,  m * k * sizeof(double));
+        cudaMalloc((void **)&d_B,  k * n * sizeof(double));
+        cudaMalloc((void **)&d_C,  n * m * sizeof(double));
+        cudaMalloc((void **)&d_alpha,  sizeof(double));
+        cudaMalloc((void **)&d_beta,  sizeof(double));
+
+        cudaMemcpy(d_A, A, m * k * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_B, B, k * n * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_alpha, alpha, sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_beta, beta, sizeof(double), cudaMemcpyHostToDevice);
+
         // Create a handle for CUBLAS
         cublasHandle_t handle;
         cublasCreate(&handle);
 
         // Do the actual multiplication using the library function
-        cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+        cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, d_alpha, d_A, lda, d_B, ldb, d_beta, d_C, ldc);
 
         // Destroy the handle
         cublasDestroy(handle);
+
+        // Read C from device memory
+        cudaMemcpy(C, d_C, n * m * sizeof(double), cudaMemcpyDeviceToHost);
+
+        // Free device memory
+        cudaFree(d_A);
+        cudaFree(d_B);
+        cudaFree(d_C);
     }
 }
