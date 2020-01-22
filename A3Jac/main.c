@@ -98,16 +98,16 @@ main(int argc, char *argv[]) {
 	output_type = atoi(argv[5]);  // ouput type
     }
 
-    // allocate memory
-    if ( (u = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+    // allocate memory (properly!)
+    if ( (u = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( (u_old = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+    if ( (u_old = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( (f = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+    if ( (f = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
