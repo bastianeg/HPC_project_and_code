@@ -2,15 +2,6 @@
 __global__ void
 matmult_kernel1(int m, int n, int k, double *A, double *B, double *C){
     
-    
-    for(int i = 0; i<k; i++){
-            for(int j = 0; j<n; j++){
-                printf("%.2lf ",B[i*n+j]);
-            }
-            printf("\n");
-        }
-        printf("is\n");
-    
     // set C to zeros
     for (int i=0;i<m;i++){
         for (int p=0;p<n;p++){
@@ -27,10 +18,10 @@ matmult_kernel1(int m, int n, int k, double *A, double *B, double *C){
     }
 
     for(int i = 0; i<m; i++){
-            for(int j = 0; j<n; j++){
-                printf("%.2lf ",C[i*n+j]);
-            }
-            printf("\n");
+        for(int j = 0; j<n; j++){
+            printf("%.2lf ",C[i*n+j]);
         }
-
+        printf("\n");
+    }
+    printf("on the GPU\n");
 }
