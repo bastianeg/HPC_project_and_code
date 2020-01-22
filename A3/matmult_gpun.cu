@@ -25,7 +25,7 @@ extern "C"{
             for(int j = 0; j<n; j++){
                 printf("%.2lf ",C[i*n+j]);
             }
-            printf("\n")
+            printf("\n");
         }
         
     }
