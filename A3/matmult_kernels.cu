@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 __global__ void
 matmult_kernel1(int m, int n, int k, double *A, double *B, double *C){
     
@@ -16,12 +17,20 @@ matmult_kernel1(int m, int n, int k, double *A, double *B, double *C){
             }
         }
     }
+}
 
-    for(int i = 0; i<m; i++){
-        for(int j = 0; j<n; j++){
-            printf("%.2lf ",C[i*n+j]);
+__global__ void
+matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
+    
+    int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
+    int j = blockIdx.y*blockDim.y+threadIdx.y; //looping through n
+
+    if((i<m)&&(j<n)){
+        //init C to zero
+        C[i*n+j] = 0.0;
+        for(int p=0; p<k; p++){
+            //read row of A and col of B
+            C[i*n+j] += A[i*k+p] * B[p*n+j];
         }
-        printf("\n");
     }
-    printf("on the GPU\n");
 }
