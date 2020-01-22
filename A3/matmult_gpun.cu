@@ -91,7 +91,8 @@ extern "C"{
 
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
         //number of elements to compute in each thread
-        int s = 4;
+        int s = (int) getenv("NUM_ELEM_PER_THREAD");
+        printf("%d\n",s);
         //allocate memory on GPU
         double* d_A;
         double* d_B;
