@@ -34,3 +34,21 @@ matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
         }
     }
 }
+
+__global__ void
+matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
+    //compute C(i,j) and C(i,j+1)
+    int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
+    int j = 2*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only half as many threads/blocks)
+
+    if((i<m)&&(j<n)){
+        //init C to zero
+        C[i*n+j] = 0.0;
+        C[i*n+j+1] = 0.0;
+        for(int p=0; p<k; p++){
+            //read row of A and col of B
+            C[i*n+j] += A[i*k+p] * B[p*n+j];
+            C[i*n+j+1] += A[i*k+p] * B[p*n+j+1];
+        }
+    }
+}
