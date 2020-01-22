@@ -1,25 +1,25 @@
 Loaded module: clang/snapshot20181017
-Number of iterations: 73
-Norm: 0.014649
-Elapsed time: 0.000333
-Iterations per second: 219172.649964
-0.00user 0.00system 0:00.00elapsed 50%CPU (0avgtext+0avgdata 1356maxresident)k
-64inputs+8outputs (0major+415minor)pagefaults 0swaps
-Number of iterations: 189
-Norm: 1.873765
-Elapsed time: 0.135467
-Iterations per second: 1395.175648
-0.13user 0.00system 0:00.13elapsed 98%CPU (0avgtext+0avgdata 3348maxresident)k
-0inputs+8outputs (0major+975minor)pagefaults 0swaps
-Number of iterations: 71
-Norm: 14.909486
-Elapsed time: 0.415577
-Iterations per second: 170.846825
-0.41user 0.00system 0:00.42elapsed 99%CPU (0avgtext+0avgdata 17900maxresident)k
-0inputs+8outputs (0major+1550minor)pagefaults 0swaps
-Number of iterations: 14
-Norm: 119.678194
-Elapsed time: 0.666271
-Iterations per second: 21.012472
-0.69user 0.02system 0:00.72elapsed 99%CPU (0avgtext+0avgdata 130864maxresident)k
-0inputs+8outputs (0major+1675minor)pagefaults 0swaps
+Write VTK file to poisson_res_10.vtk: Number of iterations: 45
+Norm: 0.145815
+Elapsed time: 0.000732
+Iterations per second: 61460.006513
+0.00user 0.00system 0:00.01elapsed 20%CPU (0avgtext+0avgdata 952maxresident)k
+1024inputs+40outputs (3major+300minor)pagefaults 0swaps
+Write VTK file to poisson_res_50.vtk: Number of iterations: 198
+Norm: 1.756580
+Elapsed time: 0.142885
+Iterations per second: 1385.730076
+0.14user 0.00system 0:00.16elapsed 90%CPU (0avgtext+0avgdata 3176maxresident)k
+0inputs+2208outputs (0major+864minor)pagefaults 0swaps
+Write VTK file to poisson_res_100.vtk: Number of iterations: 234
+Norm: 4.979124
+Elapsed time: 1.387536
+Iterations per second: 168.644267
+1.40user 0.01system 0:01.49elapsed 94%CPU (0avgtext+0avgdata 17740maxresident)k
+0inputs+16592outputs (0major+1437minor)pagefaults 0swaps
+Write VTK file to poisson_res_200.vtk: Number of iterations: 201
+Norm: 14.124596
+Elapsed time: 9.596189
+Iterations per second: 20.945815
+9.73user 0.09system 0:10.39elapsed 94%CPU (0avgtext+0avgdata 130660maxresident)k
+0inputs+128800outputs (0major+2624minor)pagefaults 0swaps
