@@ -55,6 +55,16 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max, double tol)
     initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq,i,j,k);
     cudaDeviceSynchronize();
 
+    cudaSetDevice(0);
+    double *d0_U;
+    cudaMalloc((void**)&d0_A, A_size/2);
+    cudaMemcpy(d0_A, h_A, A_size/2, cudaMemcpyHostToDevice);
+
+    cudaSetDevice(1);
+    double *d1_A;
+    cudaMalloc((void**)&d1_A, A_size/2);
+    cudaMemcpy(d1_A, h_A + A_elms/2, A_size/2, cudaMemcpyHostToDevice); 
+
     ts = omp_get_wtime();
     //while condition is not satisfied
     while((iter < iter_max))
