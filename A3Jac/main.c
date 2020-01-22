@@ -84,9 +84,9 @@ main(int argc, char *argv[]) {
     char	*output_prefix = "poisson_res";
     char        *output_ext    = "";
     char	output_filename[FILENAME_MAX];
-    double 	***u = NULL;
-    double 	***u_old = NULL;
-    double  ***f = NULL;
+    double 	*u = NULL;
+    double 	*u_old = NULL;
+    double  *f = NULL;
 
 
     /* get the paramters from the command line */
@@ -98,16 +98,16 @@ main(int argc, char *argv[]) {
 	output_type = atoi(argv[5]);  // ouput type
     }
 
-    // allocate memory
-    if ( (u = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+    // allocate memory (properly!)
+    if ( u = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( (u_old = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+    if ( u_old = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( (f = d_malloc_3d(N+2, N+2, N+2)) == NULL ) {
+    if ( f = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
@@ -155,7 +155,7 @@ main(int argc, char *argv[]) {
     #endif
 
     //move u back to host
-    cudaMemcpy(u, D_u, N*N*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
 
     cudaFree(D_u);
     cudaFree(D_u_old);
@@ -180,12 +180,12 @@ main(int argc, char *argv[]) {
 	    fprintf(stderr, "Write binary dump to %s: ", output_filename);
 	    print_binary(output_filename, N+2, u);
 	    break;
-	case 4:
-	    output_ext = ".vtk";
-	    sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
-	    fprintf(stderr, "Write VTK file to %s: ", output_filename);
-	    print_vtk(output_filename, N+2, u);
-	    break;
+	// case 4:
+	//     output_ext = ".vtk";
+	//     sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
+	//     fprintf(stderr, "Write VTK file to %s: ", output_filename);
+	//     print_vtk(output_filename, N+2, u);
+	//     break;
 	default:
 	    fprintf(stderr, "Non-supported output type!\n");
 	    break;
