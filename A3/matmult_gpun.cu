@@ -110,7 +110,7 @@ extern "C"{
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
 
         //number of blocks is ceil of N/bs 
-        int bs = 16;
+        int bs = 32;
         int mblocks = m/bs + (int) (m%bs!=0);
         int nblocks = n/bs/s + (int) (n%(bs*s)!=0);
 
