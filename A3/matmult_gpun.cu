@@ -1,4 +1,4 @@
-#include matmult_kernels.cu
+#include "matmult_kernels.h"
 
 extern "C"{
 
@@ -22,12 +22,15 @@ extern "C"{
         //move C back to host
         cudaMemcpy(C, d_C, m*n*sizeof(double), cudaMemcpyDeviceToHost);
     }
+
     void matmult_gpu2(int m, int n, int k, double *A, double *B, double *C){
         
     }
+
     void matmult_gpu3(int m, int n, int k, double *A, double *B, double *C){
         
     }
+
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
         
     }
