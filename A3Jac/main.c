@@ -10,28 +10,27 @@
 #include <omp.h>
 #endif
 
-#ifdef _JACOBI
-#include "jacobi.h"
-void jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol);
+#ifdef _JACOBINAIVE
+#include "jacobinaive.h"
 #endif
 
-#ifdef _GAUSS_SEIDEL
-#include "gauss_seidel.h"
+#ifdef _JACOBISEQ
+#include "jacobiseq.h"
 #endif
 
-#ifdef _JACOBI_PAR
-#include "jacobi_par.h"
+#ifdef _JACOBIMULTI
+#include "jacobi_multi.h"
 #endif
 
-#ifdef _GAUSS_SEIDEL_PAR
-#include "gauss_seidel_par.h"
+#ifdef _JACOBITOL
+#include "jacobi_tol.h"
 #endif
 
 #define N_DEFAULT 100
 
 
 void init_data(int N, double ***U, double ***F, double start_T){
-
+    
     // Initialize U leveraging first touch
     double x, y, z;
     #pragma omp parallel for schedule(static)
@@ -119,22 +118,49 @@ main(int argc, char *argv[]) {
     /////////////////
     init_data(N, u, f, start_T);
 
+    //allocate memory on GPU
+    double* D_u;
+    double* D_u_old;
+    double* D_f;
+    cudaMalloc((void**) &D_u, N*N*sizeof(double));
+    cudaMalloc((void**) &D_u_old, N*N*sizeof(double));
+    cudaMalloc((void**) &D_f, N*N*sizeof(double));
+
+    //move u to GPU
+    cudaMemcpy(D_u, u, N*N*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(D_f, f, N*N*sizeof(double), cudaMemcpyHostToDevice);
+
     //--->> iterations
     #ifdef _JACOBI
-    jacobi(u, f, u_old, N, iter_max, tolerance);
+    jacobiseq(u, f, u_old, N, iter_max);
     #endif
 
     #ifdef _GAUSS_SEIDEL
-    gauss_seidel(u, f, N, iter_max, tolerance);
+    gaussnaive(u, f, N, iter_max);
     #endif
 
     #ifdef _JACOBI_PAR
-    jacobi_par(u, f, u_old, N, iter_max, tolerance);
+    jacobimulti(u, f, u_old, N, iter_max);
     #endif
 
     #ifdef _GAUSS_SEIDEL_PAR
-    gauss_seidel_par(u, f, N, iter_max);
+    jacobitol(u, f, N, iter_max,tolerance);
     #endif
+
+    //move u back to host
+    cudaMemcpy(u, D_u, N*N*sizeof(double), cudaMemcpyDeviceToHost);
+
+    cudaFree(D_u);
+    cudaFree(D_u_old);
+    cudaFree(D_f);
+
+    for(int i = 0; i<N; i++){
+        for(int j = 0; j<N; j++){
+            printf("%.2lf ",C[i*N+j]);
+        }
+        printf("\n");
+    }
+    printf("on the CPU\n");
 
     // dump  results if wanted
     switch(output_type) {

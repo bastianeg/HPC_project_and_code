@@ -8,21 +8,44 @@
 #include <math.h>
 #include <stdio.h>
 
+__global__ void 
+initmat(int N, double* U, double* Uold, double* F,double deltasq,int i,int j,int k){
+
+    Uold[i+N*j+N*N*k] = U[i+N*j+N*N*k];
+    F[i+N*j+N*N*k] *= deltasq;
+
+}
+
+__global__ void 
+updmat(int N, double* U, double* Uold,int i, int j, int k){
+
+    Uold[i+N*j+N*N*k] = U[i+N*j+N*N*k];
+
+}
+
+__global__ void 
+jacgpu(int N, double* U, double* Uold, double* onesixth, int i, int j, int k){
+    Nj=N*j;
+    N2k=N*N*k;
+    U[i+Nj+N2k] = onesixth*(Uold[i+Nj+N2k-1]+Uold[i+Nj+N2k+1]+Uold[i+Nj+N2k-N]+\
+    Uold[i+Nj+N2k+N]+Uold[i+Nj+N2k-N*N]+Uold[i+Nj+N2k+N*N]+F[i+Nj+N2k]);
+
+}
+
 void
-jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol) {
+jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
-    double d = tol*N*N*N+10; //inf
 
     // update Uold = U
     for (int i = 0; i<(N+2); i++){
         for (int j = 0; j<(N+2); j++){
             for (int k = 0; k<(N+2); k++){
-                Uold[i][j][k] = U[i][j][k];
-                F[i][j][k] *= deltasq;
+                initmat<<<1,1>>>(N, U,Uold,F,deltasq,i,j,k);
+                cudaDeviceSynchronize();
             }
         }
     }
@@ -30,10 +53,6 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
     //while condition is not satisfied
     while((d/sqrt(N*N*N)>tol) && (iter < iter_max))
     {
-        // start wallclock timer
-        
-        d = 0.0;
-
         // from  i to j to k
         // for i
         for (int i = 1; i<(N+1); i++){
@@ -45,9 +64,6 @@ jacobi(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol
                     // U = 1/6 * (sum of us +Delta^2 f)
                     U[i][j][k] = onesixth*(Uold[i-1][j][k]+Uold[i+1][j][k]+Uold[i][j-1][k]+\
                     Uold[i][j+1][k]+Uold[i][j][k-1]+Uold[i][j][k+1]+F[i][j][k]);
-                    
-                    // frobenius norm
-                    d += (U[i][j][k]-Uold[i][j][k])*(U[i][j][k]-Uold[i][j][k]);
                 }
             }
         }

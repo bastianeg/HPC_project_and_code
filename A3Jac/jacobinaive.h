@@ -6,6 +6,12 @@
 #ifndef _JACOBI_H
 #define _JACOBI_H
 
-void jacobi(double *U, double *F, double *Uold, int N, int iter_max, double tol);
+void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max, double tol);
+
+__global__ void updmat(int N, double* U, double* Uold);
+
+__global__ void jacgpu(int N, double* A, double* b, double* onesixth);
+
+__global__ void initmat(int N, double* U, double* Uold, double* F,double deltasq)
 
 #endif
