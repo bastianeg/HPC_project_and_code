@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 __global__ void 
-initmat(int n, double* U, double* Uold, double* F,double deltasq){
+initmat(int N, double* U, double* Uold, double* F,double deltasq){
 
     int i = threadIdx.x;
     Uold[i] = U[i];
@@ -22,12 +22,11 @@ updmat(int N, double* U, double* Uold){
 
     int i = threadIdx.x;
     Uold[i] = U[i];
-    F[i] *= ;
 
 }
 
 __global__ void 
-jacgpu(int N, double* A, double* b, double* result){
+jacgpu(int N, double* A, double* b, double* onesixth){
 
     int i = threadIdx.x;
     U[i] = onesixth*(Uold[i-1]+Uold[i+1]+Uold[i+N]+\
@@ -36,7 +35,8 @@ jacgpu(int N, double* A, double* b, double* result){
 }
 
 void
-jacobi(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
+jacobinaive(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
+    int B=1; // Block size
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
@@ -44,7 +44,7 @@ jacobi(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
     double onesixth = 1.0/6.0;
 
     // update Uold = U
-    initmat<<<N^2,N>>>(N, U,Uold);
+    initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq,i,j,k);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
@@ -55,13 +55,13 @@ jacobi(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
 
         // from  i to j to k
         // for i
-        jacgpu<<<N*N,N>>>(N, U,Uold);
+        jacgpu<<<N*N*N/B,B>>>(N, U,Uold);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
         iter ++;
 
-        updmat<<<N*N,N>>>(N, U,Uold);
+        updmat<<<N*N*N/B,B>>>(N, U,Uold);
         cudaDeviceSynchronize();
     }
     te = omp_get_wtime() - ts;
