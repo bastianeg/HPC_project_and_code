@@ -10,25 +10,25 @@
 
 __global__ void 
 initmat(int N, double* U, double* Uold, double* F,double deltasq,int i,int j,int k){
-
-    Uold[i+N*j+N*N*k] = U[i+N*j+N*N*k];
-    F[i+N*j+N*N*k] *= deltasq;
-
+    int jmp=N+2;
+    Uold[i+jmp*j+jmp*jmp*k] = U[i+jmp*j+jmp*jmp*k];
+    F[i+jmp*j+jmp*jmp*k] *= deltasq;
 }
 
 __global__ void 
 updmat(int N, double* U, double* Uold,int i, int j, int k){
-
-    Uold[i+N*j+N*N*k] = U[i+N*j+N*N*k];
-
+    int jmp=N+2;
+    Uold[i+jmp*j+jmp*jmp*k] = U[i+jmp*j+jmp*jmp*k];
 }
 
 __global__ void 
 jacgpu(int N, double* U, double* Uold, double* onesixth, int i, int j, int k){
-    Nj=N*j;
-    N2k=N*N*k;
-    U[i+Nj+N2k] = onesixth*(Uold[i+Nj+N2k-1]+Uold[i+Nj+N2k+1]+Uold[i+Nj+N2k-N]+\
-    Uold[i+Nj+N2k+N]+Uold[i+Nj+N2k-N*N]+Uold[i+Nj+N2k+N*N]+F[i+Nj+N2k]);
+    int jmp=N+2;
+    Nj=jmp*j;
+    int N2k=jmp*jmp*k;
+    NoWall=jmp*jmp+1
+    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
+    Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
 
 }
 
@@ -61,15 +61,11 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
                 //for k
                 for (int k = 1; k<(N+1); k++){
 
-                    // U = 1/6 * (sum of us +Delta^2 f)
-                    U[i][j][k] = onesixth*(Uold[i-1][j][k]+Uold[i+1][j][k]+Uold[i][j-1][k]+\
-                    Uold[i][j+1][k]+Uold[i][j][k-1]+Uold[i][j][k+1]+F[i][j][k]);
+                    jacgpu<<<1,1>>>(N, U, Uold, onesixth, i, j, k);
+                    cudaDeviceSynchronize();
                 }
             }
         }
-
-        // norm calc
-        d = sqrt(d);
 
         // update iteration and Uold
         iter ++;
@@ -77,7 +73,8 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
         for (int i = 0; i<(N+2); i++){
             for (int j = 0; j<(N+2); j++){
                 for (int k = 0; k<(N+2); k++){
-                    Uold[i][j][k] = U[i][j][k];
+                    jacgpu<<<1,1>>>(N, U, Uold, onesixth, i, j, k);
+                    cudaDeviceSynchronize();
                 }
             }
         }

@@ -26,18 +26,16 @@
 #include "jacobi_tol.h"
 #endif
 
-#define N_DEFAULT 100
+#define N_DEFAULT 1
 
 
-void init_data(int N, double ***U, double ***F, double start_T){
-    
+void init_data(int N, double *U, double *F, double start_T){
     // Initialize U leveraging first touch
     double x, y, z;
-    #pragma omp parallel for schedule(static)
     for (int i = 0; i<=(N+1); i++){
         for(int j = 0; j<=(N+1); j++){
             for (int k = 0; k<=(N+1); k++){
-                U[i][j][k] = start_T;
+                U[i+j+k] = start_T;
             }
         }
     }
@@ -45,17 +43,16 @@ void init_data(int N, double ***U, double ***F, double start_T){
     //fill in boundaries of U
     for (int i = 0; i<=(N+1); i++){
         for(int j = 0; j<=(N+1); j++){
-                U[i][N+1][j] = 20;
-                U[i][0][j] = 0;
-                U[N+1][i][j] = 20;
-                U[0][i][j] = 20;
-                U[i][j][N+1] = 20;
-                U[i][j][0] = 20;
+                U[i+(N+2)*(N+1)+(N+2)*(N+2)*j] = 20;
+                U[i+(N+2)*(N+2)*j] = 0;
+                U[N+1+(N+2)*i+(N+2)*(N+2)*j] = 20;
+                U[(N+2)*i+(N+2)*(N+2)*j] = 20;
+                U[i+j*(N+2)+(N+2)*(N+2)*(N+1)] = 20;
+                U[i+j*(N+2)] = 20;
         }
     }
 
     // make F
-    #pragma omp parallel for schedule(static)
     for (int i = 0; i<=N+1; i++){
         x = ((2*i)/(double) (N+1))-1;
         for(int j = 0; j<N+1; j++){
@@ -64,10 +61,10 @@ void init_data(int N, double ***U, double ***F, double start_T){
                 z = (2*k)/(double) (N+1)-1;
                 //then check conditions
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
-                    F[i][j][k] = 200;
+                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 200;
                 }
                 else {
-                    F[i][j][k] = 0;
+                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 0;
                 }
             }
         }
@@ -131,19 +128,19 @@ main(int argc, char *argv[]) {
     cudaMemcpy(D_f, f, N*N*sizeof(double), cudaMemcpyHostToDevice);
 
     //--->> iterations
-    #ifdef _JACOBI
+    #ifdef _JACOBISEQ
     jacobiseq(u, f, u_old, N, iter_max);
     #endif
 
-    #ifdef _GAUSS_SEIDEL
+    #ifdef _GAUSSNAIVE
     gaussnaive(u, f, N, iter_max);
     #endif
 
-    #ifdef _JACOBI_PAR
+    #ifdef _JACOBIMULT
     jacobimulti(u, f, u_old, N, iter_max);
     #endif
 
-    #ifdef _GAUSS_SEIDEL_PAR
+    #ifdef _JACOBITOL
     jacobitol(u, f, N, iter_max,tolerance);
     #endif
 
@@ -156,7 +153,7 @@ main(int argc, char *argv[]) {
 
     for(int i = 0; i<N; i++){
         for(int j = 0; j<N; j++){
-            printf("%.2lf ",C[i*N+j]);
+            printf("%.2lf ",u[i*N+j]);
         }
         printf("\n");
     }
