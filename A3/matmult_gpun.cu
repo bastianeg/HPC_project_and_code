@@ -1,5 +1,6 @@
 #include "matmult_kernels.h"
 #include <stdio.h>
+#include "matmult_gpu5.h"
 extern "C"{
 
     void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C){
@@ -67,4 +68,32 @@ extern "C"{
         
     }
 
+    void matmult_gpu5(int m, int n, int k, double *A, double *B, double *C){
+        // Load A and B to device memory
+        double* d_A;
+        double* d_B;
+        double* d_C;
+
+        cudaMalloc((void **)&d_A,  m * k * sizeof(double));
+        cudaMalloc((void **)&d_B,  k * n * sizeof(double));
+        cudaMalloc((void **)&d_C,  n * m * sizeof(double));
+
+        cudaMemcpy(d_A, A, m * k * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_B, B, k * n * sizeof(double), cudaMemcpyHostToDevice);
+
+        #define BLOCK_SIZE 16
+        // Invoke kernel
+        dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
+        dim3 dimGrid(n / dimBlock.x, m / dimBlock.y);
+        MatMulKernel<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
+
+        // Read C from device memory
+        cudaMemcpy(C, d_C, n * m * sizeof(double), cudaMemcpyDeviceToHost);
+
+        // Free device memory
+        cudaFree(d_A);
+        cudaFree(d_B);
+        cudaFree(d_C);
+        
+    }
 }
