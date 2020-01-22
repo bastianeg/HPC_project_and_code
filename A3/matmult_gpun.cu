@@ -206,7 +206,5 @@ extern "C"{
         cudaFree(d_A);
         cudaFree(d_B);
         cudaFree(d_C);
-        cudaFree(d_alpha);
-        cudaFree(d_beta);
     }
 }
