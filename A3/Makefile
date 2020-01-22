@@ -1,6 +1,6 @@
 TARGET	= libmatmult.so
-LIBSRCS	= matmult_gpun.cu matmult_kernels.cu assign1_funcitions.cu
-LIBOBJS	= matmult_gpun.o matmult_kernels.o assign1_funcitions.o
+LIBSRCS	= matmult_gpun.cu matmult_kernels.cu assign1_functions.cu
+LIBOBJS	= matmult_gpun.o matmult_kernels.o assign1_functions.o
 
 OPT	= -g -O3
 PIC = -fpic
@@ -31,4 +31,4 @@ clean:
 
 matmult_gpun.o: matmult_gpun.cu matmult_kernels.h
 matmult_kernels.o: matmult_kernels.cu
-assign1_funcitions.o: assign1_funcitions.cu
+assign1_functions.o: assign1_functions.cu
