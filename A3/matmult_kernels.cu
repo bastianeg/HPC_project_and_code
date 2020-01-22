@@ -47,7 +47,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
 
     if((i<m)&&(j<n)){
         //additional j to compute (here, either 1 or 0)
-        j_add = MIN(1,n-1-j);
+        int j_add = MIN(1,n-1-j);
         
         //init C to zero
         for(int u=0; u<=j_add; u++){
@@ -71,7 +71,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
 
     if((i<m)&&(j<n)){
         //additional j to compute (here, from 0 to s-1)
-        j_add = MIN(s-1,n-1-j);
+        int j_add = MIN(s-1,n-1-j);
         
         //init C to zero
         for(int u=0; u<=j_add; u++){
