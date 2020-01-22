@@ -119,13 +119,13 @@ main(int argc, char *argv[]) {
     double* D_u;
     double* D_u_old;
     double* D_f;
-    cudaMalloc((void**) &D_u, N*N*sizeof(double));
-    cudaMalloc((void**) &D_u_old, N*N*sizeof(double));
-    cudaMalloc((void**) &D_f, N*N*sizeof(double));
+    cudaMalloc((void**) &D_u, (N+2)*(N+2)*(N+2)*sizeof(double));
+    cudaMalloc((void**) &D_u_old, (N+2)*(N+2)*(N+2)*sizeof(double));
+    cudaMalloc((void**) &D_f, (N+2)*(N+2)*(N+2)*sizeof(double));
 
     //move u to GPU
-    cudaMemcpy(D_u, u, N*N*sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(D_f, f, N*N*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(D_u, u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
 
     //--->> iterations
     #ifdef _JACOBISEQ
@@ -135,9 +135,19 @@ main(int argc, char *argv[]) {
     #ifdef _GAUSSNAIVE
     gaussnaive(u, f, N, iter_max);
     #endif
-
+    
     #ifdef _JACOBIMULT
-    jacobimulti(u, f, u_old, N, iter_max);
+    cudaSetDevice(0);
+    double *d0_U;
+    cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
+    cudaMemcpy(d0_U, u, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+
+    cudaSetDevice(1);
+    double *d1_U;
+    cudaMalloc((void**)&d1_U, A_size/2);
+    cudaMemcpy(d1_U, u + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+
+    jacobimulti(d0_U, d1_U, f, u_old, N, iter_max);
     #endif
 
     #ifdef _JACOBITOL
