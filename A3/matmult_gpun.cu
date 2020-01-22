@@ -1,5 +1,5 @@
 #include "matmult_kernels.h"
-
+#include <stdio.h>
 extern "C"{
 
     void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C){
@@ -21,6 +21,13 @@ extern "C"{
 
         //move C back to host
         cudaMemcpy(C, d_C, m*n*sizeof(double), cudaMemcpyDeviceToHost);
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                printf("%.2lf ",C[i*n+j]);
+            }
+            printf("\n")
+        }
+        
     }
 
     void matmult_gpu2(int m, int n, int k, double *A, double *B, double *C){
