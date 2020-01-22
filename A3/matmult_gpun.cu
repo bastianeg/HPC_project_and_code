@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "cublas_v2.h"
 #include <cuda_runtime.h>
-#include "matmult_gpu5.h"
 
 
 
@@ -138,22 +137,20 @@ extern "C"{
 
     }
 
-
-
     void matmult_gpu5(int m, int n, int k, double *A, double *B, double *C){
 
         // Load A and B to device memory
         Matrix d_A;
         d_A.width = d_A.stride = k; 
         d_A.height = m;
-        size_t size = k * m * sizeof(float);
+        size_t size = k * m * sizeof(double);
         cudaMalloc(&d_A.elements, size);
         cudaMemcpy(d_A.elements, A, size, cudaMemcpyHostToDevice);
 
         Matrix d_B;
         d_B.width = d_B.stride = n; 
         d_B.height = k;
-        size = n * k * sizeof(float);
+        size = n * k * sizeof(double);
         cudaMalloc(&d_B.elements, size);
         cudaMemcpy(d_B.elements, B, size,
         cudaMemcpyHostToDevice);
@@ -162,13 +159,13 @@ extern "C"{
         Matrix d_C;
         d_C.width = d_C.stride = n; 
         d_C.height = m;
-        size = m * n * sizeof(float);
+        size = m * n * sizeof(double);
         cudaMalloc(&d_C.elements, size);
 
         // Invoke kernel
         dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
         dim3 dimGrid(n / dimBlock.x, m / dimBlock.y);
-        MatMulKernel<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
+        gpu5_kernel<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
 
         // Read C from device memory
         cudaMemcpy(C, d_C.elements, size, cudaMemcpyDeviceToHost);
