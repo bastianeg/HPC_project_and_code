@@ -53,7 +53,7 @@ $(TARGET_MUL): $(OBJECTS) $(OBJS_MUL)
 
 $(TARGET_TOL): $(OBJECTS) $(OBJS_TOL)
 	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_TOL) $(OBJECTS) $(LDFLAGS)
- 
+
 $(MAIN_S):
 	$(CXX) -o $@ -D _JACOBISEQ $(CXXFLAGS) -c main.cu
 
