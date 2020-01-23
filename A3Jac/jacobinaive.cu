@@ -41,7 +41,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
 
 void
 jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
-    int B=8; // Block size
+    int B=10; // Block size
 
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
