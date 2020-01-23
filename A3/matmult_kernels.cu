@@ -96,7 +96,10 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
 
 
 
-
+/*
+BEGIN GPU 5
+##############################################################################
+*/
 
 #define BLOCK_SIZE 16
 
@@ -104,19 +107,19 @@ typedef struct {
     int width;
     int height;
     int stride; 
-    float* elements;
+    double* elements;
 } Matrix;
 
 
 // Get a matrix element
-__device__ float GetElement(const Matrix A, int row, int col)
+__device__ double GetElement(const Matrix A, int row, int col)
 {
     return A.elements[row * A.stride + col];
 }
 
 // Set a matrix element
 __device__ void SetElement(Matrix A, int row, int col,
-                           float value)
+                           double value)
 {
     A.elements[row * A.stride + col] = value;
 }
@@ -146,7 +149,7 @@ __global__ void gpu5_kernel(const Matrix A, const Matrix B, Matrix C)
 
     // Each thread computes one element of Csub
     // by accumulating results into Cvalue
-    float Cvalue = 0;
+    double Cvalue = 0;
 
     // Thread row and column within Csub
     int row = threadIdx.y;
@@ -165,8 +168,8 @@ __global__ void gpu5_kernel(const Matrix A, const Matrix B, Matrix C)
         Matrix Bsub = GetSubMatrix(B, m, blockCol);
 
         // Shared memory used to store Asub and Bsub respectively
-        __shared__ float As[BLOCK_SIZE][BLOCK_SIZE];
-        __shared__ float Bs[BLOCK_SIZE][BLOCK_SIZE];
+        __shared__ double As[BLOCK_SIZE][BLOCK_SIZE];
+        __shared__ double Bs[BLOCK_SIZE][BLOCK_SIZE];
 
         // Load Asub and Bsub from device memory to shared memory
         // Each thread loads one element of each sub-matrix
