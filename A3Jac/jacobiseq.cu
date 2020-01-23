@@ -48,7 +48,7 @@ jacgpu(int N, double* U, double* Uold, double* F){
             for(int k = 1; k<(N+1); k++){
                 idx = jmp*jmp*i+jmp*j+k;
                 U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]\
-                +Uold[idx+jmp]+Uold[idx-jmp*jmp]+Uold[idx+jmp*jmp]+F[idx]);
+                +Uold[idx+jmp]+Uold[idx-jmp*jmp]+Uold[idx+jmp*jmp]); //+F[idx]
             }
         }
     }
