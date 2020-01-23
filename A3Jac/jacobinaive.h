@@ -6,7 +6,7 @@
 #ifndef _JACOBINAIVE
 #define _JACOBINAIVE
 
-void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max, double tol);
+void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max);
 
 __global__ void updmat(int N, double* U, double* Uold);
 
