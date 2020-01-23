@@ -171,7 +171,7 @@ main(int argc, char *argv[]) {
 
     //move u back to host
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
-    cudaMemcpy(f, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(f, D_f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
 
     cudaFree(D_u);
     cudaFree(D_u_old);
