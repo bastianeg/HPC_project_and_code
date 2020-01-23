@@ -62,7 +62,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
     double onesixth = 1.0/6.0;
 
     // update Uold = U
-    initmat<<<1,1>>>(N, U,Uold,F,deltasq,i,j,k);
+    initmat<<<1,1>>>(N, U,Uold,F,deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
