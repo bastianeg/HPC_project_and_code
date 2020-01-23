@@ -42,7 +42,6 @@ void init_data(int N, double *U, double *F, double start_T){
     }
 
     //fill in boundaries of U
-    int i,j;
     for (i = 0; i<=(N+1); i++){
         for(j = 0; j<=(N+1); j++){
                 U[i+(N+2)*(N+1)+(N+2)*(N+2)*j] = 20;
@@ -55,7 +54,6 @@ void init_data(int N, double *U, double *F, double start_T){
     }
 
     // make F
-    int i,j,k;
     for (i = 0; i<=N+1; i++){
         x = ((2*i)/(double) (N+1))-1;
         for(j = 0; j<N+1; j++){
