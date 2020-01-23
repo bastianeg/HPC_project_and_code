@@ -66,7 +66,7 @@ jacupper(int jmp, double* U, double* Uold,double* lower_Uold, double* F, double 
 
 void
 jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, double* D1Uold, int N, int iter_max) {
-    int B=8; // Block size 2B or not 2B?
+    int B=10; // Block size 2B or not 2B?
 
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
