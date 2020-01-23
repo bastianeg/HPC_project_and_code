@@ -30,14 +30,15 @@ updmat(int jmp, double* U, double* Uold){
 __global__ void 
 jaclower(int jmp, double* U, double* Uold, double* upper_Uold, double* F, double onesixth){
 
-    int i = blockIdx.x*blockDim.x+threadIdx.x+1;
-    int j = blockIdx.y*blockDim.y+threadIdx.y+1;
-    int k = blockIdx.z*blockDim.z+threadIdx.z+1;  
-    int idx=i+j*jmp+k*jmp*jmp;
+    int i = blockIdx.x*blockDim.x+threadIdx.x+1; // goes from 1 to N
+    int j = blockIdx.y*blockDim.y+threadIdx.y+1; // goes from 1 to N
+    int k = blockIdx.z*blockDim.z+threadIdx.z+1; // goes from 1 to N/2
 
-    if(k==((jmp-2)/2)){
+    int idx=i + j*jmp + k*jmp*jmp;
+
+    if( k == ((jmp-2)/2) ){
         U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
-        Uold[idx+jmp]+Uold[idx+jmp*jmp]+upper_Uold[i+j*jmp]+F[idx]);
+        Uold[idx+jmp]+Uold[idx-jmp*jmp]+upper_Uold[i+j*jmp]+F[idx]);
     }else{
         U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
         Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
@@ -48,14 +49,15 @@ jaclower(int jmp, double* U, double* Uold, double* upper_Uold, double* F, double
 __global__ void 
 jacupper(int jmp, double* U, double* Uold,double* lower_Uold, double* F, double onesixth){
 
-    int i = blockIdx.x*blockDim.x+threadIdx.x+1;
-    int j = blockIdx.y*blockDim.y+threadIdx.y+1;
-    int k = blockIdx.z*blockDim.z+threadIdx.z;
-    int idx=i+j*jmp+k*jmp*jmp;
+    int i = blockIdx.x*blockDim.x+threadIdx.x+1; // goes from 1 to N
+    int j = blockIdx.y*blockDim.y+threadIdx.y+1; // goes from 1 to N
+    int k = blockIdx.z*blockDim.z+threadIdx.z;   // goes from 0 to N/2-1
+    int idx=i + j*jmp + k*jmp*jmp;
 
     if(k==0){
         U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
         Uold[idx+jmp]+Uold[idx+jmp*jmp]+lower_Uold[i+j*jmp+((jmp-2)/2)*jmp*jmp]+F[idx]);
+        
     }else{
         U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
         Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
