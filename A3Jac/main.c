@@ -104,11 +104,13 @@ main(int argc, char *argv[]) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( u_old = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
+    u_old = malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    if ( u_old == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( f = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
+    f = malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    if ( f == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
