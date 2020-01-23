@@ -9,8 +9,8 @@
 #include <stdio.h>
 
 __global__ void 
-initmat(int jmp, double* U, double* Uold, double* F, double deltasq){
-
+initmat(int jmp, double* U, double* Uold, double* F){
+    double deltasq = 4.0/((double) N * (double) N);
     int i = blockIdx.x*blockDim.x+threadIdx.x;
     if(i<jmp*jmp*jmp){
         Uold[i] = U[i];
@@ -28,8 +28,8 @@ updmat(int jmp, double* U, double* Uold){
 }
 
 __global__ void 
-jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
-
+jacgpu(int jmp, double* U, double* Uold,double* F){
+    double onesixth = 1.0/6.0;
     int i = blockIdx.x*blockDim.x+threadIdx.x+1;
     int j = blockIdx.y*blockDim.y+threadIdx.y+1;
     int k = blockIdx.z*blockDim.z+threadIdx.z+1;
@@ -46,30 +46,27 @@ void pointerSwap(double **A,double **B){
 }
 
 void
-jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
+jacobinaive(double **U, double *F, double **Uold, int N, int iter_max) {
     int B=10; // Block size
-    double *tmp;
     double ts, te; // for timing
-    double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
-    double onesixth = 1.0/6.0;
     int jmp = N+2;
 
     // update Uold = U
-    initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F,deltasq);
+    initmat<<<jmp*jmp*jmp/B,B>>>(jmp, *U, *Uold,F);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
     //while condition is not satisfied
     while(iter < iter_max)
     {
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
+        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, *U, *Uold,F);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
         iter ++;
-        pointerswap(&U,&Uold);
+        pointerswap(U,Uold);
 
         //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
         //cudaDeviceSynchronize();

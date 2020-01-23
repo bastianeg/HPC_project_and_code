@@ -129,7 +129,7 @@ main(int argc, char *argv[]) {
     #endif
 
     #ifdef _JACOBINAIVE
-    jacobinaive(D_u, D_f, D_u_old, N, iter_max);
+    jacobinaive(&D_u, D_f, &D_u_old, N, iter_max);
     #endif
     
     #ifdef _JACOBIMULTI
