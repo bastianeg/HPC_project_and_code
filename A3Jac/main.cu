@@ -3,7 +3,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "alloc3d.h"
 #include "print.h"
 
 #ifdef _OPENMP
