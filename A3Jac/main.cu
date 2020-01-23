@@ -9,21 +9,21 @@
 #include <omp.h>
 #endif
 
-//#ifdef _JACOBISEQ
+#ifdef _JACOBISEQ
 #include "jacobiseq.h"
-//#endif
+#endif
 
-//#ifdef _JACOBINAIVE
+#ifdef _JACOBINAIVE
 #include "jacobinaive.h"
-//#endif
+#endif
 
-//#ifdef _JACOBIMULTI
+#ifdef _JACOBIMULTI
 #include "jacobimulti.h"
-//#endif
+#endif
 
-//#ifdef _JACOBITOL
+#ifdef _JACOBITOL
 #include "jacobitol.h"
-//#endif
+#endif
 
 #define N_DEFAULT 1
 
