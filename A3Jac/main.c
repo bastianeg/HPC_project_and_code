@@ -99,7 +99,8 @@ main(int argc, char *argv[]) {
     }
 
     // allocate memory (properly!)
-    if ( u = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
+    u = malloc((N+2)*(N+2)*(N+2)*sizeof(double))
+    if ( u == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
