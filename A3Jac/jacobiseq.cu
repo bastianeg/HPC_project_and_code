@@ -54,7 +54,7 @@ jacgpu(int N, double* U, double* Uold, double* F, double onesixth){
 }
 
 void
-jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
+jacobiseq(double *U, double *F, double *Uold, int N, int iter_max) {
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
