@@ -9,49 +9,45 @@
 #include <stdio.h>
 
 __global__ void 
-initmat(int N, double* U, double* Uold, double* F, double deltasq){
+initmat(int jmp, double* U, double* Uold, double* F, double deltasq){
 
-    int i = threadIdx.x;
-    Uold[i] = U[i];
-    F[i] *= deltasq;
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<jmp*jmp*jmp){
+        Uold[i] = U[i];
+        F[i] *= deltasq;
+    }
+}
+
+__global__ void 
+updmat(int jmp, double* U, double* Uold){
+
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<jmp*jmp*jmp){
+        Uold[i] = U[i];
+    }
+}
+
+__global__ void 
+jacupper(int jmp, double* U, double* Uold,double* F, double onesixth){
+
+    int i = blockIdx.x*blockDim.x+threadIdx.x+1;
+    int j = blockIdx.y*blockDim.y+threadIdx.y+1;
+    int k = blockIdx.z*blockDim.z+threadIdx.z+1;
+    int idx=i+j*jmp+k*jmp*jmp;
+    U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
+    Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
 
 }
 
 __global__ void 
-updmat(int N, double* U, double* Uold){
+jaclower(int jmp, double* U, double* Uold,double* F, double onesixth){
 
-    int i = threadIdx.x;
-    Uold[i] = U[i];
-
-}
-
-__global__ void 
-jacupper(int N, double* U, double* Uold,double* F, double onesixth){
-
-    int i = threadIdx.x;
-    int j = threadIdx.y;
-    int k = threadIdx.z;
-    int jmp=N+2;
-    int Nj=jmp*j;
-    int N2k=jmp*jmp*k;
-    int NoWall=jmp*jmp+1;
-    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
-    Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
-
-}
-
-__global__ void 
-jaclower(int N, double* U, double* Uold,double* F, double onesixth){
-
-    int i = threadIdx.x;
-    int j = threadIdx.y;
-    int k = threadIdx.z;
-    int jmp=N+2;
-    int Nj=jmp*j;
-    int N2k=jmp*jmp*k;
-    int NoWall=1;
-    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
-    Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
+    int i = blockIdx.x*blockDim.x+threadIdx.x+1;
+    int j = blockIdx.y*blockDim.y+threadIdx.y;
+    int k = blockIdx.z*blockDim.z+threadIdx.z+1;
+    int idx=i+j*jmp+k*jmp*jmp;
+    U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
+    Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
 
 }
 
@@ -64,14 +60,16 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
+    int jmp = N + 2;
+    int halfjmp=jmp/(2*B);
     int halfN=N/(2*B);
 
     // update Uold = U
     cudaSetDevice(0);
-    initmat<<<N*N*halfN,B>>>(N, D0U, D0Uold, D0F, deltasq);
+    initmat<<<jmp*jmp*halfjmp,B>>>(N, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
-    initmat<<<N*N*halfN,B>>>(N, D1U, D1Uold, D1F, deltasq);
+    initmat<<<jmp*jmp*halfjmp,B>>>(N, D1U, D1Uold, D1F, deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
@@ -92,10 +90,10 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
         iter ++;
 
         cudaSetDevice(0);
-        updmat<<<N*N*halfN,B>>>(N, D0U, D0Uold);
+        updmat<<<jmp*jmp*halfjmp,B>>>(N, D0U, D0Uold);
 
         cudaSetDevice(1);
-        updmat<<<N*N*N/(2*B),B>>>(N, D1U, D1Uold);
+        updmat<<<jmp*jmp*halfjmp/(2*B),B>>>(N, D1U, D1Uold);
         cudaDeviceSynchronize();
 }
     te = omp_get_wtime() - ts;
