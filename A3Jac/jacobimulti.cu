@@ -28,10 +28,22 @@ updmat(int jmp, double* U, double* Uold){
 }
 
 __global__ void 
-jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
+jacupper(int jmp, double* U, double* Uold,double* F, double onesixth){
 
     int i = blockIdx.x*blockDim.x+threadIdx.x+1;
     int j = blockIdx.y*blockDim.y+threadIdx.y+1;
+    int k = blockIdx.z*blockDim.z+threadIdx.z+1;
+    int idx=i+j*jmp+k*jmp*jmp;
+    U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
+    Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
+
+}
+
+__global__ void 
+jaclower(int jmp, double* U, double* Uold,double* F, double onesixth){
+
+    int i = blockIdx.x*blockDim.x+threadIdx.x+1;
+    int j = blockIdx.y*blockDim.y+threadIdx.y;
     int k = blockIdx.z*blockDim.z+threadIdx.z+1;
     int idx=i+j*jmp+k*jmp*jmp;
     U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
@@ -77,10 +89,10 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
         iter ++;
 
         cudaSetDevice(0);
-        updmat<<<N*N*halfN,B>>>(N, D0U, D0Uold);
+        updmat<<<jmp*jmp*halfjmp,B>>>(N, D0U, D0Uold);
 
         cudaSetDevice(1);
-        updmat<<<N*N*N/(2*B),B>>>(N, D1U, D1Uold);
+        updmat<<<jmp*jmp*halfjmp/(2*B),B>>>(N, D1U, D1Uold);
         cudaDeviceSynchronize();
 }
     te = omp_get_wtime() - ts;
