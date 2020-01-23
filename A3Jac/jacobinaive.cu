@@ -54,12 +54,8 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
 
     ts = omp_get_wtime();
     //while condition is not satisfied
-    while((iter < iter_max))
+    while(iter < iter_max)
     {
-        // start wallclock timer
-
-        // from  i to j to k
-        // for i
         jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(N, U, Uold,F, onesixth);
         cudaDeviceSynchronize();
 
