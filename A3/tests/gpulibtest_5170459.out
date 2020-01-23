@@ -1,0 +1,11 @@
+Loaded module: cuda/10.2
+Loaded dependency [gcc/8.3.0]: binutils/2.29
+Loaded module: gcc/8.3.0
+    96.000    257.869 # matmult_gpulib
+   384.000   2034.927 # matmult_gpulib
+  1536.000  15562.148 # matmult_gpulib
+  6144.000  81986.132 # matmult_gpulib
+ 24576.000 415601.777 # matmult_gpulib
+ 98304.000 1237997.199 # matmult_gpulib
+393216.000 2388159.087 # matmult_gpulib
+1572864.000 3572822.915 # matmult_gpulib
