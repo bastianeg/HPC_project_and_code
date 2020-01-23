@@ -39,6 +39,12 @@ jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
 
 }
 
+void pointerSwap(**double A,**double B){
+    *tmp = *A;
+    *A = *B;
+    *B = *tmp;
+}
+
 void
 jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int B=10; // Block size
@@ -63,9 +69,7 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
 
         // update iteration and Uold
         iter ++;
-        *tmp = *Uold;
-        *Uold = *U;
-        *U = *tmp;
+        pointerswap(&U,&Uold);
 
         //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
         //cudaDeviceSynchronize();
