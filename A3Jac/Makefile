@@ -18,7 +18,7 @@ OBJS_TOL	= $(MAIN_TOL) jacobitol.o
 
 # options and settings for the GCC compilers
 #
-CXX	= nvcc
+CXX	= nvcc 
 DEFS	=
 OPT	= -g -O3 -funroll-loops -ffast-math
 IPO	=
