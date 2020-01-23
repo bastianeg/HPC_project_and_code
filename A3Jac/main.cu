@@ -129,11 +129,12 @@ main(int argc, char *argv[]) {
     //--->> iterations
     #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
-    printf("Hello i did it :) :) :)\n");
+   
     #endif
 
     #ifdef _JACOBINAIVE
     jacobinaive(D_u, D_f, D_u_old, N, iter_max);
+    printf("Hello i did it :) :) :)\n");
     #endif
     
     #ifdef _JACOBIMULTI

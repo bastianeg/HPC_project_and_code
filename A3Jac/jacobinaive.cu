@@ -32,11 +32,9 @@ jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
     int j = threadIdx.y;
     int k = threadIdx.z;
     int jmp=N+2;
-    int Nj=jmp*j;
-    int N2k=jmp*jmp*k;
-    int NoWall=jmp*jmp+1;
-    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
-    Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
+    int idx=i+j*jmp+k*jmp*jmp;
+    U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
+    Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
 
 }
 
