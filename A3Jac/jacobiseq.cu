@@ -12,7 +12,7 @@ __global__ void
 initmat(int N, double* U, double* Uold, double* F,double deltasq,int i,int j,int k){
     int jmp=N+2;
     Uold[i+jmp*j+jmp*jmp*k] = U[i+jmp*j+jmp*jmp*k];
-    F[i+jmp*j+jmp*jmp*k] *= deltasq;
+    F[i+jmp*j+jmp*jmp*k] *= deltasq
 }
 
 __global__ void 
