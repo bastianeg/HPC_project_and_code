@@ -9,24 +9,25 @@
 #include <omp.h>
 #endif
 
-#ifdef _JACOBINAIVE
-#include "jacobinaive.h"
-#endif
-
-#ifdef _JACOBISEQ
+//#ifdef _JACOBISEQ
 #include "jacobiseq.h"
-#endif
+//#endif
 
-#ifdef _JACOBIMULTI
+//#ifdef _JACOBINAIVE
+#include "jacobinaive.h"
+//#endif
+
+//#ifdef _JACOBIMULTI
 #include "jacobimulti.h"
-#endif
+//#endif
 
-#ifdef _JACOBITOL
+//#ifdef _JACOBITOL
 #include "jacobitol.h"
-#endif
+//#endif
 
 #define N_DEFAULT 1
 
+void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max);
 
 void init_data(int N, double *U, double *F, double start_T){
     // Initialize U leveraging first touch
@@ -135,11 +136,11 @@ main(int argc, char *argv[]) {
     jacobiseq(u, f, u_old, N, iter_max);
     #endif
 
-    #ifdef _GAUSSNAIVE
-    gaussnaive(u, f, N, iter_max);
+    #ifdef _JACOBINAIVE
+    jacobinaive(u, f, u_old, N, iter_max);
     #endif
     
-    #ifdef _JACOBIMULT
+    #ifdef _JACOBIMULTI
     cudaSetDevice(0);
     double *d0_U;
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
