@@ -51,7 +51,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
     }
     ts = omp_get_wtime();
     //while condition is not satisfied
-    while((d/sqrt(N*N*N)>tol) && (iter < iter_max))
+    while((iter < iter_max))
     {
         // from  i to j to k
         // for i

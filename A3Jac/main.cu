@@ -84,9 +84,9 @@ main(int argc, char *argv[]) {
     char	*output_prefix = "poisson_res";
     char        *output_ext    = "";
     char	output_filename[FILENAME_MAX];
-    double 	*u = NULL;
-    double 	*u_old = NULL;
-    double  *f = NULL;
+    double*  u = NULL;
+    double*  u_old = NULL;
+    double*  f = NULL;
     int i,j;
 
     /* get the paramters from the command line */
