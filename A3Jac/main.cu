@@ -135,11 +135,11 @@ main(int argc, char *argv[]) {
     jacobiseq(u, f, u_old, N, iter_max);
     #endif
 
-    #ifdef _GAUSSNAIVE
-    gaussnaive(u, f, N, iter_max);
+    #ifdef _JACOBINAIVE
+    jacobinaive(u, f, N, iter_max);
     #endif
     
-    #ifdef _JACOBIMULT
+    #ifdef _JACOBIMULTI
     cudaSetDevice(0);
     double *d0_U;
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));

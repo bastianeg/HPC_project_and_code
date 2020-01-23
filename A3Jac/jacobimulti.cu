@@ -62,7 +62,7 @@ jacobimulti(double* D0U,double* D1U, double *F, double *Uold, int N, int iter_ma
 
         // from  i to j to k
         // for i
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(N, U, Uold,F, onesixth);
+        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(N, U, Uold, F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
