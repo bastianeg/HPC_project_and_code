@@ -26,7 +26,7 @@ jacgpu(int N, double* U, double* Uold, double* onesixth, int i, int j, int k){
     int jmp=N+2;
     int Nj=jmp*j;
     int N2k=jmp*jmp*k;
-    int NoWall=jmp*jmp+1
+    int NoWall=jmp*jmp+1;
     U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
     Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
 
