@@ -26,7 +26,7 @@ updmat(int N, double* U, double* Uold){
 }
 
 __global__ void 
-jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
+jacgpupper(int N, double* U, double* Uold,double* F, double onesixth){
 
     int i = threadIdx.x;
     int j = threadIdx.y;
@@ -35,6 +35,21 @@ jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
     int Nj=jmp*j;
     int N2k=jmp*jmp*k;
     int NoWall=jmp*jmp+1;
+    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
+    Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
+
+}
+
+__global__ void 
+jacglower(int N, double* U, double* Uold,double* F, double onesixth){
+
+    int i = threadIdx.x;
+    int j = threadIdx.y;
+    int k = threadIdx.z;
+    int jmp=N+2;
+    int Nj=jmp*j;
+    int N2k=jmp*jmp*k;
+    int NoWall=1;
     U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
     Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
 
@@ -49,13 +64,14 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
+    int halfN=N/(2*B)
 
     // update Uold = U
     cudaSetDevice(0);
-    initmat<<<N*N*N/(2*B),B>>>(N, D0U, D0Uold, D0F, deltasq);
+    initmat<<<N*N*halfN,B>>>(N, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
-    initmat<<<N*N*N/(2*B),B>>>(N, D1U, D1old, D1F, deltasq);
+    initmat<<<N*N*halfN,B>>>(N, D1U, D1old, D1F, deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
@@ -66,15 +82,22 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
 
         // from  i to j to k
         // for i
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(N, U, Uold, F, onesixth);
+        cudaSetDevice(0);
+        jacgpupper<<<dim3(halfN,halfN,halfN),dim3(B,B,B)>>>(N, D0U, D0Uold, D0F, onesixth);
+        cudaSetDevice(1);
+        jaclower<<<dim3(halfN,halfN,halfN),dim3(B,B,B)>>>(N, D1U, D1Uold, D1F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
         iter ++;
 
-        updmat<<<N*N*N/B,B>>>(N, U,Uold);
+        cudaSetDevice(0);
+        updmat<<<N*N*halfN,B>>>(N, D0U, D0Uold);
+
+        cudaSetDevice(1);
+        updmat<<<N*N*N/(2*B),B>>>(N, D1U, D1old);
         cudaDeviceSynchronize();
-    }
+}
     te = omp_get_wtime() - ts;
     
     printf("Number of iterations: %d\n", iter);
