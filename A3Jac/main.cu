@@ -5,23 +5,23 @@
 #include <stdlib.h>
 #include "print.h"
 
-#ifdef __OPENMP
+#ifdef _OPENMP
 #include <omp.h>
 #endif
 
-#ifdef __JACOBISEQ
+#ifdef _JACOBISEQ
 #include "jacobiseq.h"
 #endif
 
-#ifdef __JACOBINAIVE
+#ifdef _JACOBINAIVE
 #include "jacobinaive.h"
 #endif
 
-#ifdef __JACOBIMULTI
+#ifdef _JACOBIMULTI
 #include "jacobimulti.h"
 #endif
 
-#ifdef __JACOBITOL
+#ifdef _JACOBITOL
 #include "jacobitol.h"
 #endif
 
@@ -127,16 +127,16 @@ main(int argc, char *argv[]) {
     cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
 
     //--->> iterations
-    #ifdef __JACOBISEQ
+    #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
     printf("Hello i did it :) :) :)\n");
     #endif
 
-    #ifdef __JACOBINAIVE
+    #ifdef _JACOBINAIVE
     jacobinaive(D_u, D_f, D_u_old, N, iter_max);
     #endif
     
-    #ifdef __JACOBIMULTI
+    #ifdef _JACOBIMULTI
     cudaSetDevice(0);
     double *d0_U;
     cudaDeviceEnablePeerAccess(1, 0);
@@ -161,7 +161,7 @@ main(int argc, char *argv[]) {
     jacobimulti(d0_U, d1_U, d0_F, d1_F, d0_Uold, d1_Uold, N, iter_max);
     #endif
 
-    #ifdef __JACOBITOL
+    #ifdef _JACOBITOL
     jacobitol(D_u, D_f, N, iter_max,tolerance);
     #endif
 
