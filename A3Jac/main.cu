@@ -9,7 +9,7 @@
 #include <omp.h>
 #endif
 
-#ifdef __JACOBISEQ
+#ifdef _JACOBISEQ
 #include "jacobiseq.h"
 #endif
 
@@ -127,7 +127,7 @@ main(int argc, char *argv[]) {
     cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
 
     //--->> iterations
-    #ifdef __JACOBISEQ
+    #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
     printf("Hello i did it :) :) :)\n");
     #endif
