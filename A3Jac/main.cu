@@ -162,7 +162,11 @@ main(int argc, char *argv[]) {
     cudaMemcpy(d1_F, f + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
     jacobimulti(d0_U, d1_U, d0_F, d1_F, d0_Uold, d1_Uold, N, iter_max);
-    printf("AAAAAAAAAAAA");
+
+    //move back and merge into one array
+    cudaMemcpy(u,D0_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(u+(N+2)*(N+2)*(N+2)/2,D1_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
+
     #endif
 
     #ifdef _JACOBITOL
@@ -170,8 +174,10 @@ main(int argc, char *argv[]) {
     #endif
 
     //move u back to host
+    #ifndef _JACOBIMULTI
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
- 
+    #endif
+
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
