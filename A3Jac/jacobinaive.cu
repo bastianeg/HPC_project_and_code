@@ -42,7 +42,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
 void
 jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int B=10; // Block size
-
+    double *tmp;
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
@@ -63,9 +63,12 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
 
         // update iteration and Uold
         iter ++;
+        tmp = Uold;
+        Uold = U;
+        U = tmp;
 
-        updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
-        cudaDeviceSynchronize();
+        //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
+        //cudaDeviceSynchronize();
     }
     te = omp_get_wtime() - ts;
     
