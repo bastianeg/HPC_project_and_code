@@ -19,7 +19,6 @@ OBJS_TOL= $(MAIN_TOL) jacobitol.o
 # options and settings for the GCC compilers
 #
 
-OPT	= -g -O3
 PIC = -fpic
 OMP   = -fopenmp
 XPIC  = -Xcompiler -fpic
