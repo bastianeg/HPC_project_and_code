@@ -142,20 +142,20 @@ main(int argc, char *argv[]) {
     cudaDeviceEnablePeerAccess(1, 0);
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_U, u, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
-    cudaMalloc((void**)&d0_Uold, A_size/2);
+    cudaMalloc((void**)&d0_Uold, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_Uold, uold, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
-    cudaMalloc((void**)&d0_F, A_size/2);
+    cudaMalloc((void**)&d0_F, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_F, f , (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
 
     cudaSetDevice(1);
     double *d1_U;
     cudaDeviceEnablePeerAccess(0, 0);
-    cudaMalloc((void**)&d1_U, A_size/2);
+    cudaMalloc((void**)&d1_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d1_U, u + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
-    cudaMalloc((void**)&d1_Uold, A_size/2);
+    cudaMalloc((void**)&d1_Uold, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d1_Uold, uold + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
-    cudaMalloc((void**)&d1_F, A_size/2);
+    cudaMalloc((void**)&d1_F, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d1_F, f + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
     jacobimulti(d0_U, d1_U, d0_F, d1_F, d0_Uold, d1_Uold, N, iter_max);

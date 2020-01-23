@@ -64,7 +64,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
-    int halfN=N/(2*B)
+    int halfN=N/(2*B);
 
     // update Uold = U
     cudaSetDevice(0);
