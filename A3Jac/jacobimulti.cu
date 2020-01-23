@@ -62,6 +62,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     double onesixth = 1.0/6.0;
     int jmp = N + 2;
     int halfjmp=jmp/(2*B);
+    int halfN=N/(2*B);
 
     // update Uold = U
     cudaSetDevice(0);
