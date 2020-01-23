@@ -12,12 +12,12 @@ typedef struct {
     int width;
     int height;
     int stride; 
-    float* elements;
+    double* elements;
 } Matrix;
 
 
 #define BLOCK_SIZE 16
-__device__ float GetElement(const Matrix A, int row, int col);
-__device__ void SetElement(Matrix A, int row, int col, float value);
+__device__ double GetElement(const Matrix A, int row, int col);
+__device__ void SetElement(Matrix A, int row, int col, double value);
  __device__ Matrix GetSubMatrix(Matrix A, int row, int col);
 __global__ void gpu5_kernel(Matrix A, Matrix B, Matrix C);
