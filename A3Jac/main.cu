@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "print.h"
-
-#ifdef _OPENMP
 #include <omp.h>
-#endif
+
 
 #ifdef _JACOBISEQ
 #include "jacobiseq.h"
@@ -113,7 +111,7 @@ main(int argc, char *argv[]) {
 
     /////////////////
     init_data(N, u, f, start_T);
-
+    double t0 = omp_get_wtime();
     //allocate memory on GPU
     double* D_u;
     double* D_u_old;
@@ -177,11 +175,12 @@ main(int argc, char *argv[]) {
     #ifndef _JACOBIMULTI
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
     #endif
-
+    double te = omp_get_wtime();
+    print("Time elapsed: %.2f\n");
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
-
+    /*
     for(i = 0; i<N+2; i++){
         printf("k=%d\n",i-1);
         for(j = 0; j<N+2; j++){
@@ -194,6 +193,7 @@ main(int argc, char *argv[]) {
         
     }
     printf("on the CPU\n");
+    */
 
     // dump  results if wanted
     switch(output_type) {
