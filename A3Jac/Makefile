@@ -55,13 +55,13 @@ $(TARGET_TOL): $(OBJECTS) $(OBJS_TOL)
 	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_TOL) $(OBJECTS) $(LDFLAGS)
 
 $(MAIN_S):
-	$(CXX) -o $@ -D_JACOBIS $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBISEQ $(CXXFLAGS) -c main.cu
 
 $(MAIN_N):
-	$(CXX) -o $@ -D_JACOBIN $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBINAIVE $(CXXFLAGS) -c main.cu
 
 $(MAIN_MUL):
-	$(CXX) -o $@ -D_JACOBIMUL $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBIMULTI $(CXXFLAGS) -c main.cu
 
 $(MAIN_TOL):
 	$(CXX) -o $@ -D_JACOBITOL $(CXXFLAGS) -c main.cu
