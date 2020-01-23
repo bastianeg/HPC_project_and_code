@@ -10,7 +10,7 @@
 
 __global__ void 
 initmat(int jmp, double* U, double* Uold, double* F){
-    double deltasq = 4.0/((double) N * (double) N);
+    double deltasq = 4.0/((double) (jmp-2) * (double) (jmp-2));
     int i = blockIdx.x*blockDim.x+threadIdx.x;
     if(i<jmp*jmp*jmp){
         Uold[i] = U[i];
@@ -66,7 +66,7 @@ jacobinaive(double **U, double *F, double **Uold, int N, int iter_max) {
 
         // update iteration and Uold
         iter ++;
-        pointerswap(U,Uold);
+        pointerSwap(U,Uold);
 
         //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
         //cudaDeviceSynchronize();
