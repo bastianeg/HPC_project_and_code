@@ -98,18 +98,18 @@ main(int argc, char *argv[]) {
 	output_type = atoi(argv[5]);  // ouput type
     }
 
-    // allocate memory (properly!)
-    u = malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    // allocate memory
+    u = (double*) malloc((N+2)*(N+2)*(N+2)*sizeof(double));
     if ( u == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    u_old = malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    u_old = (double*) malloc((N+2)*(N+2)*(N+2)*sizeof(double));
     if ( u_old == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    f = malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    f = (double*) malloc((N+2)*(N+2)*(N+2)*sizeof(double));
     if ( f == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
