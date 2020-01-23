@@ -39,16 +39,11 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
 
 }
 
-void pointerSwap(double **A,double **B){
-    double *tmp = *A;
-    *A = *B;
-    *B = tmp;
-}
-
 void
-jacobinaive(double **U, double *F, double **Uold, int N, int iter_max) {
+jacobinaive(double **U, double *F, double **Uold, int N, int iter_max,double **tmp) {
     int B=10; // Block size
     double ts, te; // for timing
+    double *tmp;
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     int jmp = N+2;
@@ -66,7 +61,9 @@ jacobinaive(double **U, double *F, double **Uold, int N, int iter_max) {
 
         // update iteration and Uold
         iter ++;
-        pointerSwap(U,Uold);
+        *tmp = *U;
+        *U = *Uold;
+        *Uols = *tmp;
 
         //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
         //cudaDeviceSynchronize();
