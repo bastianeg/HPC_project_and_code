@@ -26,7 +26,7 @@ updmat(int N, double* U, double* Uold){
 }
 
 __global__ void 
-jacgpupper(int N, double* U, double* Uold,double* F, double onesixth){
+jacupper(int N, double* U, double* Uold,double* F, double onesixth){
 
     int i = threadIdx.x;
     int j = threadIdx.y;
@@ -41,7 +41,7 @@ jacgpupper(int N, double* U, double* Uold,double* F, double onesixth){
 }
 
 __global__ void 
-jacglower(int N, double* U, double* Uold,double* F, double onesixth){
+jaclower(int N, double* U, double* Uold,double* F, double onesixth){
 
     int i = threadIdx.x;
     int j = threadIdx.y;
@@ -56,7 +56,7 @@ jacglower(int N, double* U, double* Uold,double* F, double onesixth){
 }
 
 void
-jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, double* D1old, int N, int iter_max) {
+jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, double* D1Uold, int N, int iter_max) {
     int B=1; // Block size
 
     double ts, te; // for timing
@@ -64,7 +64,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     double onesixth = 1.0/6.0;
-    int halfN=N/(2*B)
+    int halfN=N/(2*B);
 
     // update Uold = U
     cudaSetDevice(0);
@@ -83,7 +83,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
         // from  i to j to k
         // for i
         cudaSetDevice(0);
-        jacgpupper<<<dim3(halfN,halfN,halfN),dim3(B,B,B)>>>(N, D0U, D0Uold, D0F, onesixth);
+        jacupper<<<dim3(halfN,halfN,halfN),dim3(B,B,B)>>>(N, D0U, D0Uold, D0F, onesixth);
         cudaSetDevice(1);
         jaclower<<<dim3(halfN,halfN,halfN),dim3(B,B,B)>>>(N, D1U, D1Uold, D1F, onesixth);
         cudaDeviceSynchronize();
