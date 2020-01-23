@@ -66,7 +66,7 @@ jacupper(int jmp, double* U, double* Uold,double* lower_Uold, double* F, double 
 
 void
 jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, double* D1Uold, int N, int iter_max) {
-    int B=1; // Block size
+    int B=4; // Block size 2B or not 2B?
 
     double ts, te; // for timing
     double deltasq = 4.0/((double) N * (double) N);
@@ -74,39 +74,36 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     int iter = 0;
     double onesixth = 1.0/6.0;
     int jmp = N + 2;
-    int halfjmp=jmp/(2*B);
-    int halfN=N/(2*B);
+    int halfjmp=jmp/2;
+    int halfN=N/2;
 
     // update Uold = U
     cudaSetDevice(0);
-    initmat<<<jmp*jmp*halfjmp,B>>>(jmp, D0U, D0Uold, D0F, deltasq);
+    initmat<<<jmp*jmp*halfjmp/B,B>>>(jmp, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
-    initmat<<<jmp*jmp*halfjmp,B>>>(jmp, D1U, D1Uold, D1F, deltasq);
+    initmat<<<jmp*jmp*halfjmp/B,B>>>(jmp, D1U, D1Uold, D1F, deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
     //while condition is not satisfied
     while((iter < iter_max))
     {
-        // start wallclock timer
 
-        // from  i to j to k
-        // for i
         cudaSetDevice(0);
-        jaclower<<<dim3(N,N,halfN),dim3(B,B,B)>>>(jmp, D0U, D0Uold, D1Uold ,D0F, onesixth);
+        jaclower<<<dim3(N/B,N/B,halfN/B),dim3(B,B,B)>>>(jmp, D0U, D0Uold, D1Uold ,D0F, onesixth);
         cudaSetDevice(1);
-        jacupper<<<dim3(N,N,halfN),dim3(B,B,B)>>>(jmp, D1U, D1Uold, D0Uold, D1F, onesixth);
+        jacupper<<<dim3(N/B,N/B,halfN/B),dim3(B,B,B)>>>(jmp, D1U, D1Uold, D0Uold, D1F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
         iter ++;
 
         cudaSetDevice(0);
-        updmat<<<jmp*jmp*halfjmp,B>>>(jmp, D0U, D0Uold);
+        updmat<<<jmp*jmp*halfjmp/B,B>>>(jmp, D0U, D0Uold);
 
         cudaSetDevice(1);
-        updmat<<<jmp*jmp*halfjmp,B>>>(jmp, D1U, D1Uold);
+        updmat<<<jmp*jmp*halfjmp/B,B>>>(jmp, D1U, D1Uold);
         cudaDeviceSynchronize();
 }
     te = omp_get_wtime() - ts;
