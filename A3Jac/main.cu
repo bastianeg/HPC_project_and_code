@@ -111,7 +111,6 @@ main(int argc, char *argv[]) {
 
     /////////////////
     init_data(N, u, f, start_T);
-    double t0 = omp_get_wtime();
     //allocate memory on GPU
     double* D_u;
     double* D_u_old;
@@ -175,8 +174,7 @@ main(int argc, char *argv[]) {
     #ifndef _JACOBIMULTI
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
     #endif
-    double te = omp_get_wtime();
-    printf("Time elapsed: %.2f\n");
+
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
