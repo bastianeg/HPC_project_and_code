@@ -112,6 +112,6 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     printf("Number of iterations: %d\n", iter);
     printf("Elapsed time: %lf\n", te);
     printf("Iterations per second: %lf\n", iter/te);
-    printf("Gflop/s: %.3f",1e-9*7*N*N*N*iter/te);
+    printf("Gflop/s: %.3f\n",1e-9*7*N*N*N*iter/te);
     //printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
 }
