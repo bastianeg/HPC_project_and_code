@@ -83,6 +83,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
         }
         C[i*n+j+1] = 0.0;
         
+        #pragma unroll
         for(int p=0; p<k; p++){
             //row of A and col of B
             #pragma unroll
