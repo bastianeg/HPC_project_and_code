@@ -63,7 +63,7 @@ jacobinaive(double **U, double *F, double **Uold, int N, int iter_max,double **t
         iter ++;
         *tmp = *U;
         *U = *Uold;
-        *Uols = *tmp;
+        *Uold = *tmp;
 
         //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
         //cudaDeviceSynchronize();
