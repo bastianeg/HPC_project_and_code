@@ -60,7 +60,6 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max) {
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
-    double onesixth = 1.0/6.0;
 
     // update Uold = U
     initmat<<<1,1>>>(N, U,Uold,F,deltasq);
@@ -70,7 +69,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max) {
     //while condition is not satisfied
     while((iter < iter_max))
     {
-        jacgpu<<<1,1>>>(N, U, Uold, F, onesixth);
+        jacgpu<<<1,1>>>(N, U, Uold, F);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
