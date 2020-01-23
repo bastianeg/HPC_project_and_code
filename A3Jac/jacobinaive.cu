@@ -39,7 +39,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
 
 }
 
-void pointerSwap(**double A,**double B){
+void pointerSwap(double **A,double **B){
     void *tmp = *A;
     *A = *B;
     *B = *tmp;
