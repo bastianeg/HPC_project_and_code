@@ -34,7 +34,7 @@ void init_data(int N, double *U, double *F, double start_T){
     for (i = 0; i<=(N+1); i++){
         for(j = 0; j<=(N+1); j++){
             for (k = 0; k<=(N+1); k++){
-                U[i+j+k] = start_T;
+                U[i*(N+2)*(N+2)+j*(N+2)+k] = start_T;
             }
         }
     }
@@ -60,10 +60,10 @@ void init_data(int N, double *U, double *F, double start_T){
                 z = (2*k)/(double) (N+1)-1;
                 //then check conditions
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
-                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 200;
+                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 200.0;
                 }
                 else {
-                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 0;
+                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 0.0;
                 }
             }
         }
