@@ -129,7 +129,6 @@ main(int argc, char *argv[]) {
     //--->> iterations
     #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
-   
     #endif
 
     #ifdef _JACOBINAIVE
