@@ -81,7 +81,7 @@ main(int argc, char *argv[]) {
     double*  u = NULL;
     double*  u_old = NULL;
     double*  f = NULL;
-    int i,j;
+    int i,j,k;
     int iter_max = 100;
     double tolerance = 1.5e-3;
 
@@ -164,7 +164,7 @@ main(int argc, char *argv[]) {
 
     for(i = 0; i<N+2; i++){
         for(j = 0; j<N+2; j++){
-            for(l = 0; k<N+2; k++){
+            for(k = 0; k<N+2; k++){
                 printf("%.2lf ",u[i*(N+2)*(N+2)+j*(N+2)+k]);
             }
             printf("\n");
