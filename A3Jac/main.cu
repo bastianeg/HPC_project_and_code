@@ -76,17 +76,14 @@ int
 main(int argc, char *argv[]) {
 
     int 	N = N_DEFAULT;
-    int 	iter_max = 1000;
-    double	tolerance;
     double	start_T;
     int		output_type = 0;
-    char	*output_prefix = "poisson_res";
-    char        *output_ext    = "";
-    char	output_filename[FILENAME_MAX];
     double*  u = NULL;
     double*  u_old = NULL;
     double*  f = NULL;
     int i,j;
+    int iter_max = 100;
+    double tolerance = 1.5e-3;
 
     /* get the paramters from the command line */
     N         = atoi(argv[1]);	// grid size
