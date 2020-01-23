@@ -43,28 +43,28 @@ LDFLAGS = -lm
 all: $(TARGET_S) $(TARGET_N) $(TARGET_MUL) $(TARGET_TOL)
 
 $(TARGET_S): $(OBJECTS) $(OBJS_S)
-	$(CXX) -o $@ $(CFLAGS) $(OBJS_S) $(OBJECTS) $(LDFLAGS)
+	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_S) $(OBJECTS) $(LDFLAGS)
 
 $(TARGET_N): $(OBJECTS) $(OBJS_N)
-	$(CXX) -o $@ $(CFLAGS) $(OBJS_N) $(OBJECTS) $(LDFLAGS)
+	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_N) $(OBJECTS) $(LDFLAGS)
 
 $(TARGET_MUL): $(OBJECTS) $(OBJS_MUL)
-	$(CXX) -o $@ $(CFLAGS) $(OBJS_MUL) $(OBJECTS) $(LDFLAGS)
+	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_MUL) $(OBJECTS) $(LDFLAGS)
 
 $(TARGET_TOL): $(OBJECTS) $(OBJS_TOL)
-	clang -o $@ $(CFLAGS) $(OBJS_TOL) $(OBJECTS) $(LDFLAGS)
+	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_TOL) $(OBJECTS) $(LDFLAGS)
 
 $(MAIN_S):
-	$(CXX) -o $@ -D_JACOBIS $(CFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBIS $(CXXFLAGS) -c main.cu
 
 $(MAIN_N):
-	$(CXX) -o $@ -D_JACOBIN $(CFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBIN $(CXXFLAGS) -c main.cu
 
 $(MAIN_MUL):
-	$(CXX) -o $@ -D_JACOBIMUL $(CFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBIMUL $(CXXFLAGS) -c main.cu
 
 $(MAIN_TOL):
-	$(CXX) -o $@ -D_JACOBITOL $(CFLAGS) -c main.cu
+	$(CXX) -o $@ -D_JACOBITOL $(CXXFLAGS) -c main.cu
 
 clean:
 	@/bin/rm -f core *.o *~
