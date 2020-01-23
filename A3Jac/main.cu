@@ -171,8 +171,7 @@ main(int argc, char *argv[]) {
 
     //move u back to host
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
-    cudaMemcpy(f, D_f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
-
+ 
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
@@ -180,7 +179,7 @@ main(int argc, char *argv[]) {
     for(i = 0; i<N+2; i++){
         for(j = 0; j<N+2; j++){
             for(k = 0; k<N+2; k++){
-                printf("%.2lf ",f[i*(N+2)*(N+2)+j*(N+2)+k]);
+                printf("%.2lf ",u[i*(N+2)*(N+2)+j*(N+2)+k]);
             }
             printf("\n");
         }
