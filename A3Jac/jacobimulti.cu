@@ -32,7 +32,7 @@ jaclower(int jmp, double* U, double* Uold, double* upper_Uold, double* F, double
 
     int i = blockIdx.x*blockDim.x+threadIdx.x+1; // goes from 1 to N
     int j = blockIdx.y*blockDim.y+threadIdx.y+1; // goes from 1 to N
-    int k = blockIdx.z*blockDim.z+threadIdx.z+1; // goes from 1 to N/2
+    int k = blockIdx.z*blockDim.z+threadIdx.z+1; // goes from 1 to N/2  0=1 
 
     int idx=i + j*jmp + k*jmp*jmp;
 
@@ -51,7 +51,7 @@ jacupper(int jmp, double* U, double* Uold,double* lower_Uold, double* F, double 
 
     int i = blockIdx.x*blockDim.x+threadIdx.x+1; // goes from 1 to N
     int j = blockIdx.y*blockDim.y+threadIdx.y+1; // goes from 1 to N
-    int k = blockIdx.z*blockDim.z+threadIdx.z;   // goes from 0 to N/2-1
+    int k = blockIdx.z*blockDim.z+threadIdx.z;   // goes from 0 to N/2-1   9=4
     int idx=i + j*jmp + k*jmp*jmp;
 
     if(k==0){
@@ -106,7 +106,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
         updmat<<<jmp*jmp*halfjmp,B>>>(jmp, D0U, D0Uold);
 
         cudaSetDevice(1);
-        updmat<<<jmp*jmp*halfjmp/(2*B),B>>>(jmp, D1U, D1Uold);
+        updmat<<<jmp*jmp*halfjmp,B>>>(jmp, D1U, D1Uold);
         cudaDeviceSynchronize();
 }
     te = omp_get_wtime() - ts;
