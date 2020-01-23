@@ -69,17 +69,12 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
         // update iteration and Uold
         iter ++;
 
-        // updmat<<<N*N*N/B,B>>>(N, U,Uold);
-        // cudaDeviceSynchronize();
-
-        temppointer=*U;
-        *U=*Uold;
-        *Uold=temppointer;
+        updmat<<<N*N*N/B,B>>>(N, U,Uold);
+        cudaDeviceSynchronize();
     }
     te = omp_get_wtime() - ts;
     
     printf("Number of iterations: %d\n", iter);
-    printf("Norm: %lf\n", d);
     printf("Elapsed time: %lf\n", te);
     printf("Iterations per second: %lf\n", iter/te);
     //printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
