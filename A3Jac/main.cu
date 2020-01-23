@@ -178,7 +178,7 @@ main(int argc, char *argv[]) {
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
-    /*
+    
     for(i = 0; i<N+2; i++){
         printf("k=%d\n",i-1);
         for(j = 0; j<N+2; j++){
@@ -191,7 +191,7 @@ main(int argc, char *argv[]) {
         
     }
     printf("on the CPU\n");
-    */
+    
 
     // dump  results if wanted
     switch(output_type) {
