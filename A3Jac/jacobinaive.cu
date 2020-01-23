@@ -42,7 +42,6 @@ jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
 
 void
 jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
-    double* temppointer; // For switching the pointers
     int B=1; // Block size
 
     double ts, te; // for timing
@@ -63,7 +62,7 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
 
         // from  i to j to k
         // for i
-        jacgpu<<<dim3(N/B,B),dim3(N/B,B),dim3(N/B,B)>>>(N, U, Uold,F, onesixth);
+        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B),dim3(N/B,B)>>>(N, U, Uold,F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
