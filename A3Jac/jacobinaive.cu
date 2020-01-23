@@ -43,7 +43,6 @@ void
 jacobinaive(double **U, double *F, double **Uold, int N, int iter_max,double **tmp) {
     int B=10; // Block size
     double ts, te; // for timing
-    double *tmp;
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     int jmp = N+2;
