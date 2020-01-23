@@ -128,11 +128,11 @@ main(int argc, char *argv[]) {
 
     //--->> iterations
     #ifdef __JACOBISEQ
-    jacobiseq(u, f, u_old, N, iter_max);
+    jacobiseq(D_u, D_f, D_u_old, N, iter_max);
     #endif
 
     #ifdef __JACOBINAIVE
-    jacobinaive(u, f, u_old, N, iter_max);
+    jacobinaive(D_u, D_f, D_u_old, N, iter_max);
     #endif
     
     #ifdef __JACOBIMULTI
@@ -152,7 +152,7 @@ main(int argc, char *argv[]) {
     #endif
 
     #ifdef __JACOBITOL
-    jacobitol(u, f, N, iter_max,tolerance);
+    jacobitol(D_u, D_f, N, iter_max,tolerance);
     #endif
 
     //move u back to host
