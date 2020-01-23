@@ -73,7 +73,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
         for(int i = 0; i<(N+2); i++){
             for(int j = 0; j<(N+2); j++){
                 for(int k = 0; k<(N+2); k++){
-                    jacgpu<<<1,1>>>(N, U, Uold, onesixth, i, j, k);
+                    updmat<<<1,1>>>(N, U, Uold, i, j, k);
                     cudaDeviceSynchronize();
                 }
             }
