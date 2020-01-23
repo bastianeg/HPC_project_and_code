@@ -6,7 +6,7 @@
 #ifndef _JACOBISEQ
 #define _JACOBISEQ
 
-void jacobiseq(double ***U, double ***F, double ***Uold, int N, int iter_max, double tol);
+void jacobiseq(double *U, double *F, double *Uold, int N, int iter_max);
 
 __global__ void updmat(int N, double* U, double* Uold, int i, int j, int k);
 
