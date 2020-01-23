@@ -15,7 +15,6 @@
 
 #ifdef _JACOBINAIVE
 #include "jacobinaive.h"
-printf("AAAAAAAAAAAAAAAAA");
 #endif
 
 #ifdef _JACOBIMULTI
