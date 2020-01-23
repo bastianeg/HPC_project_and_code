@@ -62,7 +62,7 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
 
         // from  i to j to k
         // for i
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B),dim3(N/B,B)>>>(N, U, Uold,F, onesixth);
+        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(N, U, Uold,F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
