@@ -1,9 +1,9 @@
 # Makefile
 # hello
 TARGET_S  = jacobiseq		# Jacobi
-TARGET_N = jacobinaive		# Gauss-Seidel
-TARGET_MUL = jacobimulti		# Jacobi parallel
-TARGET_TOL = jacobitol		# Gauss-Seidel parallel
+TARGET_N = jacobinaive		# Naive
+TARGET_MUL = jacobimulti	# Multi
+TARGET_TOL = jacobitol		# Tolerance
 
 SOURCES	= main.cu print.c
 OBJECTS	= print.o

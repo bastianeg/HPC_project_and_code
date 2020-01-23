@@ -1,0 +1,13 @@
+Loaded module: cuda/10.2
+Loaded dependency [gcc/8.3.0]: binutils/2.29
+Loaded module: gcc/8.3.0
+    96.000    277.718 # matmult_gpu5
+   384.000   2870.536 # matmult_gpu5
+  1536.000  21035.193 # matmult_gpu5
+  6144.000 110415.145 # matmult_gpu5
+ 24576.000 419909.617 # matmult_gpu5
+ 98304.000 858857.894 # matmult_gpu5
+393216.000 1222199.354 # matmult_gpu5
+1572864.000 1574137.449 # matmult_gpu5
+CUDA error at allocate_gpu.cu:15 code=1(cudaErrorInvalidValue) "cudaMallocHost((void **) &inner, m*n*sizeof(double))" 
+CUDA error at allocate_gpu.cu:15 code=1(cudaErrorInvalidValue) "cudaMallocHost((void **) &inner, m*n*sizeof(double))" 

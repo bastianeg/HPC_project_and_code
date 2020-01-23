@@ -27,6 +27,7 @@
 
 #define N_DEFAULT 1
 
+void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max);
 
 void init_data(int N, double *U, double *F, double start_T){
     // Initialize U leveraging first touch
