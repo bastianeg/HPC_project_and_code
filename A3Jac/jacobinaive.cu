@@ -11,7 +11,7 @@
 __global__ void 
 initmat(int N, double* U, double* Uold, double* F, double deltasq){
 
-    int i = threadIdx.x;
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
     Uold[i] = U[i];
     F[i] *= deltasq;
 
@@ -20,7 +20,7 @@ initmat(int N, double* U, double* Uold, double* F, double deltasq){
 __global__ void 
 updmat(int N, double* U, double* Uold){
 
-    int i = threadIdx.x;
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
     Uold[i] = U[i];
 
 }
@@ -28,9 +28,9 @@ updmat(int N, double* U, double* Uold){
 __global__ void 
 jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
 
-    int i = threadIdx.x;
-    int j = threadIdx.y;
-    int k = threadIdx.z;
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
+    int j = blockIdx.y*blockDim.y+threadIdx.y;
+    int k = blockIdx.z*blockDim.z+threadIdx.z;
     int jmp=N+2;
     int idx=i+j*jmp+k*jmp*jmp;
     U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
