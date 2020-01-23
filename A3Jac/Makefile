@@ -28,7 +28,7 @@ XARCH = -arch=sm_70
 
 CXX	= nvcc
 OPT	= -g -O3
-CXXFLAGS	= --compiler-options $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS) -fopenmp
+CXXFLAGS	= --compiler-options "-fopenmp" $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) $(XOPTS)
 
 CUDA_PATH ?= /appl/cuda/10.2
 INCLUDES = -I$(CUDA_PATH)/include \
