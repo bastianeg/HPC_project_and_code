@@ -5,29 +5,27 @@
 #include <stdlib.h>
 #include "print.h"
 
-#ifdef _OPENMP
+#ifdef __OPENMP
 #include <omp.h>
 #endif
 
-#ifdef _JACOBISEQ
+#ifdef __JACOBISEQ
 #include "jacobiseq.h"
 #endif
 
-#ifdef _JACOBINAIVE
+#ifdef __JACOBINAIVE
 #include "jacobinaive.h"
 #endif
 
-#ifdef _JACOBIMULTI
+#ifdef __JACOBIMULTI
 #include "jacobimulti.h"
 #endif
 
-#ifdef _JACOBITOL
+#ifdef __JACOBITOL
 #include "jacobitol.h"
 #endif
 
-#define N_DEFAULT 1
-
-void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max);
+#define N_DEFAULT 128
 
 void init_data(int N, double *U, double *F, double start_T){
     // Initialize U leveraging first touch
@@ -132,15 +130,15 @@ main(int argc, char *argv[]) {
     cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
 
     //--->> iterations
-    #ifdef _JACOBISEQ
+    #ifdef __JACOBISEQ
     jacobiseq(u, f, u_old, N, iter_max);
     #endif
 
-    #ifdef _JACOBINAIVE
+    #ifdef __JACOBINAIVE
     jacobinaive(u, f, u_old, N, iter_max);
     #endif
     
-    #ifdef _JACOBIMULTI
+    #ifdef __JACOBIMULTI
     cudaSetDevice(0);
     double *d0_U;
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
@@ -154,7 +152,7 @@ main(int argc, char *argv[]) {
     jacobimulti(d0_U, d1_U, f, u_old, N, iter_max);
     #endif
 
-    #ifdef _JACOBITOL
+    #ifdef __JACOBITOL
     jacobitol(u, f, N, iter_max,tolerance);
     #endif
 
