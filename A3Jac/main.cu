@@ -164,8 +164,8 @@ main(int argc, char *argv[]) {
     jacobimulti(d0_U, d1_U, d0_F, d1_F, d0_Uold, d1_Uold, N, iter_max);
 
     //move back and merge into one array
-    cudaMemcpy(u,D0_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
-    cudaMemcpy(u+(N+2)*(N+2)*(N+2)/2,D1_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(u,d0_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(u+(N+2)*(N+2)*(N+2)/2,d1_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
 
     #endif
 
