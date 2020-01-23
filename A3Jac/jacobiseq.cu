@@ -22,7 +22,7 @@ updmat(int N, double* U, double* Uold,int i, int j, int k){
 }
 
 __global__ void 
-jacgpu(int N, double* U, double* Uold, double* onesixth, int i, int j, int k){
+jacgpu(int N, double* U, double* Uold, double* F, double* onesixth, int i, int j, int k){
     int jmp=N+2;
     int Nj=jmp*j;
     int N2k=jmp*jmp*k;
@@ -61,7 +61,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
                 //for k
                 for(int k = 1; k<(N+1); k++){
 
-                    jacgpu<<<1,1>>>(N, U, Uold, onesixth, i, j, k);
+                    jacgpu<<<1,1>>>(N, U, Uold, F, onesixth, i, j, k);
                     cudaDeviceSynchronize();
                 }
             }
