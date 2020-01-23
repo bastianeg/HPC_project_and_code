@@ -174,12 +174,12 @@ main(int argc, char *argv[]) {
 	case 0:
 	    // no output at all
 	    break;
-	case 3:
-	    output_ext = ".bin";
-	    sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
-	    fprintf(stderr, "Write binary dump to %s: ", output_filename);
-	    print_binary(output_filename, N+2, u);
-	    break;
+	// case 3:
+	//     output_ext = ".bin";
+	//     sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
+	//     fprintf(stderr, "Write binary dump to %s: ", output_filename);
+	//     print_binary(output_filename, N+2, u);
+	//     break;
 	// case 4:
 	//     output_ext = ".vtk";
 	//     sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
