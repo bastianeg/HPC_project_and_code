@@ -176,7 +176,7 @@ main(int argc, char *argv[]) {
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
     #endif
     double te = omp_get_wtime();
-    print("Time elapsed: %.2f\n");
+    printf("Time elapsed: %.2f\n");
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
