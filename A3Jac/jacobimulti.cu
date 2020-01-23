@@ -71,7 +71,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     initmat<<<N*N*halfN,B>>>(N, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
-    initmat<<<N*N*halfN,B>>>(N, D1U, D1old, D1F, deltasq);
+    initmat<<<N*N*halfN,B>>>(N, D1U, D1Uold, D1F, deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
