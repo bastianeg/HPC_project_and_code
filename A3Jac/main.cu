@@ -141,11 +141,13 @@ main(int argc, char *argv[]) {
     #ifdef __JACOBIMULTI
     cudaSetDevice(0);
     double *d0_U;
+    cudaDeviceEnablePeerAccess(1, 0);
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_U, u, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
     cudaSetDevice(1);
     double *d1_U;
+    cudaDeviceEnablePeerAccess(0, 0);
     cudaMalloc((void**)&d1_U, A_size/2);
     cudaMemcpy(d1_U, u + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
