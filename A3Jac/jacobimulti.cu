@@ -52,10 +52,10 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
 
     // update Uold = U
     cudaSetDevice(0);
-    initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq);
+    initmat<<<N*N*N/(2*B),B>>>(N, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
-    initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq);
+    initmat<<<N*N*N/(2*B),B>>>(N, D1U, D1old, D1F, deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
