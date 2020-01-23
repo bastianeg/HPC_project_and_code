@@ -2,7 +2,7 @@
 # hello
 TARGET_S  = jacobiseq		# Jacobi
 TARGET_N = jacobinaive		# Naive
-TARGET_MUL = jacobimulti		# Multi
+TARGET_MUL = jacobimulti	# Multi
 TARGET_TOL = jacobitol		# Tolerance
 
 SOURCES	= main.cu print.c

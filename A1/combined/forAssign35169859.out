@@ -1,0 +1,8 @@
+/zhome/6e/9/133731/.lsbatch/1579785551.5169859.shell: line 1: per: command not found
+Loaded dependency [gcc/8.3.0]: binutils/2.29
+Loaded module: gcc/8.3.0
+    96.000    424.181 # matmult_lib
+   384.000   2953.735 # matmult_lib
+  1536.000   4590.210 # matmult_lib
+  6144.000   6606.178 # matmult_lib
+ 24576.000   9597.564 # matmult_lib

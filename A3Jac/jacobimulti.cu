@@ -41,7 +41,7 @@ jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
 }
 
 void
-jacobimulti(double* D0U,double* D1U, double *F, double *Uold, int N, int iter_max) {
+jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, double* D1old, int N, int iter_max) {
     int B=1; // Block size
 
     double ts, te; // for timing
@@ -51,6 +51,10 @@ jacobimulti(double* D0U,double* D1U, double *F, double *Uold, int N, int iter_ma
     double onesixth = 1.0/6.0;
 
     // update Uold = U
+    cudaSetDevice(0);
+    initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq);
+
+    cudaSetDevice(1);
     initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq);
     cudaDeviceSynchronize();
 
