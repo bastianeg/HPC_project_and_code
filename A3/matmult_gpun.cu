@@ -3,7 +3,8 @@
 #include "cublas_v2.h"
 #include <cuda_runtime.h>
 
-#include "matmult_gpu5.h"
+
+
 extern "C"{
 
     void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C){
@@ -137,33 +138,44 @@ extern "C"{
     }
 
     void matmult_gpu5(int m, int n, int k, double *A, double *B, double *C){
+
         // Load A and B to device memory
-        double* d_A;
-        double* d_B;
-        double* d_C;
+        Matrix d_A;
+        d_A.width = d_A.stride = k; 
+        d_A.height = m;
+        size_t size = k * m * sizeof(double);
+        cudaMalloc(&d_A.elements, size);
+        cudaMemcpy(d_A.elements, A, size, cudaMemcpyHostToDevice);
 
-        cudaMalloc((void **)&d_A,  m * k * sizeof(double));
-        cudaMalloc((void **)&d_B,  k * n * sizeof(double));
-        cudaMalloc((void **)&d_C,  n * m * sizeof(double));
+        Matrix d_B;
+        d_B.width = d_B.stride = n; 
+        d_B.height = k;
+        size = n * k * sizeof(double);
+        cudaMalloc(&d_B.elements, size);
+        cudaMemcpy(d_B.elements, B, size,
+        cudaMemcpyHostToDevice);
 
-        cudaMemcpy(d_A, A, m * k * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(d_B, B, k * n * sizeof(double), cudaMemcpyHostToDevice);
+        // Allocate C in device memory
+        Matrix d_C;
+        d_C.width = d_C.stride = n; 
+        d_C.height = m;
+        size = m * n * sizeof(double);
+        cudaMalloc(&d_C.elements, size);
 
-        #define BLOCK_SIZE 16
         // Invoke kernel
         dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
         dim3 dimGrid(n / dimBlock.x, m / dimBlock.y);
-        MatMulKernel5<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
+        gpu5_kernel<<<dimGrid, dimBlock>>>(d_A, d_B, d_C);
 
         // Read C from device memory
-        cudaMemcpy(C, d_C, n * m * sizeof(double), cudaMemcpyDeviceToHost);
+        cudaMemcpy(C, d_C.elements, size, cudaMemcpyDeviceToHost);
 
         // Free device memory
-        cudaFree(d_A);
-        cudaFree(d_B);
-        cudaFree(d_C);
-        
+        cudaFree(d_A.elements);
+        cudaFree(d_B.elements);
+        cudaFree(d_C.elements);
     }
+
 
     void matmult_gpulib(int m, int n, int k, double *A, double *B, double *C) {
         
@@ -172,8 +184,8 @@ extern "C"{
         double bet = 0.0;
         double *alpha = &alf;
         double *beta = &bet;
-        double *d_alpha;
-        double *d_beta;
+        //double *d_alpha;
+        //double *d_beta;
         double* d_A;
         double* d_B;
         double* d_C;
@@ -181,20 +193,20 @@ extern "C"{
         cudaMalloc((void **)&d_A,  m * k * sizeof(double));
         cudaMalloc((void **)&d_B,  k * n * sizeof(double));
         cudaMalloc((void **)&d_C,  n * m * sizeof(double));
-        cudaMalloc((void **)&d_alpha,  sizeof(double));
-        cudaMalloc((void **)&d_beta,  sizeof(double));
+        //cudaMalloc((void **)&d_alpha,  sizeof(double));
+        //cudaMalloc((void **)&d_beta,  sizeof(double));
 
         cudaMemcpy(d_A, A, m * k * sizeof(double), cudaMemcpyHostToDevice);
         cudaMemcpy(d_B, B, k * n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(d_alpha, alpha, sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(d_beta, beta, sizeof(double), cudaMemcpyHostToDevice);
+        //cudaMemcpy(d_alpha, alpha, sizeof(double), cudaMemcpyHostToDevice);
+        //cudaMemcpy(d_beta, beta, sizeof(double), cudaMemcpyHostToDevice);
 
         // Create a handle for CUBLAS
         cublasHandle_t handle;
         cublasCreate(&handle);
 
         // Do the actual multiplication using the library function
-        cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, d_alpha, d_A, lda, d_B, ldb, d_beta, d_C, ldc);
+        cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, d_A, lda, d_B, ldb, beta, d_C, ldc);
 
         // Destroy the handle
         cublasDestroy(handle);
@@ -207,4 +219,6 @@ extern "C"{
         cudaFree(d_B);
         cudaFree(d_C);
     }
+
+    
 }
