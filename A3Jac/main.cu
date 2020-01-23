@@ -145,7 +145,7 @@ main(int argc, char *argv[]) {
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_U, u, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
     cudaMalloc((void**)&d0_Uold, (N+2)*(N+2)*(N+2)/2*sizeof(double));
-    cudaMemcpy(d0_Uold, uold, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(d0_Uold, u_old, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
     cudaMalloc((void**)&d0_F, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_F, f , (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
