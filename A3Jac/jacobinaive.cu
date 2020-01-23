@@ -52,7 +52,7 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     double onesixth = 1.0/6.0;
 
     // update Uold = U
-    initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq,i,j,k);
+    initmat<<<N*N*N/B,B>>>(N, U,Uold,F,deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
