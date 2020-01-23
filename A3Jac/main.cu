@@ -185,11 +185,12 @@ main(int argc, char *argv[]) {
     for(i = 0; i<N+2; i++){
         for(j = 0; j<N+2; j++){
             for(k = 0; k<N+2; k++){
-                printf("%.2lf ",u[i*(N+2)*(N+2)+j*(N+2)+k]);
+                printf("%2.2lf ",u[i*(N+2)*(N+2)+j*(N+2)+k]);
             }
             printf("\n");
         }
         printf("\n\n");
+        printf("k=%d\n",i);
     }
     printf("on the CPU\n");
 
