@@ -162,11 +162,14 @@ main(int argc, char *argv[]) {
     cudaFree(D_u_old);
     cudaFree(D_f);
 
-    for(i = 0; i<N; i++){
-        for(j = 0; j<N; j++){
-            printf("%.2lf ",u[i*N+j]);
+    for(i = 0; i<N+2; i++){
+        for(j = 0; j<N+2; j++){
+            for(l = 0; k<N+2; k++){
+                printf("%.2lf ",u[i*(N+2)*(N+2)+j*(N+2)+k]);
+            }
+            printf("\n");
         }
-        printf("\n");
+        printf("\n\n");
     }
     printf("on the CPU\n");
 
