@@ -3,8 +3,8 @@
 #BSUB -n 1
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -W 15
-#BSUB -J gpu1test
-#BSUB -o gpu1test_%J.out
+#BSUB -J gpu2test
+#BSUB -o gpu2test_%J.out
 #BSUB -N
 #BSUB -R "rusage[mem=4GB]"
 #BSUB -R "span[hosts=1]"
@@ -21,6 +21,6 @@ export MATMULT_COMPARE=0
 
 for N in $Ns
 do
-    ./$CMD gpu1 $N $N $N
+    ./$CMD gpu2 $N $N $N
 done
 
