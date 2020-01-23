@@ -41,7 +41,7 @@ jacgpu(int N, double* U, double* Uold,double* F, double onesixth){
 }
 
 void
-jacobimulti(double* D2U,double* D1U, double *F, double *Uold, int N, int iter_max) {
+jacobimulti(double* D0U,double* D1U, double *F, double *Uold, int N, int iter_max) {
     int B=1; // Block size
 
     double ts, te; // for timing
