@@ -18,11 +18,11 @@
 #endif
 
 #ifdef _JACOBIMULTI
-#include "jacobi_multi.h"
+#include "jacobimulti.h"
 #endif
 
 #ifdef _JACOBITOL
-#include "jacobi_tol.h"
+#include "jacobitol.h"
 #endif
 
 #define N_DEFAULT 1
