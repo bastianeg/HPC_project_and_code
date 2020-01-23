@@ -1,0 +1,84 @@
+[CUDA Bandwidth Test] - Starting...
+Running on...
+
+ Device 0: Tesla V100-PCIE-16GB
+ Quick Mode
+
+ Host to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			12.3
+
+ Device to Host Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			13.2
+
+ Device to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			736.9
+
+Result = PASS
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
+
+
+
+###
+Same command run with '--memory=pageable' flag:
+###
+
+[CUDA Bandwidth Test] - Starting...
+Running on...
+
+ Device 0: Tesla V100-PCIE-16GB
+ Quick Mode
+
+ Host to Device Bandwidth, 1 Device(s)
+ PAGEABLE Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			4.8
+
+ Device to Host Bandwidth, 1 Device(s)
+ PAGEABLE Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			4.7
+
+ Device to Device Bandwidth, 1 Device(s)
+ PAGEABLE Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			736.8
+
+Result = PASS
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
+
+###
+Same command run with '--memory=pinned' flag:
+###
+
+[CUDA Bandwidth Test] - Starting...
+Running on...
+
+ Device 0: Tesla V100-PCIE-16GB
+ Quick Mode
+
+ Host to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			11.7
+
+ Device to Host Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			13.2
+
+ Device to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(GB/s)
+   32000000			733.2
+
+Result = PASS
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.

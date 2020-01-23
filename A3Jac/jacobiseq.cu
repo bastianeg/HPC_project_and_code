@@ -22,13 +22,12 @@ updmat(int N, double* U, double* Uold,int i, int j, int k){
 }
 
 __global__ void 
-jacgpu(int N, double* U, double* Uold, double* onesixth, int i, int j, int k){
+jacgpu(int N, double* U, double* Uold, double* F, double onesixth, int i, int j, int k){
     int jmp=N+2;
     int Nj=jmp*j;
     int N2k=jmp*jmp*k;
-    int NoWall=jmp*jmp+1
-    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+\
-    Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
+    int NoWall=jmp*jmp+1;
+    U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
 
 }
 
@@ -51,7 +50,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
     }
     ts = omp_get_wtime();
     //while condition is not satisfied
-    while((d/sqrt(N*N*N)>tol) && (iter < iter_max))
+    while((iter < iter_max))
     {
         // from  i to j to k
         // for i
@@ -61,7 +60,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
                 //for k
                 for(int k = 1; k<(N+1); k++){
 
-                    jacgpu<<<1,1>>>(N, U, Uold, onesixth, i, j, k);
+                    jacgpu<<<1,1>>>(N, U, Uold, F, onesixth, i, j, k);
                     cudaDeviceSynchronize();
                 }
             }
@@ -73,7 +72,7 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
         for(int i = 0; i<(N+2); i++){
             for(int j = 0; j<(N+2); j++){
                 for(int k = 0; k<(N+2); k++){
-                    jacgpu<<<1,1>>>(N, U, Uold, onesixth, i, j, k);
+                    updmat<<<1,1>>>(N, U, Uold, i, j, k);
                     cudaDeviceSynchronize();
                 }
             }
@@ -82,7 +81,6 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
     te = omp_get_wtime() - ts;
     
     printf("Number of iterations: %d\n", iter);
-    printf("Norm: %lf\n", d);
     printf("Elapsed time: %lf\n", te);
     printf("Iterations per second: %lf\n", iter/te);
     //printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);

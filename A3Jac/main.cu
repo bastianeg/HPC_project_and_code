@@ -3,7 +3,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "alloc3d.h"
 #include "print.h"
 
 #ifdef _OPENMP
@@ -32,17 +31,18 @@
 void init_data(int N, double *U, double *F, double start_T){
     // Initialize U leveraging first touch
     double x, y, z;
-    for (int i = 0; i<=(N+1); i++){
-        for(int j = 0; j<=(N+1); j++){
-            for (int k = 0; k<=(N+1); k++){
+    int i,j,k;
+    for (i = 0; i<=(N+1); i++){
+        for(j = 0; j<=(N+1); j++){
+            for (k = 0; k<=(N+1); k++){
                 U[i+j+k] = start_T;
             }
         }
     }
 
     //fill in boundaries of U
-    for (int i = 0; i<=(N+1); i++){
-        for(int j = 0; j<=(N+1); j++){
+    for (i = 0; i<=(N+1); i++){
+        for(j = 0; j<=(N+1); j++){
                 U[i+(N+2)*(N+1)+(N+2)*(N+2)*j] = 20;
                 U[i+(N+2)*(N+2)*j] = 0;
                 U[N+1+(N+2)*i+(N+2)*(N+2)*j] = 20;
@@ -53,11 +53,11 @@ void init_data(int N, double *U, double *F, double start_T){
     }
 
     // make F
-    for (int i = 0; i<=N+1; i++){
+    for (i = 0; i<=N+1; i++){
         x = ((2*i)/(double) (N+1))-1;
-        for(int j = 0; j<N+1; j++){
+        for(j = 0; j<N+1; j++){
             y = (2*j)/(double) (N+1)-1;
-            for (int k = 0; k<N+1; k++){
+            for (k = 0; k<N+1; k++){
                 z = (2*k)/(double) (N+1)-1;
                 //then check conditions
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
@@ -84,10 +84,10 @@ main(int argc, char *argv[]) {
     char	*output_prefix = "poisson_res";
     char        *output_ext    = "";
     char	output_filename[FILENAME_MAX];
-    double 	*u = NULL;
-    double 	*u_old = NULL;
-    double  *f = NULL;
-
+    double*  u = NULL;
+    double*  u_old = NULL;
+    double*  f = NULL;
+    int i,j;
 
     /* get the paramters from the command line */
     N         = atoi(argv[1]);	// grid size
@@ -98,16 +98,19 @@ main(int argc, char *argv[]) {
 	output_type = atoi(argv[5]);  // ouput type
     }
 
-    // allocate memory (properly!)
-    if ( u = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
+    // allocate memory
+    u = (double*) malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    if ( u == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( u_old = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
+    u_old = (double*) malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    if ( u_old == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
-    if ( f = malloc((N+2)*(N+2)*(N+2)*sizeof(double)) == NULL ) {
+    f = (double*) malloc((N+2)*(N+2)*(N+2)*sizeof(double));
+    if ( f == NULL ) {
         perror("array u: allocation failed");
         exit(-1);
     }
@@ -161,8 +164,8 @@ main(int argc, char *argv[]) {
     cudaFree(D_u_old);
     cudaFree(D_f);
 
-    for(int i = 0; i<N; i++){
-        for(int j = 0; j<N; j++){
+    for(i = 0; i<N; i++){
+        for(j = 0; j<N; j++){
             printf("%.2lf ",u[i*N+j]);
         }
         printf("\n");
@@ -174,12 +177,12 @@ main(int argc, char *argv[]) {
 	case 0:
 	    // no output at all
 	    break;
-	case 3:
-	    output_ext = ".bin";
-	    sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
-	    fprintf(stderr, "Write binary dump to %s: ", output_filename);
-	    print_binary(output_filename, N+2, u);
-	    break;
+	// case 3:
+	//     output_ext = ".bin";
+	//     sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
+	//     fprintf(stderr, "Write binary dump to %s: ", output_filename);
+	//     print_binary(output_filename, N+2, u);
+	//     break;
 	// case 4:
 	//     output_ext = ".vtk";
 	//     sprintf(output_filename, "%s_%d%s", output_prefix, N, output_ext);
