@@ -9,12 +9,12 @@
 #include <omp.h>
 #endif
 
-#ifdef _JACOBINAIVE
-#include "jacobinaive.h"
-#endif
-
 #ifdef _JACOBISEQ
 #include "jacobiseq.h"
+#endif
+
+#ifdef _JACOBINAIVE
+#include "jacobinaive.h"
 #endif
 
 #ifdef _JACOBIMULTI
