@@ -72,7 +72,7 @@ void init_data(int N, double *U, double *F, double start_T){
 
 int
 main(int argc, char *argv[]) {
-
+    printf("%f",tol);
     int 	N = N_DEFAULT;
     double	start_T;
     int		output_type = 0;
