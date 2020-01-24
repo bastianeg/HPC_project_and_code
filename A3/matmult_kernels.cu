@@ -28,13 +28,13 @@ matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
     int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through n
     int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through m
     double tmp;
-
+    printf("hello from i=%d and j=%d\n",i,j);
     if((i<n)&&(j<m)){
         for(int p=0; p<k; p++){
             //read row of A and col of B 
             //row of A is A[mit*k+kit]
             //col of B is B[kit*n+nit]
-            
+
             tmp += A[i*k+p] * B[p*n+j];
         }
         C[i*n+j] = tmp;
