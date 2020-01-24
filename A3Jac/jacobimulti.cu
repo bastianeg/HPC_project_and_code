@@ -12,7 +12,7 @@ __global__ void
 initmat(int jmp, double* U, double* Uold, double* F, double deltasq){
 
     int i = blockIdx.x*blockDim.x+threadIdx.x;
-    if(i<jmp*jmp*jmp){
+    if(i<jmp*jmp*jmp/2){
         Uold[i] = U[i];
         F[i] *= deltasq;
     }
@@ -22,7 +22,7 @@ __global__ void
 updmat(int jmp, double* U, double* Uold){
 
     int i = blockIdx.x*blockDim.x+threadIdx.x;
-    if(i<jmp*jmp*jmp){
+    if(i<jmp*jmp*jmp/2){
         Uold[i] = U[i];
     }
 }
