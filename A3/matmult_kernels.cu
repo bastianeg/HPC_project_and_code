@@ -69,7 +69,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,const int s
 
     int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
     int i = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only 1/s as many threads/blocks)
-    double tmp[s];
+    double tmp[32]; //s cannt exceed 32
 
     if((i<n)&&(j<m)){
         //additional j to compute (here, either 1 or 0)
