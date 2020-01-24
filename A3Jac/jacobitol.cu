@@ -44,7 +44,7 @@ double blockReduceSum(double value) {
         value += a[i];
     }
     value = idx < n ? value : 0.0;
-    value = blockReduceSum(value);
+    // value = blockReduceSum(value);
     if (threadIdx.x == 0){
          atomicAdd(res, value);
     }
@@ -115,14 +115,14 @@ double blockReduceSum(double value) {
          diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, res);
          cudaDeviceSynchronize();
 
-        //  reduction_presum<<<jmp*jmp*jmp/B,B>>>(res, jmp, res);
-        //  cudaDeviceSynchronize();
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(U, jmp, res);
+         cudaDeviceSynchronize();
          printf("%f",res[0]);
          // update iteration and Uold
          iter ++;
 
-        //  updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
-        //  cudaDeviceSynchronize();
+         updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
+         cudaDeviceSynchronize();
      }
      te = omp_get_wtime() - ts;
      
