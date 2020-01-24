@@ -45,14 +45,14 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int B=10; // Block size
     int jmp = N+2;
     int n_blocks = N/B + (int) (N%B!=0);
-    int jmp_blocks = jmp/B + (int) (jmp%B!=0);
+    int jmp_blocks = jmp*jmp*jmp/(B*B*B) + (int) (jmp*jmp*jmp%(B*B*B)!=0);
     double ts, te; // for timing
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
     
 
     // update Uold = U
-    initmat<<<jmp*jmp*jmp_blocks,(B*B*B)>>>(jmp, U, Uold,F);
+    initmat<<<jmp_blocks,(B*B*B)>>>(jmp, U, Uold,F);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
@@ -65,7 +65,7 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
 
         // update iteration and Uold
         iter ++;
-        updmat<<<jmp*jmp*jmp_blocks,(B*B*B)>>>(jmp, U,Uold);
+        updmat<<<jmp_blocks,(B*B*B)>>>(jmp, U,Uold);
         cudaDeviceSynchronize();
     }
     te = omp_get_wtime() - ts;
