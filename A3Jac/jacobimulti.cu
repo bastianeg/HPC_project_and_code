@@ -1,6 +1,3 @@
-/* jacobi.c - Poisson problem in 3d
- *
- */
 #ifdef _OPENMP
 #include <omp.h>
 #endif
