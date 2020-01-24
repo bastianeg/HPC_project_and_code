@@ -45,7 +45,7 @@ double blockReduceSum(double value) {
  __global__ void 
  reduction_presum (double *U, double *Uold, int n, double *res)
  {
-    printf("res is %f\n",*res);
+    printf("res is %x\n",res);
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     double tmp;
