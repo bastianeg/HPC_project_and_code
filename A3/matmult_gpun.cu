@@ -108,7 +108,7 @@ extern "C"{
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
 
         //number of elements to compute in each thread
-        const int s;
+        int s;
         if(getenv("NUM_ELEM_PER_THREAD")!=NULL){
             s = atoi(getenv("NUM_ELEM_PER_THREAD"));
         } else{
