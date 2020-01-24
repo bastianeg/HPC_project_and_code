@@ -109,6 +109,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      int iter = 0;
      int jmp = N+2;
      double d=tol+8.0;
+     double res;
      //double *d_res;
      //double res = 0.0;
      //cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
