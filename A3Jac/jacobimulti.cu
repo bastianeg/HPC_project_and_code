@@ -92,9 +92,9 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     {
 
         cudaSetDevice(0);
-        jaclower<<<dim3(nblocks,nblocks,halfN),dim3(B,B,B)>>>(jmp, D0U, D0Uold, D1Uold ,D0F, onesixth);
+        jaclower<<<dim3(n_blocks,n_blocks,halfN),dim3(B,B,B)>>>(jmp, D0U, D0Uold, D1Uold ,D0F, onesixth);
         cudaSetDevice(1);
-        jacupper<<<dim3(nblocks,nblocks,halfN),dim3(B,B,B)>>>(jmp, D1U, D1Uold, D0Uold, D1F, onesixth);
+        jacupper<<<dim3(n_blocks,n_blocks,halfN),dim3(B,B,B)>>>(jmp, D1U, D1Uold, D0Uold, D1F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
