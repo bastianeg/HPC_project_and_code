@@ -16,7 +16,7 @@
         printf("%i/n",i);
     }
     
-    value += __shfl_down_sync(-1, value, 1);
+    // value += __shfl_down_sync(-1, value, 1);
     return value;
  }
 
