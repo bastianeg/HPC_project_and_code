@@ -85,6 +85,11 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
         //additional j to compute (here, from 0 to s-1)
         int j_add = MIN(s-1,n-1-j);
         
+        #pragma unroll
+        for(int u=0; u<=j_add; u++){
+            tmp[u] = 0.0;
+        }
+
         for(int p=0; p<k; p++){
             //row of A and col of B
             #pragma unroll
