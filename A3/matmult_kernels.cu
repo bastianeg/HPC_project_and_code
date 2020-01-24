@@ -161,7 +161,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
                                                                     C[i*n+j+14] = tmp15;
                                                                     if(j_add > 14)
                                                                         C[i*n+j+15] = tmp16;
-        
+    }    
 }
 
 
