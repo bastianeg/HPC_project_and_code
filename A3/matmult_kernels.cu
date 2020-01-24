@@ -48,7 +48,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
 
     if((i<n)&&(j<m)){
         //additional j to compute (here, either 1 or 0)
-        int j_add = MIN(1,n-1-j);
+        int j_add = MIN(1,n-1-i);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
@@ -70,11 +70,11 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,const int s
 
     int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
     int i = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only 1/s as many threads/blocks)
-    double tmp[32]; //s cannt exceed 32
+    double tmp[32]; //s can't exceed 32
 
     if((i<n)&&(j<m)){
-        //additional j to compute (here, either 1 or 0)
-        int j_add = MIN(s-1,n-1-j);
+        //additional j to compute (here, from 0 to s-1)
+        int j_add = MIN(s-1,n-1-i);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
