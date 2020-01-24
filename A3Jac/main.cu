@@ -183,7 +183,7 @@ main(int argc, char *argv[]) {
     cudaFree(D_u_old);
     cudaFree(D_f);
     
-    for(i = 0; i<2; i++){
+    for(i = 0; i<0 i++){
         printf("k=%d\n",i-1);
         for(j = 0; j<N+2; j++){
             for(k = 0; k<N+2; k++){
