@@ -50,7 +50,6 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     
 
     if((j<n)&&(i<m)){
-        printf("hello from i=%d and j=%d\n",i,j);
 
         //additional i to compute (here, either 1 or 0)
         int j_add = MIN(1,n-1-j);
@@ -65,7 +64,6 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
         #pragma unroll
         for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
-            printf("my temp for u=%d is %.2f\n",u,tmp[u]);
         }
     }
     
@@ -81,7 +79,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,const int s
 
     if((j<n)&&(i<m)){
         //additional j to compute (here, from 0 to s-1)
-        int j_add = MIN(s-1,n-1-i);
+        int j_add = MIN(s-1,n-1-j);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
