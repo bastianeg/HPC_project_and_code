@@ -49,13 +49,13 @@ double blockReduceSum(double value) {
     double value = 0.0;
     double tmp;
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
-        tmp = 1;//U[i]-Uold[i];
+        tmp = U[i]-Uold[i];
         value += tmp*tmp;
     }
     value = idx < n ? value : 0;
     value = blockReduceSum(value);
     if (threadIdx.x == 0){
-         atomicAdd(res, value);
+         //atomicAdd(res, value);
     }
  }
 
