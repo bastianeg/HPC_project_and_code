@@ -106,7 +106,7 @@ double blockReduceSum(double value) {
  
      ts = omp_get_wtime();
      //while condition is not satisfied
-     while((d<tol) || (iter < iter_max))
+     while((d<tol) && (iter < iter_max))
      {
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
          cudaDeviceSynchronize();
@@ -117,7 +117,7 @@ double blockReduceSum(double value) {
 
          reduction_presum<<<jmp*jmp*jmp/B,B>>>(res, jmp, res);
          cudaDeviceSynchronize();
-
+         printf("%f",res[0])
          // update iteration and Uold
          iter ++;
 
