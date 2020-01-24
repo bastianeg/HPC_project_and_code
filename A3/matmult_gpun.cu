@@ -36,20 +36,6 @@ extern "C"{
     }
 
     void matmult_gpu2(int m, int n, int k, double *A, double *B, double *C){
-        for(int i=0; i<m; i++){
-            for(int j=0; j<k; j++){
-                printf("%5.1f ",A[i*k+j]);
-            }
-            printf("\n");
-        }
-        printf("times\n");
-        for(int i=0; i<k; i++){
-            for(int j=0; j<n; j++){
-                printf("%5.1f ",B[i*n+j]);
-            }
-            printf("\n");
-        }
-        printf("equals\n");
         
         //allocate memory on GPU
         double* d_A;
@@ -82,15 +68,24 @@ extern "C"{
         cudaFree(d_B);
         cudaFree(d_C);
 
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                printf("%5.1f ",C[i*n+j]);
-            }
-            printf("\n");
-        }
     }
 
     void matmult_gpu3(int m, int n, int k, double *A, double *B, double *C){
+        for(int i=0; i<m; i++){
+            for(int j=0; j<k; j++){
+                printf("%5.1f ",A[i*k+j]);
+            }
+            printf("\n");
+        }
+        printf("times\n");
+        for(int i=0; i<k; i++){
+            for(int j=0; j<n; j++){
+                printf("%5.1f ",B[i*n+j]);
+            }
+            printf("\n");
+        }
+        printf("equals\n");
+
         //allocate memory on GPU
         double* d_A;
         double* d_B;
@@ -121,6 +116,14 @@ extern "C"{
         cudaFree(d_A);
         cudaFree(d_B);
         cudaFree(d_C);
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                printf("%5.1f ",C[i*n+j]);
+            }
+            printf("\n");
+        }
+
     }
 
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
