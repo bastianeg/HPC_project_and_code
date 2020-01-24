@@ -82,7 +82,7 @@ double blockReduceSum(double value) {
  }
  
  void
- jacobinaive(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
+ jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
      int B=10; // Block size
      double ts, te; // for timing
      double deltasq = 4.0/((double) N * (double) N);
