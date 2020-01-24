@@ -34,9 +34,9 @@ matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
             //read row of A and col of B 
             //row of A is A[mit*k+kit]
             //col of B is B[kit*n+nit]
-
             tmp += A[i*k+p] * B[p*n+j];
         }
+        //C is C[mit*n+nit]
         C[i*n+j] = tmp;
     }
 }
@@ -65,6 +65,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
         #pragma unroll
         for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
+            printf("my temp for u=%d is %.2f\n",u,temp[u]);
         }
     }
     
