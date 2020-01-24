@@ -1,0 +1,38 @@
+/bin/bash: ./multipas.sh: Permission denied
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-99>
+Subject: Job 5171747: <NONAME> in cluster <dcc> Exited
+
+Job <NONAME> was submitted from host <n-62-20-7> by user <s153287> in cluster <dcc> at Thu Jan 23 17:32:03 2020
+Job was executed on host(s) <n-62-21-99>, in queue <hpc>, as user <s153287> in cluster <dcc> at Thu Jan 23 17:32:04 2020
+</zhome/5b/d/108381> was used as the home directory.
+</zhome/5b/d/108381/Documents/HPC_project_and_code/A3Jac> was used as the working directory.
+Started at Thu Jan 23 17:32:04 2020
+Terminated at Thu Jan 23 17:32:05 2020
+Results reported at Thu Jan 23 17:32:05 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+multipas.sh
+------------------------------------------------------------
+
+Exited with exit code 126.
+
+Resource usage summary:
+
+    CPU time :                                   0.28 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   20 sec.
+    Turnaround time :                            2 sec.
+
+The output (if any) is above this job summary.
+
