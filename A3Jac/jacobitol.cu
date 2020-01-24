@@ -108,7 +108,7 @@ double blockReduceSum(double value) {
      //while condition is not satisfied
      while((d>tol) && (iter < iter_max))
      {
-         printf('A');
+         printf("A");
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
          cudaDeviceSynchronize();
          
