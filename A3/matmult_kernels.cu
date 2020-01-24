@@ -69,38 +69,99 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     
 }
 
-#define MAX_ELEM_PER_THREAD 16
 __global__ void
 matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
 
     int j = s*(blockIdx.x*blockDim.x+threadIdx.x); //looping through n  (only 1/s as many threads/blocks)
     int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through m
-    double tmp[MAX_ELEM_PER_THREAD];
+    double tmp1 = 0.0;
+    double tmp2 = 0.0;
+    double tmp3 = 0.0;
+    double tmp4 = 0.0;
+    double tmp5 = 0.0;
+    double tmp6 = 0.0;
+    double tmp7 = 0.0;
+    double tmp8 = 0.0;
+    double tmp9 = 0.0;
+    double tmp10 = 0.0;
+    double tmp11 = 0.0;
+    double tmp12 = 0.0;
+    double tmp13 = 0.0;
+    double tmp14 = 0.0;
+    double tmp15 = 0.0;
+    double tmp16 = 0.0;
 
     if((j<n)&&(i<m)){
         //additional j to compute (here, from 0 to s-1)
-        int real_j_add = MIN(s-1,n-1-j);
-        #pragma unroll
-        for(int u=0; u<MAX_ELEM_PER_THREAD; u++){
-            if(u<=real_j_add)
-                tmp[u] = 0.0;
-        }
+        int j_add = MIN(s-1,n-1-j);
 
         for(int p=0; p<k; p++){
             //row of A and col of B
-            #pragma unroll
-            for(int u=0; u<MAX_ELEM_PER_THREAD; u++){
-                if(u<=real_j_add)
-                    tmp[u] += A[i*k+p] * B[p*n+j+u];
-            }
+            tmp1 += A[i*k+p] * B[p*n+j+0];
+            if(j_add > 0)
+                tmp2 += A[i*k+p] * B[p*n+j+1];
+                if(j_add > 1)
+                    tmp3 += A[i*k+p] * B[p*n+j+2];
+                    if(j_add > 2)
+                        tmp4 += A[i*k+p] * B[p*n+j+3];
+                        if(j_add > 3)
+                            tmp5 += A[i*k+p] * B[p*n+j+4];
+                            if(j_add > 4)
+                                tmp6 += A[i*k+p] * B[p*n+j+5];
+                                if(j_add > 5)
+                                    tmp7 += A[i*k+p] * B[p*n+j+6];
+                                    if(j_add > 6)
+                                        tmp8 += A[i*k+p] * B[p*n+j+7];
+                                        if(j_add > 7)
+                                            tmp9 += A[i*k+p] * B[p*n+j+8];
+                                            if(j_add > 8)
+                                                tmp10 += A[i*k+p] * B[p*n+j+9];
+                                                if(j_add > 9)
+                                                    tmp11 += A[i*k+p] * B[p*n+j+10];
+                                                    if(j_add > 10)
+                                                        tmp12 += A[i*k+p] * B[p*n+j+11];
+                                                        if(j_add > 11)
+                                                            tmp13 += A[i*k+p] * B[p*n+j+12];
+                                                            if(j_add > 12)
+                                                                tmp14 += A[i*k+p] * B[p*n+j+13];
+                                                                if(j_add > 13)
+                                                                    tmp15 += A[i*k+p] * B[p*n+j+14];
+                                                                    if(j_add > 14)
+                                                                        tmp16 += A[i*k+p] * B[p*n+j+15];
         }
-        #pragma unroll
-        for(int u=0;  u<MAX_ELEM_PER_THREAD; u++){
-            if(u<=real_j_add)
-                C[i*n+j+u] = tmp[u];
-        }
-    }
+        C[i*n+j] = tmp1;
+            if(j_add > 0)
+                C[i*n+j+1] = tmp2;
+                if(j_add > 1)
+                    C[i*n+j+2] = tmp3;
+                    if(j_add > 2)
+                        C[i*n+j+3] = tmp4;
+                        if(j_add > 3)
+                            C[i*n+j+4] = tmp5;
+                            if(j_add > 4)
+                                C[i*n+j+5] = tmp6;
+                                if(j_add > 5)
+                                    C[i*n+j+6] = tmp7;
+                                    if(j_add > 6)
+                                        C[i*n+j+7] = tmp8;
+                                        if(j_add > 7)
+                                            C[i*n+j+8] = tmp9;
+                                            if(j_add > 8)
+                                                C[i*n+j+9] = tmp10;
+                                                if(j_add > 9)
+                                                    C[i*n+j+10] = tmp11;
+                                                    if(j_add > 10)
+                                                        C[i*n+j+11] = tmp12;
+                                                        if(j_add > 11)
+                                                            C[i*n+j+12] = tmp13;
+                                                            if(j_add > 12)
+                                                                C[i*n+j+13] = tmp14;
+                                                                if(j_add > 13)
+                                                                    C[i*n+j+14] = tmp15;
+                                                                    if(j_add > 14)
+                                                                        C[i*n+j+15] = tmp16;
+        
 }
 
 
