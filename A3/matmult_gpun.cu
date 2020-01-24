@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "cublas_v2.h"
 #include <cuda_runtime.h>
+#include <helper_cuda.h>
 
 
 
@@ -57,7 +58,7 @@ extern "C"{
 
         //call kernel
         matmult_kernel2<<<dim3 (nblocks,mblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C);
-        cudaDeviceSynchronize();
+        checkCudaErrors(cudaDeviceSynchronize());
 
         //move C back to host
         cudaMemcpy(C, d_C, m*n*sizeof(double), cudaMemcpyDeviceToHost);
