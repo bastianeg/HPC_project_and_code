@@ -75,11 +75,11 @@ double blockReduceSum(double value) {
  }
 
  __global__ void 
- diff(int jmp, double* U, double* Uold,double* res){
+ diff(int jmp, double* U, double* Uold,double* dpart){
  
      int i = blockIdx.x*blockDim.x+threadIdx.x;
      if(i<jmp*jmp*jmp){
-         res[i] =1; // U[i]-Uold[i];
+         dpart[i] =1; // U[i]-Uold[i];
      }
  }
  
