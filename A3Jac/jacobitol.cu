@@ -45,7 +45,6 @@ double blockReduceSum(double value) {
  __global__ void 
  reduction_presum (double *U, double *Uold, int n, double *res)
  {
-    double result = 0.0;
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     double tmp;
@@ -56,8 +55,7 @@ double blockReduceSum(double value) {
     value = idx < n ? value : 0;
     value = blockReduceSum(value);
     if (threadIdx.x == 0){
-         atomicAdd(&result, value);
-         //*res = result;
+         atomicAdd(&res, value);
     }
 
  }
@@ -110,7 +108,9 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      int iter = 0;
      int jmp = N+2;
      double d=tol+8.0;
-     double res=0;
+     double *d_res;
+     //double res = 0.0;
+     //cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
      // update Uold = U
      initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F);
      cudaDeviceSynchronize();
@@ -120,6 +120,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      while(iter<iter_max) //(d>tol) && (iter < iter_max))
      {
          res = 0.0;
+         cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
          cudaDeviceSynchronize();
          
@@ -127,8 +128,10 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          //diff<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(jmp,dpart);
          //cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, 5, &res);
+         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, jmp*jmp*jmp, d_res);
          checkCudaErrors(cudaDeviceSynchronize());
+         cudaMemcpy(&res,d_res,sizeof(double),cudaMemcpyDeviceToHost);
+         
          printf("d: %f\n",res);
          //printf("%f",res);
          //update iteration and Uold
