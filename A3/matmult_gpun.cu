@@ -45,7 +45,7 @@ extern "C"{
         printf("times\n");
         for(int i=0; i<k; i++){
             for(int j=0; j<n; j++){
-                printf("%5.1f ",B[i*k+j]);
+                printf("%5.1f ",B[i*n+j]);
             }
             printf("\n");
         }
@@ -84,7 +84,7 @@ extern "C"{
 
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
-                printf("%5.1f ",C[i*k+j]);
+                printf("%5.1f ",C[i*n+j]);
             }
             printf("\n");
         }
