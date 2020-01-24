@@ -5,7 +5,6 @@
 #include <helper_cuda.h>
 
 
-
 extern "C"{
 
     void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C){
