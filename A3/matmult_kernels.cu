@@ -53,7 +53,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
         printf("hello from i=%d and j=%d\n",i,j);
 
         //additional i to compute (here, either 1 or 0)
-        int j_add = MIN(1,n-1-i);
+        int j_add = MIN(1,n-1-j);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
