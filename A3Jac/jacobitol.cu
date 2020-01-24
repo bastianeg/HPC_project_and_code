@@ -121,8 +121,8 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      //while condition is not satisfied
      while(iter<iter_max) //(d>tol) && (iter < iter_max))
      {
-         res = 0.0;
-         cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
+         //res = 0.0;
+         //cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
          cudaDeviceSynchronize();
          
