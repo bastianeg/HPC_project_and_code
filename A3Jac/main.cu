@@ -165,12 +165,10 @@ main(int argc, char *argv[]) {
     #endif
 
     #ifdef _JACOBITOL
-    printf("AAA");
     double tolerance = 1.5e-3;
     tolerance = atof(argv[3]);  // tolerance
     double* res;
     cudaMalloc((void**) &res, (N+2)*(N+2)*(N+2)*sizeof(double));
-    printf("AAA");
     jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,res);
     #endif
 
