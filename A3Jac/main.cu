@@ -166,9 +166,9 @@ main(int argc, char *argv[]) {
     #ifdef _JACOBITOL
     double tolerance = 1.5e-3;
     tolerance = atof(argv[3]);  // tolerance
-    double* res;
-    cudaMalloc((void**) &res, (N+2)*(N+2)*(N+2)*sizeof(double));
-    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,res);
+    double* dpart;
+    cudaMalloc((void**) &dpart, (N+2)*(N+2)*(N+2)*sizeof(double));
+    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,dpart);
     #endif
 
     //move u back to host
