@@ -108,7 +108,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      //define norm and max_iter and Uold and iter and threshold
      int iter = 0;
      int jmp = N+2;
-     double d = tol*N*N*N+10;
+     double d = N*N*N;
      double res;
      int n_blocks = N/B + (int) (N%B!=0);
      int jmp_blocks = jmp/B + (int) (jmp%B!=0);
