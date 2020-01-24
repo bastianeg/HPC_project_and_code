@@ -36,17 +36,18 @@ double blockReduceSum(double value) {
 }
 
  __global__ void 
- reduction_presum (double *a, int n, double *res)
+ reduction_presum (double *a, int n, double* res)
  {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
-    double value = 0;
+    double value = 0.0;
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
         value += a[i];
     }
-    value = idx < n ? value : 0;
+    value = idx < n ? value : 0.0;
     value = blockReduceSum(value);
-    if (threadIdx.x == 0)
+    if (threadIdx.x == 0){
         atomicAdd(res, value);
+    }
  }
  
  __global__ void 
@@ -78,12 +79,6 @@ double blockReduceSum(double value) {
      U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
      Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
  
- }
- 
- void pointerSwap(double **A,double **B){
-     void *tmp = *A;
-     *A = *B;
-     *B = *tmp;
  }
  
  void
