@@ -105,12 +105,16 @@ extern "C"{
 
     }
 
+#define BSGPU4 16
+
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
 
         //number of elements to compute in each thread
         int s;
         if(getenv("NUM_ELEM_PER_THREAD")!=NULL){
             s = atoi(getenv("NUM_ELEM_PER_THREAD"));
+            if(s>16)
+                fprintf( stderr,"numer of elements per thread cannot exceed 16")
         } else{
             s = 8;
         }
@@ -118,7 +122,6 @@ extern "C"{
         double* d_A;
         double* d_B;
         double* d_C;
-        int bs = 16;
         cudaMalloc((void**) &d_A, m*k*sizeof(double));
         cudaMalloc((void**) &d_B, n*k*sizeof(double));
         cudaMalloc((void**) &d_C, m*n*sizeof(double));
@@ -128,14 +131,11 @@ extern "C"{
         cudaMemcpy(d_B, B, n*k*sizeof(double), cudaMemcpyHostToDevice);
 
         //number of blocks is ceil of N/bs 
-        if(getenv("BLOCK_SIZE")!=NULL){
-            bs = atoi(getenv("BLOCK_SIZE"));
-        }
-        int mblocks = m/bs + (int) (m%bs!=0);
-        int nblocks = n/bs/s + (int) (n%(bs*s)!=0);
+        int mblocks = m/BSGPU4 + (int) (m%BSGPU4!=0);
+        int nblocks = n/BSGPU4/s + (int) (n%(BSGPU4*s)!=0);
 
         //call kernel
-        matmult_kernel4<<<dim3 (nblocks,mblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C, s);
+        matmult_kernel4<<<dim3 (nblocks,mblocks),dim3 (BSGPU4,BSGPU4)>>>(m, n, k, d_A, d_B, d_C, s);
         cudaDeviceSynchronize();
 
         //move C back to host
