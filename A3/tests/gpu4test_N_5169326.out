@@ -1,8 +1,0 @@
-Loaded module: cuda/10.2
-Loaded dependency [gcc/8.3.0]: binutils/2.29
-Loaded module: gcc/8.3.0
-    96.000    233.868 # matmult_gpu4
-   384.000   1757.274 # matmult_gpu4
-  1536.000  12981.176 # matmult_gpu4
-  6144.000  36123.161 # matmult_gpu4
- 24576.000  48021.570 # matmult_gpu4

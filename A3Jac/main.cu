@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "print.h"
-
-#ifdef _OPENMP
 #include <omp.h>
-#endif
+
 
 #ifdef _JACOBISEQ
 #include "jacobiseq.h"
@@ -25,9 +23,7 @@
 #include "jacobitol.h"
 #endif
 
-#define N_DEFAULT 1
-
-void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max);
+#define N_DEFAULT 128
 
 void init_data(int N, double *U, double *F, double start_T){
     // Initialize U leveraging first touch
@@ -36,7 +32,7 @@ void init_data(int N, double *U, double *F, double start_T){
     for (i = 0; i<=(N+1); i++){
         for(j = 0; j<=(N+1); j++){
             for (k = 0; k<=(N+1); k++){
-                U[i+j+k] = start_T;
+                U[i*(N+2)*(N+2)+j*(N+2)+k] = start_T;
             }
         }
     }
@@ -62,10 +58,10 @@ void init_data(int N, double *U, double *F, double start_T){
                 z = (2*k)/(double) (N+1)-1;
                 //then check conditions
                 if ((-1.0 <= x) && (x <= -(3/8.0)) && (-1 <= y) && (y <= (-1/2.0)) && ((-2/3.0) <= z) && (z <= 0)){
-                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 200;
+                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 200.0;
                 }
                 else {
-                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 0;
+                    F[i+(N+2)*j+(N+2)*(N+2)*k] = 0.0;
                 }
             }
         }
@@ -78,17 +74,14 @@ int
 main(int argc, char *argv[]) {
 
     int 	N = N_DEFAULT;
-    int 	iter_max = 1000;
-    double	tolerance;
     double	start_T;
     int		output_type = 0;
-    char	*output_prefix = "poisson_res";
-    char        *output_ext    = "";
-    char	output_filename[FILENAME_MAX];
     double*  u = NULL;
     double*  u_old = NULL;
     double*  f = NULL;
-    int i,j;
+    int i,j,k;
+    int iter_max = 100;
+    double tolerance = 1.5e-3;
 
     /* get the paramters from the command line */
     N         = atoi(argv[1]);	// grid size
@@ -118,7 +111,6 @@ main(int argc, char *argv[]) {
 
     /////////////////
     init_data(N, u, f, start_T);
-
     //allocate memory on GPU
     double* D_u;
     double* D_u_old;
@@ -133,45 +125,74 @@ main(int argc, char *argv[]) {
 
     //--->> iterations
     #ifdef _JACOBISEQ
-    jacobiseq(u, f, u_old, N, iter_max);
+    jacobiseq(D_u, D_f, D_u_old, N, iter_max);
     #endif
 
     #ifdef _JACOBINAIVE
-    jacobinaive(u, f, u_old, N, iter_max);
+    double *tmp;
+    jacobinaive(&D_u, D_f, &D_u_old, N, iter_max,&tmp);
     #endif
     
     #ifdef _JACOBIMULTI
     cudaSetDevice(0);
     double *d0_U;
+    double *d0_Uold;
+    double *d0_F;
+    cudaDeviceEnablePeerAccess(1, 0);
     cudaMalloc((void**)&d0_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d0_U, u, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMalloc((void**)&d0_Uold, (N+2)*(N+2)*(N+2)/2*sizeof(double));
+    cudaMemcpy(d0_Uold, u_old, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMalloc((void**)&d0_F, (N+2)*(N+2)*(N+2)/2*sizeof(double));
+    cudaMemcpy(d0_F, f , (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+
 
     cudaSetDevice(1);
     double *d1_U;
-    cudaMalloc((void**)&d1_U, A_size/2);
+    double *d1_Uold;
+    double *d1_F;
+    cudaDeviceEnablePeerAccess(0, 0);
+    cudaMalloc((void**)&d1_U, (N+2)*(N+2)*(N+2)/2*sizeof(double));
     cudaMemcpy(d1_U, u + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMalloc((void**)&d1_Uold, (N+2)*(N+2)*(N+2)/2*sizeof(double));
+    cudaMemcpy(d1_Uold, u_old + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMalloc((void**)&d1_F, (N+2)*(N+2)*(N+2)/2*sizeof(double));
+    cudaMemcpy(d1_F, f + (N+2)*(N+2)*(N+2)/2, (N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyHostToDevice);
 
-    jacobimulti(d0_U, d1_U, f, u_old, N, iter_max);
+    jacobimulti(d0_U, d1_U, d0_F, d1_F, d0_Uold, d1_Uold, N, iter_max);
+
+    //move back and merge into one array
+    cudaMemcpy(u,d0_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(u+(N+2)*(N+2)*(N+2)/2,d1_U,(N+2)*(N+2)*(N+2)/2*sizeof(double), cudaMemcpyDeviceToHost);
+
     #endif
 
     #ifdef _JACOBITOL
-    jacobitol(u, f, N, iter_max,tolerance);
+    jacobitol(D_u, D_f, N, iter_max,tolerance);
     #endif
 
     //move u back to host
+    #ifndef _JACOBIMULTI
     cudaMemcpy(u, D_u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyDeviceToHost);
+    #endif
 
     cudaFree(D_u);
     cudaFree(D_u_old);
     cudaFree(D_f);
-
-    for(i = 0; i<N; i++){
-        for(j = 0; j<N; j++){
-            printf("%.2lf ",u[i*N+j]);
+    
+    for(i = 0; i<N+2; i++){
+        printf("k=%d\n",i-1);
+        for(j = 0; j<N+2; j++){
+            for(k = 0; k<N+2; k++){
+                printf("%6.2lf ",u[i*(N+2)*(N+2)+j*(N+2)+k]);
+            }
+            printf("\n");
         }
-        printf("\n");
+        printf("\n\n");
+        
     }
     printf("on the CPU\n");
+    
 
     // dump  results if wanted
     switch(output_type) {

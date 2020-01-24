@@ -10,44 +10,45 @@
 
 __global__ void 
 initmat(int N, double* U, double* Uold, double* F,double deltasq){
-    // from  i to j to k
-        // for i
-        for(int i = 1; i<(N+1); i++){
-            //for j
-            for(int j = 1; j<(N+1); j++){
-                //for k
-                for(int k = 1; k<(N+1); k++){
-                    int jmp=N+2;
-                    Uold[i+jmp*j+jmp*jmp*k] = U[i+jmp*j+jmp*jmp*k];
-                    F[i+jmp*j+jmp*jmp*k] *= deltasq;
-                }
+    int jmp=N+2;
+    int idx;
+    for(int i = 0; i<(N+2); i++){
+        for(int j = 0; j<(N+2); j++){
+            for(int k = 0; k<(N+2); k++){
+                idx = jmp*jmp*i+jmp*j+k;
+                Uold[idx] = U[idx];
+                F[idx] *= deltasq;
             }
         }
+    }
     
 }
 
 __global__ void 
 updmat(int N, double* U, double* Uold){
-    for(int i = 0; i<(N+2); i++){
-        for(int j = 0; j<(N+2); j++){
-            for(int k = 0; k<(N+2); k++){
-                int jmp=N+2;
-                Uold[i+jmp*j+jmp*jmp*k] = U[i+jmp*j+jmp*jmp*k];
+    int jmp=N+2;
+    int idx;
+    for(int i = 1; i<(N+1); i++){
+        for(int j = 1; j<(N+1); j++){
+            for(int k = 1; k<(N+1); k++){
+                idx = jmp*jmp*i+jmp*j+k;
+                Uold[idx] = U[idx];
             }
         }
     }
 }
 
 __global__ void 
-jacgpu(int N, double* U, double* Uold, double* F, double onesixth){
-    for(int i = 0; i<(N+2); i++){
-        for(int j = 0; j<(N+2); j++){
-            for(int k = 0; k<(N+2); k++){
-                int jmp=N+2;
-                int Nj=jmp*j;
-                int N2k=jmp*jmp*k;
-                int NoWall=jmp*jmp+1;
-                U[i+Nj+N2k+NoWall] = onesixth*(Uold[i+Nj+N2k-1+NoWall]+Uold[i+Nj+N2k+1+NoWall]+Uold[i+Nj+N2k-N+NoWall]+Uold[i+Nj+N2k+N+NoWall]+Uold[i+Nj+N2k-N*N+NoWall]+Uold[i+Nj+N2k+N*N+NoWall]+F[i+Nj+N2k+NoWall]);
+jacgpu(int N, double* U, double* Uold, double* F){
+    int jmp=N+2;
+    int idx;
+    double onesixth = 1.0/6.0;
+    for(int i = 1; i<(N+1); i++){
+        for(int j = 1; j<(N+1); j++){
+            for(int k = 1; k<(N+1); k++){
+                idx = jmp*jmp*i+jmp*j+k;
+                U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]\
+                +Uold[idx+jmp]+Uold[idx-jmp*jmp]+Uold[idx+jmp*jmp]+F[idx]);
             }
         }
     }
@@ -59,7 +60,6 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max) {
     double deltasq = 4.0/((double) N * (double) N);
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
-    double onesixth = 1.0/6.0;
 
     // update Uold = U
     initmat<<<1,1>>>(N, U,Uold,F,deltasq);
@@ -69,12 +69,13 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max) {
     //while condition is not satisfied
     while((iter < iter_max))
     {
-        jacgpu<<<1,1>>>(N, U, Uold, F, onesixth);
+        jacgpu<<<1,1>>>(N, U, Uold, F);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
         iter ++;
 
+        //pointer swap instead
         updmat<<<1,1>>>(N, U, Uold);
         cudaDeviceSynchronize();
 
@@ -84,5 +85,6 @@ jacobiseq(double *U, double *F, double *Uold, int N, int iter_max) {
     printf("Number of iterations: %d\n", iter);
     printf("Elapsed time: %lf\n", te);
     printf("Iterations per second: %lf\n", iter/te);
+    printf("Gflop/s: %.3f\n",1e-9*7*N*N*N*iter/te);
     //printf("%.5lf, %.5lf\n", te, 1e-6*11*N*N*N*iter/te);
 }

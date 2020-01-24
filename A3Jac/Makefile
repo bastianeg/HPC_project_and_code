@@ -13,7 +13,7 @@ MAIN_MUL= main_mul.o
 MAIN_TOL = main_tol.o
 OBJS_S	= $(MAIN_S) jacobiseq.o
 OBJS_N	= $(MAIN_N) jacobinaive.o
-OBJS_M	= $(MAIN_MUL) jacobimulti.o
+OBJS_MUL	= $(MAIN_MUL) jacobimulti.o
 OBJS_TOL= $(MAIN_TOL) jacobitol.o
 
 # options and settings for the GCC compilers
@@ -53,18 +53,18 @@ $(TARGET_MUL): $(OBJECTS) $(OBJS_MUL)
 
 $(TARGET_TOL): $(OBJECTS) $(OBJS_TOL)
 	$(CXX) -o $@ $(CXXFLAGS) $(OBJS_TOL) $(OBJECTS) $(LDFLAGS)
- 
+
 $(MAIN_S):
-	$(CXX) -o $@ -D_JACOBISEQ $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D _JACOBISEQ $(CXXFLAGS) -c main.cu
 
 $(MAIN_N):
-	$(CXX) -o $@ -D_JACOBINAIVE $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D _JACOBINAIVE $(CXXFLAGS) -c main.cu
 
 $(MAIN_MUL):
-	$(CXX) -o $@ -D_JACOBIMULTI $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D _JACOBIMULTI $(CXXFLAGS) -c main.cu
 
 $(MAIN_TOL):
-	$(CXX) -o $@ -D_JACOBITOL $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D _JACOBITOL $(CXXFLAGS) -c main.cu
 
 clean:
 	@/bin/rm -f core *.o *~
