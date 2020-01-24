@@ -114,7 +114,7 @@ extern "C"{
         if(getenv("NUM_ELEM_PER_THREAD")!=NULL){
             s = atoi(getenv("NUM_ELEM_PER_THREAD"));
             if(s>16)
-                fprintf( stderr,"numer of elements per thread cannot exceed 16")
+                fprintf( stderr,"numer of elements per thread cannot exceed 16");
         } else{
             s = 8;
         }
