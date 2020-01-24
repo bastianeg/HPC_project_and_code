@@ -119,15 +119,13 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
  jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* dpart) { 
      int B=10; // Block size
      double ts, te; // for timing
-     double deltasq = 4.0/((double) N * (double) N);
      //define norm and max_iter and Uold and iter and threshold
      int iter = 0;
-     double onesixth = 1.0/6.0;
      int jmp = N+2;
      double d=tol+8.0;
      double res=0;
      // update Uold = U
-     initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F,deltasq);
+     initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F);
      cudaDeviceSynchronize();
      ts = omp_get_wtime();
      //while condition is not satisfied
