@@ -78,12 +78,12 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     double onesixth = 1.0/6.0;
     int jmp = N + 2;
     int halfjmp=jmp/2 + (int) (N%B!=0);
-    int halfN=N/(2*B) + (int) (N%B!=0);
+    int nhalf_blocks=N/(2*B) + (int) (N%(2*B)!=0);
     int n_blocks = N/B + (int) (N%B!=0);
-    int jmp_blocks = jmp/B + (int) (jmp%B!=0);
+    int jmp_blocks = jmp*jmp*halfjmp/(B*B*B) + (int) (jmp%B!=0);
     // update Uold = U
     cudaSetDevice(0);
-    initmat<<<jmp_blocks,B>>>(jmp, D0U, D0Uold, D0F, deltasq);
+    initmat<<<jmp_blocks,(B*B*B)>>>(jmp, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
     initmat<<<jmp_blocks,B>>>(jmp, D1U, D1Uold, D1F, deltasq);
@@ -95,19 +95,19 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     {
 
         cudaSetDevice(0);
-        jaclower<<<dim3(n_blocks,n_blocks,halfN),dim3(B,B,B)>>>(jmp, D0U, D0Uold, D1Uold ,D0F, onesixth);
+        jaclower<<<dim3(n_blocks,n_blocks,nhalf_blocks),dim3(B,B,B)>>>(jmp, D0U, D0Uold, D1Uold ,D0F, onesixth);
         cudaSetDevice(1);
-        jacupper<<<dim3(n_blocks,n_blocks,halfN),dim3(B,B,B)>>>(jmp, D1U, D1Uold, D0Uold, D1F, onesixth);
+        jacupper<<<dim3(n_blocks,n_blocks,nhalf_blocks),dim3(B,B,B)>>>(jmp, D1U, D1Uold, D0Uold, D1F, onesixth);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
         iter ++;
 
         cudaSetDevice(0);
-        updmat<<<jmp*jmp*halfjmp,B>>>(jmp, D0U, D0Uold);
+        updmat<<<jmp_blocks,(B*B*B)>>>(jmp, D0U, D0Uold);
 
         cudaSetDevice(1);
-        updmat<<<jmp*jmp*halfjmp,B>>>(jmp, D1U, D1Uold);
+        updmat<<<jmp_blocks,(B*B*B)>>>(jmp, D1U, D1Uold);
         cudaDeviceSynchronize();
 }
     te = omp_get_wtime() - ts;
