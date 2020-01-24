@@ -119,7 +119,7 @@ main(int argc, char *argv[]) {
     //move u to GPU
     cudaMemcpy(D_u, u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
-    printf("AAAA");
+    
     //--->> iterations
     #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
