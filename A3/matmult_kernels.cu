@@ -29,7 +29,7 @@ matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
     int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through m
     double tmp;
     
-    if((i<n)&&(j<m)){
+    if((j<n)&&(i<m)){
         printf("hello from i=%d and j=%d\n",i,j);
         for(int p=0; p<k; p++){
             //read row of A and col of B 
