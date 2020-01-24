@@ -77,16 +77,16 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     int iter = 0;
     double onesixth = 1.0/6.0;
     int jmp = N + 2;
-    int halfjmp=jmp/2 + (int) (N%B!=0);
+    int halfjmp=jmp/2;
     int nhalf_blocks=N/(2*B) + (int) (N%(2*B)!=0);
     int n_blocks = N/B + (int) (N%B!=0);
-    int jmp_blocks = jmp*jmp*halfjmp/(B*B*B) + (int) (jmp%B!=0);
+    int jmp_blocks = jmp*jmp*halfjmp/(B*B*B) + (int) (jmp*jmp*halfjmp%(B*B*B)!=0);
     // update Uold = U
     cudaSetDevice(0);
     initmat<<<jmp_blocks,(B*B*B)>>>(jmp, D0U, D0Uold, D0F, deltasq);
 
     cudaSetDevice(1);
-    initmat<<<jmp_blocks,B>>>(jmp, D1U, D1Uold, D1F, deltasq);
+    initmat<<<jmp_blocks,(B*B*B)>>>(jmp, D1U, D1Uold, D1F, deltasq);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
