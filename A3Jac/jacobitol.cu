@@ -55,7 +55,7 @@ double blockReduceSum(double value) {
     value = idx < n ? value : 0;
     value = blockReduceSum(value);
     if (threadIdx.x == 0){
-         atomicAdd(&res, value);
+         atomicAdd(res, value);
     }
 
  }
