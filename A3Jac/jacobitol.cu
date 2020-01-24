@@ -68,6 +68,15 @@ double blockReduceSum(double value) {
          Uold[i] = U[i];
      }
  }
+
+ __global__ void 
+ diff(int jmp, double* U, double* Uold,double* res){
+ 
+     int i = blockIdx.x*blockDim.x+threadIdx.x;
+     if(i<jmp*jmp*jmp){
+         res[i] =1; // U[i]-Uold[i];
+     }
+ }
  
  __global__ void 
  jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
@@ -82,7 +91,8 @@ double blockReduceSum(double value) {
  }
  
  void
- jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
+ jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol, double* res) {
+    printf("AAA");
      int B=10; // Block size
      double ts, te; // for timing
      double deltasq = 4.0/((double) N * (double) N);
@@ -97,18 +107,26 @@ double blockReduceSum(double value) {
  
      ts = omp_get_wtime();
      //while condition is not satisfied
-     while((d<tol) || (iter < iter_max))
+     while((d<tol) && (iter < iter_max))
      {
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
          cudaDeviceSynchronize();
- 
+         
+         //Calculate d
+         diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, res);
+         cudaDeviceSynchronize();
+
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(res, jmp, res);
+         cudaDeviceSynchronize();
+         printf("%f",res[0]);
          // update iteration and Uold
          iter ++;
 
          updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
          cudaDeviceSynchronize();
          
-         //Calculate d
+        
+         
          
 
      }

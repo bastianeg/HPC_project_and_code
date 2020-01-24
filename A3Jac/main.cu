@@ -165,9 +165,13 @@ main(int argc, char *argv[]) {
     #endif
 
     #ifdef _JACOBITOL
+    printf("AAA");
     double tolerance = 1.5e-3;
     tolerance = atof(argv[3]);  // tolerance
-    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance);
+    double* res;
+    cudaMalloc((void**) &res, (N+2)*(N+2)*(N+2)*sizeof(double));
+    printf("AAA");
+    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,res);
     #endif
 
     //move u back to host
@@ -179,7 +183,7 @@ main(int argc, char *argv[]) {
     cudaFree(D_u_old);
     cudaFree(D_f);
     
-    for(i = 0; i<N+2; i++){
+    for(i = 0; i<2; i++){
         printf("k=%d\n",i-1);
         for(j = 0; j<N+2; j++){
             for(k = 0; k<N+2; k++){
