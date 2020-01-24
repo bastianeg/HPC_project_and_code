@@ -42,7 +42,7 @@ extern "C"{
             }
             printf("\n");
         }
-        printf("times\n")
+        printf("times\n");
         for(int i=0; i<k; i++){
             for(int j=0; j<n; j++){
                 printf("%5.1f ",B[i*k+j]);
