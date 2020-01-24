@@ -96,7 +96,7 @@ double blockReduceSum(double value) {
  }
  
  void
- jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol, double* res) { 
+ jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* dpart) { 
      int B=10; // Block size
      double ts, te; // for timing
      double deltasq = 4.0/((double) N * (double) N);
@@ -105,6 +105,7 @@ double blockReduceSum(double value) {
      double onesixth = 1.0/6.0;
      int jmp = N+2;
      double d=tol+8.0;
+     double res=0;
      // update Uold = U
      initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F,deltasq);
      cudaDeviceSynchronize();
@@ -117,10 +118,10 @@ double blockReduceSum(double value) {
          cudaDeviceSynchronize();
          
          //Calculate d
-         diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, res);
+         diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
          cudaDeviceSynchronize();
-         res[0]=0;
-         reduction_presum<<<jmp*jmp*jmp/B,B>>>(U, jmp*jmp*jmp, res);
+
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, res);
          cudaDeviceSynchronize();
          printf("%f",res[0]);
         //  update iteration and Uold
