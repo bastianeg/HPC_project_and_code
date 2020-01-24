@@ -41,27 +41,24 @@ matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
 __global__ void
 matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     //compute C(i,j) and C(i,j+1)
-    int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
-    int j = 2*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only half as many threads/blocks)
-    
+    int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
+    int i = 2*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only half as many threads/blocks)
+    double tmp[2];
     
 
-    if((i<m)&&(j<n)){
+    if((i<n)&&(j<m)){
         //additional j to compute (here, either 1 or 0)
         int j_add = MIN(1,n-1-j);
         
-        //init C to zero
-        #pragma unroll
-        for(int u=0; u<=j_add; u++){
-            C[i*n+j+u] = 0.0;
-        }
-        C[i*n+j+1] = 0.0;
         for(int p=0; p<k; p++){
             //row of A and col of B
             #pragma unroll
             for(int u=0; u<=j_add; u++){
-                C[i*n+j+u] += A[i*k+p] * B[p*n+j+u];
+                tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
+        }
+        for(int u=0;  u<=j_add, u++){
+            C[i*n+j+u] = tmp[u];
         }
     }
 }
@@ -70,27 +67,23 @@ __global__ void
 matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
 
-    int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
-    int j = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only 1/s as many threads/blocks)
+    int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
+    int i = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only 1/s as many threads/blocks)
+    double tmp[s];
 
-    if((i<m)&&(j<n)){
-        //additional j to compute (here, from 0 to s-1)
-        int j_add = MIN(s-1,n-1-j);
+    if((i<n)&&(j<m)){
+        //additional j to compute (here, either 1 or 0)
+        int j_add = MIN(1,n-1-j);
         
-        //init C to zero
-        #pragma unroll
-        for(int u=0; u<=j_add; u++){
-            C[i*n+j+u] = 0.0;
-        }
-        C[i*n+j+1] = 0.0;
-        
-        #pragma unroll
         for(int p=0; p<k; p++){
             //row of A and col of B
             #pragma unroll
             for(int u=0; u<=j_add; u++){
-                C[i*n+j+u] += A[i*k+p] * B[p*n+j+u];
+                tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
+        }
+        for(int u=0;  u<=j_add, u++){
+            C[i*n+j+u] = tmp[u];
         }
     }
 }
