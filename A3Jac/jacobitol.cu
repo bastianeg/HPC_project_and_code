@@ -20,7 +20,7 @@
  __inline__ __device__
 double blockReduceSum(double value) {
     __shared__ double smem[32]; // Max 32 warp sums
-    if (threadIdx.x < warpSize)}
+    if (threadIdx.x < warpSize){
         smem[threadIdx.x] = 0;
         __syncthreads();
         value = warpReduceSum(value);
@@ -33,7 +33,7 @@ double blockReduceSum(double value) {
         value = smem[threadIdx.x];
     }
     return warpReduceSum(value);
-} 
+}
 
  _global__ void 
  reduction_presum (double *a, int n, double *res)
@@ -110,7 +110,8 @@ double blockReduceSum(double value) {
  
          // update iteration and Uold
          iter ++;
-         updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
+
+         updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
          cudaDeviceSynchronize();
          
          //Calculate d
