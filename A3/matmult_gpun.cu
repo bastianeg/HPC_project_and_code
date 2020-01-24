@@ -36,6 +36,21 @@ extern "C"{
     }
 
     void matmult_gpu2(int m, int n, int k, double *A, double *B, double *C){
+        for(int i=0; i<m; i++){
+            for(int j=0; j<k; j++){
+                printf("%5.1f ",A[i*k+j]);
+            }
+            printf("\n");
+        }
+        printf("times\n")
+        for(int i=0; i<k; i++){
+            for(int j=0; j<n; j++){
+                printf("%5.1f ",B[i*k+j]);
+            }
+            printf("\n");
+        }
+        printf("equals\n");
+        
         //allocate memory on GPU
         double* d_A;
         double* d_B;
@@ -55,7 +70,7 @@ extern "C"{
         }
         int mblocks = m/bs + (int) (m%bs!=0);
         int nblocks = n/bs + (int) (n%bs!=0);
-        printf("nblocks = %d and mblocks = %d\n",nblocks,mblocks);
+        
         //call kernel
         matmult_kernel2<<<dim3 (nblocks,mblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C);
         checkCudaErrors(cudaDeviceSynchronize());
@@ -66,6 +81,13 @@ extern "C"{
         cudaFree(d_A);
         cudaFree(d_B);
         cudaFree(d_C);
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                printf("%5.1f ",C[i*k+j]);
+            }
+            printf("\n");
+        }
     }
 
     void matmult_gpu3(int m, int n, int k, double *A, double *B, double *C){
