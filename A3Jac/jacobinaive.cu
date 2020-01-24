@@ -40,7 +40,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
 }
 
 void
-jacobinaive(double **U, double *F, double **Uold, int N, int iter_max,double **tmp) {
+jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int B=10; // Block size
     double ts, te; // for timing
     //define norm and max_iter and Uold and iter and threshold
@@ -48,24 +48,20 @@ jacobinaive(double **U, double *F, double **Uold, int N, int iter_max,double **t
     int jmp = N+2;
 
     // update Uold = U
-    initmat<<<jmp*jmp*jmp/B,B>>>(jmp, *U, *Uold,F);
+    initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold,F);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
     //while condition is not satisfied
     while(iter < iter_max)
     {
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, *U, *Uold,F);
+        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
-        iter ++;
-        *tmp = *U;
-        *U = *Uold;
-        *Uold = *tmp;
 
-        //updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
-        //cudaDeviceSynchronize();
+        updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
+        cudaDeviceSynchronize();
     }
     te = omp_get_wtime() - ts;
     
