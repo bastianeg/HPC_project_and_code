@@ -77,8 +77,8 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     int iter = 0;
     double onesixth = 1.0/6.0;
     int jmp = N + 2;
-    int halfjmp=jmp/2 + (int) (N%B!=0);
-    int halfN=N/(2*B) + (int) (N%B!=0);
+    int halfjmp=jmp/(B*2) + (int) (jmp%(2*B)!=0);
+    int halfN=N/(2*B) + (int) (N%(2*B)!=0);
     int n_blocks = N/B + (int) (N%B!=0);
     int jmp_blocks = jmp/B + (int) (jmp%B!=0);
     // update Uold = U
