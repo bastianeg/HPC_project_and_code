@@ -124,7 +124,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          //diff<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(jmp,dpart);
          //cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, jmp*jmp*jmp, &res);
+         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, 5, &res);
          checkCudaErrors(cudaDeviceSynchronize());
          printf("d: %f\n",res);
          //printf("%f",res);
