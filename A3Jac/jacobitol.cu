@@ -37,7 +37,7 @@ double blockReduceSum(double value) {
         value = smem[threadIdx.x];
     }
     printf("Reenter %d",threadIdx.x);
-    return warpReduceSum(value);
+    return value;
 }
 
  __global__ void 
