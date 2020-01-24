@@ -35,7 +35,7 @@ double blockReduceSum(double value) {
     return warpReduceSum(value);
 }
 
- _global__ void 
+ __global__ void 
  reduction_presum (double *a, int n, double *res)
  {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
