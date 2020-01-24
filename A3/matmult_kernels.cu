@@ -80,10 +80,9 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
 
     if((j<n)&&(i<m)){
         //additional j to compute (here, from 0 to s-1)
-        int j_add = MAX_ELEM_PER_THREAD-1;//MIN(s-1,n-1-j);
         int real_j_add = MIN(s-1,n-1-j);
         #pragma unroll
-        for(int u=0; u<=j_add; u++){
+        for(int u=0; u<MAX_ELEM_PER_THREAD; u++){
             if(u<=real_j_add)
                 tmp[u] = 0.0;
         }
@@ -91,13 +90,13 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
         for(int p=0; p<k; p++){
             //row of A and col of B
             #pragma unroll
-            for(int u=0; u<=j_add; u++){
+            for(int u=0; u<MAX_ELEM_PER_THREAD; u++){
                 if(u<=real_j_add)
                     tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
         }
         #pragma unroll
-        for(int u=0;  u<=j_add; u++){
+        for(int u=0;  u<MAX_ELEM_PER_THREAD; u++){
             if(u<=real_j_add)
                 C[i*n+j+u] = tmp[u];
         }
