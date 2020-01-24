@@ -44,7 +44,7 @@ double blockReduceSum(double value) {
         value += a[i];
     }
     value = idx < n ? value : 0.0;
-    // value = blockReduceSum(value);
+    value = blockReduceSum(value);
     if (threadIdx.x == 0){
          atomicAdd(res, value);
     }
