@@ -11,11 +11,11 @@
 
  __inline__ __device__
  double warpReduceSum(double value) {
-    // for (int i = 16; i > 0; i /= 2){
-    for (int i=0;i<5;i++){
+    for (int i = 16; i > 1; i /= 2){
         value += __shfl_down_sync(-1, value, i);
     }
-    return 10; // value;
+    value += __shfl_down_sync(-1, value, 1);
+    return value;
  }
 
  __inline__ __device__
