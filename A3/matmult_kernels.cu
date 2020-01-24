@@ -25,13 +25,14 @@ matmult_kernel1(int m, int n, int k, double *A, double *B, double *C){
 __global__ void
 matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
 
-    int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
-    int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through n
+    int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through n
+    int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through m
     double tmp;
 
     if((i<n)&&(j<m)){
         for(int p=0; p<k; p++){
-            //read row of A and col of B
+            //read row of A and col of B 
+            //row of A is A[mit*k+kit]
             tmp += A[i*k+p] * B[p*n+j];
         }
         C[i*n+j] = tmp;
