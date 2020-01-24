@@ -43,12 +43,14 @@ double blockReduceSum(double value) {
 }
 
  __global__ void 
- reduction_presum (double *dpart, int n, double* res)
+ reduction_presum (double *U, double *Uold, int n, double* res)
  {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
+    double tmp;
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
-        value += dpart[i];
+        tmp = U[i]-Uold[i];
+        value += tmp*tmp;
     }
     value = idx < n ? value : 0;
     value = blockReduceSum(value);
@@ -119,10 +121,10 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          cudaDeviceSynchronize();
          
          //Calculate d
-         diff<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(jmp,dpart);
-         cudaDeviceSynchronize();
+         //diff<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(jmp,dpart);
+         //cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(dpart, jmp*jmp*jmp, &res);
+         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, jmp*jmp*jmp, &res);
          checkCudaErrors(cudaDeviceSynchronize());
          printf("d: %f\n",res);
          //printf("%f",res);
