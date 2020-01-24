@@ -103,7 +103,7 @@ extern "C"{
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
 
         //number of elements to compute in each thread
-        int s = atoi(getenv("NUM_ELEM_PER_THREAD"));
+        const int s = atoi(getenv("NUM_ELEM_PER_THREAD"));
         //allocate memory on GPU
         double* d_A;
         double* d_B;
@@ -144,14 +144,14 @@ extern "C"{
         d_A.width = d_A.stride = k; 
         d_A.height = m;
         size_t size = k * m * sizeof(double);
-        cudaMalloc(&d_A.elements, size);
+        cudaMalloc((void**) &d_A.elements, size);
         cudaMemcpy(d_A.elements, A, size, cudaMemcpyHostToDevice);
 
         Matrix d_B;
         d_B.width = d_B.stride = n; 
         d_B.height = k;
         size = n * k * sizeof(double);
-        cudaMalloc(&d_B.elements, size);
+        cudaMalloc((void**) &d_B.elements, size);
         cudaMemcpy(d_B.elements, B, size,
         cudaMemcpyHostToDevice);
 
@@ -160,7 +160,7 @@ extern "C"{
         d_C.width = d_C.stride = n; 
         d_C.height = m;
         size = m * n * sizeof(double);
-        cudaMalloc(&d_C.elements, size);
+        cudaMalloc((void**) &d_C.elements, size);
 
         // Invoke kernel
         dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
