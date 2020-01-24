@@ -11,10 +11,10 @@
 
  __inline__ __device__
  double warpReduceSum(double value) {
-    printf("%f  ",value);
+    //printf("%f  ",value);
     for (int i = 16; i > 0; i /= 2){
-        printf("%i  ",i);
-        printf("%f  ",value);
+        //printf("%i  ",i);
+        //printf("%f  ",value);
         value += __shfl_down_sync(-1, value, i);
     }
     return value;
@@ -26,7 +26,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         smem[threadIdx.x] = 0;
         __syncthreads();
-        printf("Enter %d",threadIdx.x);
+        //printf("Enter %d",threadIdx.x);
         value = warpReduceSum(value);
     }
     if (threadIdx.x % warpSize == 0){
@@ -36,17 +36,17 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         value = smem[threadIdx.x];
     }
-    printf("Reenter %d",threadIdx.x);
-    return value;
+    //printf("Reenter %d",threadIdx.x);
+    return warpReduceSum(value);
 }
 
  __global__ void 
- reduction_presum (double *a, int n, double* res)
+ reduction_presum (double *Uold,double *U, int n, double* res)
  {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
-        value += a[i];
+        value += (U[i]-Uold[i]);
     }
     value = idx < n ? value : 0.0;
     value = blockReduceSum(value);
@@ -113,18 +113,18 @@ double blockReduceSum(double value) {
      //while condition is not satisfied
      while(iter<iter_max) //(d>tol) && (iter < iter_max))
      {
-         
+         res = 0.0;
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
          cudaDeviceSynchronize();
          
          //Calculate d
-         diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
-         cudaDeviceSynchronize();
+         //diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
+         //cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(U,Uold, jmp*jmp*jmp, &res);
          cudaDeviceSynchronize();
-         printf("Exit val: %f",res);
-         printf("%f",res);
+         printf("d: %f\n",res);
+         //printf("%f",res);
         //  update iteration and Uold
          iter ++;
 
