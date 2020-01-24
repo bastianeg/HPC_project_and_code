@@ -13,11 +13,10 @@
  double warpReduceSum(double value) {
     printf("%f  ",value);
     value=2.0;
-    for (int i = 16; i > 1; i /= 2){
+    for (int i = 16; i > 0; i /= 2){
         printf("%i  ",i);
         value += __shfl_down_sync(-1, value, i);
     }
-    value += __shfl_down_sync(-1, value, 1);
     return value;
  }
 
@@ -27,6 +26,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         smem[threadIdx.x] = 0;
         __syncthreads();
+        printf("Enter %d",threadIdx.x);
         value = warpReduceSum(value);
     }
     if (threadIdx.x % warpSize == 0){
@@ -36,7 +36,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         value = smem[threadIdx.x];
     }
-    printf("Reenter /d",threadIdx.x);
+    printf("Reenter %d",threadIdx.x);
     return warpReduceSum(value);
 }
 
