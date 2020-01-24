@@ -12,9 +12,9 @@
  __inline__ __device__
  double warpReduceSum(double value) {
     printf("%f  ",value);
-    value=2.0;
     for (int i = 16; i > 0; i /= 2){
         printf("%i  ",i);
+        printf("%f  ",value);
         value += __shfl_down_sync(-1, value, i);
     }
     return value;
