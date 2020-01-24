@@ -23,19 +23,20 @@
  __inline__ __device__
 double blockReduceSum(double value) {
     __shared__ double smem[32]; // Max 32 warp sums
-    if (threadIdx.x < warpSize){
+    if (threadIdx.x < warpSize)
         smem[threadIdx.x] = 0;
-        __syncthreads();
-        //printf("Enter %d",threadIdx.x);
-        value = warpReduceSum(value);
-    }
-    if (threadIdx.x % warpSize == 0){
+
+    __syncthreads();
+    value = warpReduceSum(value);
+    
+    if (threadIdx.x % warpSize == 0)
         smem[threadIdx.x / warpSize] = value;
-        __syncthreads();
-    }
-    if (threadIdx.x < warpSize){
+
+    __syncthreads();
+    
+    if (threadIdx.x < warpSize)
         value = smem[threadIdx.x];
-    }
+    
     //printf("Reenter %d",threadIdx.x);
     return warpReduceSum(value);
 }
@@ -48,7 +49,7 @@ double blockReduceSum(double value) {
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
         value += (U[i]-Uold[i]);
     }
-    value = idx < n ? value : 0.0;
+    value = idx < n ? value : 0;
     value = blockReduceSum(value);
     if (threadIdx.x == 0){
          atomicAdd(res, value);
