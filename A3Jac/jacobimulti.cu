@@ -52,6 +52,7 @@ jacupper(int jmp, double* U, double* Uold,double* lower_Uold, double* F, double 
     int i = blockIdx.x*blockDim.x+threadIdx.x+1; // goes from 1 to N
     int j = blockIdx.y*blockDim.y+threadIdx.y+1; // goes from 1 to N
     int k = blockIdx.z*blockDim.z+threadIdx.z;   // goes from 0 to N/2-1   9=4
+    if(i<jmp && j<jmp && k<jmp){
     int idx=i + j*jmp + k*jmp*jmp;
 
     if(k==0){
@@ -62,6 +63,7 @@ jacupper(int jmp, double* U, double* Uold,double* lower_Uold, double* F, double 
         U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
         Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
     }
+}
 }
 
 void
