@@ -94,10 +94,11 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
     int i = blockIdx.x*blockDim.x+threadIdx.x+1;
     int j = blockIdx.y*blockDim.y+threadIdx.y+1;
     int k = blockIdx.z*blockDim.z+threadIdx.z+1;
+    if((i<(jmp-1)) && (j<(jmp-1)) && (k<(jmp-1))){
     int idx=i+j*jmp+k*jmp*jmp;
     U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
     Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
-
+    }
 }
  
  void
@@ -113,7 +114,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      int jmp_blocks = jmp/B + (int) (jmp%B!=0);
 
      // update Uold = U
-     initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F);
+     initmat<<<jmp*jmp*jmp_blocks,B>>>(jmp, U,Uold,F);
      cudaDeviceSynchronize();
 
      ts = omp_get_wtime();
