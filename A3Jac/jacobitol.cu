@@ -55,7 +55,7 @@ double blockReduceSum(double value) {
          atomicAdd(res, value);
     }
  }
- 
+ /*
  __global__ void 
  initmat(int jmp, double* U, double* Uold, double* F, double deltasq){
  
@@ -74,7 +74,26 @@ double blockReduceSum(double value) {
          Uold[i] = U[i];
      }
  }
+*/
+ __global__ void 
+initmat(int jmp, double* U, double* Uold, double* F){
+    double deltasq = 4.0/((double) (jmp-2) * (double) (jmp-2));
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<jmp*jmp*jmp){
+        Uold[i] = U[i];
+        F[i] *= deltasq;
+    }
+}
 
+__global__ void 
+updmat(int jmp, double* U, double* Uold){
+
+    int i = blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<jmp*jmp*jmp){
+        Uold[i] = U[i];
+    }
+}
+/*
  __global__ void 
  diff(int jmp, double* U, double* Uold,double* dpart){
  
@@ -83,18 +102,18 @@ double blockReduceSum(double value) {
          dpart[i] =1; // U[i]-Uold[i];
      }
  }
- 
+*/
  __global__ void 
- jacgpu(int jmp, double* U, double* Uold,double* F, double onesixth){
- 
-     int i = blockIdx.x*blockDim.x+threadIdx.x+1;
-     int j = blockIdx.y*blockDim.y+threadIdx.y+1;
-     int k = blockIdx.z*blockDim.z+threadIdx.z+1;
-     int idx=i+j*jmp+k*jmp*jmp;
-     U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
-     Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
- 
- }
+jacgpu(int jmp, double* U, double* Uold,double* F){
+    double onesixth = 1.0/6.0;
+    int i = blockIdx.x*blockDim.x+threadIdx.x+1;
+    int j = blockIdx.y*blockDim.y+threadIdx.y+1;
+    int k = blockIdx.z*blockDim.z+threadIdx.z+1;
+    int idx=i+j*jmp+k*jmp*jmp;
+    U[idx] = onesixth*(Uold[idx-1]+Uold[idx+1]+Uold[idx-jmp]+\
+    Uold[idx+jmp]+Uold[idx+jmp*jmp]+Uold[idx-jmp*jmp]+F[idx]);
+
+}
  
  void
  jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* dpart) { 
@@ -115,7 +134,7 @@ double blockReduceSum(double value) {
      while(iter<iter_max) //(d>tol) && (iter < iter_max))
      {
          res = 0.0;
-         jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
+         jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
          cudaDeviceSynchronize();
          
          //Calculate d
@@ -126,7 +145,7 @@ double blockReduceSum(double value) {
          cudaDeviceSynchronize();
          printf("d: %f\n",res);
          //printf("%f",res);
-        //  update iteration and Uold
+         //update iteration and Uold
          iter ++;
 
          updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
