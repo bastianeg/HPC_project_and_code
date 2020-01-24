@@ -57,7 +57,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
                 tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
         }
-        for(int u=0;  u<=j_add, u++){
+        for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
         }
     }
@@ -82,7 +82,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
                 tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
         }
-        for(int u=0;  u<=j_add, u++){
+        for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
         }
     }
