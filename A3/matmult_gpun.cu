@@ -56,7 +56,7 @@ extern "C"{
         int nblocks = n/bs + (int) (n%bs!=0);
 
         //call kernel
-        matmult_kernel2<<<dim3 (mblocks,nblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C);
+        matmult_kernel2<<<dim3 (nblocks,mblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C);
         cudaDeviceSynchronize();
 
         //move C back to host
