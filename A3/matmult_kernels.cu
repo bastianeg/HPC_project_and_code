@@ -73,17 +73,18 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     
 }
 
+#define ELEM_PER_THREAD 16
 __global__ void
 matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
 
     int j = s*(blockIdx.x*blockDim.x+threadIdx.x); //looping through n  (only 1/s as many threads/blocks)
     int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through m
-    double tmp[32]; //s can't exceed 32
+    double tmp[ELEM_PER_THREAD]; //s can't exceed 32
 
     if((j<n)&&(i<m)){
         //additional j to compute (here, from 0 to s-1)
-        int j_add = MIN(s-1,n-1-j);
+        int j_add = ELEM_PER_THREAD-1;//MIN(s-1,n-1-j);
         
         #pragma unroll
         for(int u=0; u<=j_add; u++){
