@@ -109,6 +109,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      int jmp = N+2;
      double d=tol+8.0;
      double *d_res;
+     double res;
      //double res = 0.0;
      //cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
      // update Uold = U
@@ -131,7 +132,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, jmp*jmp*jmp, d_res);
          checkCudaErrors(cudaDeviceSynchronize());
          cudaMemcpy(&res,d_res,sizeof(double),cudaMemcpyDeviceToHost);
-         
+
          printf("d: %f\n",res);
          //printf("%f",res);
          //update iteration and Uold
