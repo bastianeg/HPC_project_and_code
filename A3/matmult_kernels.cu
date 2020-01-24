@@ -56,12 +56,12 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
         
         for(int p=0; p<k; p++){
             //row of A and col of B
-            #pragma unroll
+            //#pragma unroll
             for(int u=0; u<=j_add; u++){
                 tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
         }
-        #pragma unroll
+        //#pragma unroll
         for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
         }
