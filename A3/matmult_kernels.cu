@@ -65,7 +65,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
         #pragma unroll
         for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
-            printf("my temp for u=%d is %.2f\n",u,temp[u]);
+            printf("my temp for u=%d is %.2f\n",u,tmp[u]);
         }
     }
     
