@@ -14,8 +14,8 @@
     printf("%f  ",value);
     value=2.0;
     for (int i = 16; i > 1; i /= 2){
-        value += __shfl_down_sync(-1, value, i);
         printf("%i  ",i);
+        value += __shfl_down_sync(-1, value, i);
     }
     value += __shfl_down_sync(-1, value, 1);
     return value;
