@@ -131,6 +131,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          cudaMemcpy(&res,d_res,sizeof(double),cudaMemcpyDeviceToHost);
 
          d = sqrt(res);
+         printf("%f\n",(d/sqrt(N*N*N));
          //update iteration and Uold
          iter ++;
 
