@@ -80,12 +80,6 @@ double blockReduceSum(double value) {
  
  }
  
- void pointerSwap(double **A,double **B){
-     void *tmp = *A;
-     *A = *B;
-     *B = *tmp;
- }
- 
  void
  jacobinaive(double *U, double *F, double *Uold, int N, int iter_max, double tol) {
      int B=10; // Block size
