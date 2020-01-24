@@ -1,12 +1,36 @@
 Loaded module: cuda/10.2
 Loaded dependency [gcc/8.3.0]: binutils/2.29
 Loaded module: gcc/8.3.0
-   384.000   3524.132 # matmult_gpu2
-   384.000   3503.497 # matmult_gpu3
-   384.000   3167.575 # matmult_gpu4
-   384.000   1565.520 # matmult_gpu4
-   384.000   3179.487 # matmult_gpu4
-   384.000   3194.014 # matmult_gpu4
-   384.000   3155.566 # matmult_gpu4
-   384.000   2959.579 # matmult_gpu4
-   384.000   2864.712 # matmult_gpu4
+  1536.000  25283.877 # matmult_gpu2
+  1536.000  25187.678 # matmult_gpu3
+  1536.000  22073.433 # matmult_gpu4
+  1536.000  22855.106 # matmult_gpu4
+  1536.000  19540.914 # matmult_gpu4
+  1536.000  21729.661 # matmult_gpu4
+  1536.000  20774.594 # matmult_gpu4
+  1536.000  18891.384 # matmult_gpu4
+  1536.000  15562.006 # matmult_gpu4
+Loaded module: cuda/10.2
+Loaded dependency [gcc/8.3.0]: binutils/2.29
+Loaded module: gcc/8.3.0
+    24.000     53.669 # matmult_gpu2
+    24.000     56.536 # matmult_gpu3
+    24.000     53.754 # matmult_gpu4
+    24.000     55.390 # matmult_gpu4
+    24.000     55.862 # matmult_gpu4
+    24.000     55.578 # matmult_gpu4
+    24.000     53.230 # matmult_gpu4
+    24.000     53.491 # matmult_gpu4
+    24.000     53.060 # matmult_gpu4
+Loaded module: cuda/10.2
+Loaded dependency [gcc/8.3.0]: binutils/2.29
+Loaded module: gcc/8.3.0
+  6144.000  83189.015 # matmult_gpu2
+  6144.000 101944.726 # matmult_gpu3
+  6144.000  90255.687 # matmult_gpu4
+  6144.000  46715.571 # matmult_gpu4
+  6144.000  82489.769 # matmult_gpu4
+  6144.000  85978.649 # matmult_gpu4
+  6144.000  80583.016 # matmult_gpu4
+  6144.000  79698.723 # matmult_gpu4
+  6144.000  65421.534 # matmult_gpu4
