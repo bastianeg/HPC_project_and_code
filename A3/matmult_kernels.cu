@@ -73,7 +73,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     
 }
 
-#define MAX_ELEM_PER_THREAD 32
+#define MAX_ELEM_PER_THREAD 40
 __global__ void
 matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
