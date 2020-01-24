@@ -72,7 +72,6 @@ void init_data(int N, double *U, double *F, double start_T){
 
 int
 main(int argc, char *argv[]) {
-
     int 	N = N_DEFAULT;
     double	start_T;
     int		output_type = 0;
@@ -120,7 +119,7 @@ main(int argc, char *argv[]) {
     //move u to GPU
     cudaMemcpy(D_u, u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
-
+    printf("AAAA");
     //--->> iterations
     #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
@@ -168,6 +167,7 @@ main(int argc, char *argv[]) {
     double tolerance = 1.5e-3;
     tolerance = atof(argv[3]);  // tolerance
     double* res;
+    printf("AdSAd");
     cudaMalloc((void**) &res, (N+2)*(N+2)*(N+2)*sizeof(double));
     jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,res);
     #endif
