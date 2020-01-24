@@ -55,7 +55,7 @@ extern "C"{
         }
         int mblocks = m/bs + (int) (m%bs!=0);
         int nblocks = n/bs + (int) (n%bs!=0);
-        print("nblocks = %d and mblocks = %d\n",nblocks,mblocks);
+        printf("nblocks = %d and mblocks = %d\n",nblocks,mblocks);
         //call kernel
         matmult_kernel2<<<dim3 (nblocks,mblocks),dim3 (bs,bs)>>>(m, n, k, d_A, d_B, d_C);
         checkCudaErrors(cudaDeviceSynchronize());
