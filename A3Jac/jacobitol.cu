@@ -15,8 +15,7 @@
         value += __shfl_down_sync(-1, value, i);
         printf("%i/n",i);
     }
-    
-    // value += __shfl_down_sync(-1, value, 1);
+    value += __shfl_down_sync(-1, value, 1);
     return value;
  }
 
@@ -26,7 +25,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         smem[threadIdx.x] = 0;
         __syncthreads();
-        value = warpReduceSum(value);
+        // value = warpReduceSum(value);
     }
     if (threadIdx.x % warpSize == 0){
         smem[threadIdx.x / warpSize] = value;
