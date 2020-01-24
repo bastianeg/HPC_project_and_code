@@ -168,6 +168,7 @@ main(int argc, char *argv[]) {
     tolerance = atof(argv[3]);  // tolerance
     double *d_res;
     double res = 0.0;
+    cudaMalloc((void**)&d_res,sizeof(double));
     cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
 
     jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,d_res);
