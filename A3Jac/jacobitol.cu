@@ -45,8 +45,9 @@ double blockReduceSum(double value) {
     }
     value = idx < n ? value : 0.0;
     value = blockReduceSum(value);
-    if (threadIdx.x == 0)
+    if (threadIdx.x == 0){
         atomicAdd(res, value);
+    }
  }
  
  __global__ void 
