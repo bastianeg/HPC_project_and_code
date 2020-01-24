@@ -123,6 +123,7 @@ double blockReduceSum(double value) {
 
          reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
          cudaDeviceSynchronize();
+         printf("Exit val: %f",res)
          printf("%f",res);
         //  update iteration and Uold
          iter ++;
