@@ -63,7 +63,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
             }
         }
         #pragma unroll
-        for(int u=0;  u<=i_add; u++){
+        for(int u=0;  u<=j_add; u++){
             C[i*n+j+u] = tmp[u];
         }
     }
