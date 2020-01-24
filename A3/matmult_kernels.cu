@@ -34,9 +34,9 @@ matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
             //read row of A and col of B 
             //row of A is A[mit*k+kit]
             //col of B is B[kit*n+nit]
-
             tmp += A[i*k+p] * B[p*n+j];
         }
+        //C is C[mit*n+nit]
         C[i*n+j] = tmp;
     }
 }
@@ -50,10 +50,9 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     
 
     if((j<n)&&(i<m)){
-        printf("hello from i=%d and j=%d\n",i,j);
 
         //additional i to compute (here, either 1 or 0)
-        int j_add = MIN(1,n-1-i);
+        int j_add = MIN(1,n-1-j);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
@@ -71,7 +70,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
 }
 
 __global__ void
-matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,const int s){
+matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
 
     int j = s*(blockIdx.x*blockDim.x+threadIdx.x); //looping through n  (only 1/s as many threads/blocks)
@@ -80,7 +79,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,const int s
 
     if((j<n)&&(i<m)){
         //additional j to compute (here, from 0 to s-1)
-        int j_add = MIN(s-1,n-1-i);
+        int j_add = MIN(s-1,n-1-j);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
