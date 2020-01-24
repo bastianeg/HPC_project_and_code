@@ -45,7 +45,7 @@ double blockReduceSum(double value) {
  __global__ void 
  reduction_presum (double *U, double *Uold, int n, double *res)
  {
-    printf("%f\n",*res);
+    printf("res is %f\n",*res);
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     double tmp;
@@ -56,7 +56,7 @@ double blockReduceSum(double value) {
     value = idx < n ? value : 0;
     value = blockReduceSum(value);
     if (threadIdx.x == 0){
-         atomicAdd(res, value);
+         //atomicAdd(res, value);
     }
 
  }
