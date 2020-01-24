@@ -140,8 +140,8 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
          cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
-         cudaDeviceSynchronize();
+         //reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
+         //cudaDeviceSynchronize();
          printf("d: %f\n",res);
          //printf("%f",res);
          //update iteration and Uold
