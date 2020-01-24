@@ -42,12 +42,12 @@ double blockReduceSum(double value) {
 }
 
  __global__ void 
- reduction_presum (double *Uold,double *U, int n, double* res)
+ reduction_presum (double *dpart, int n, double* res)
  {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
-        value += (U[i]-Uold[i]);
+        value += dpart[i];
     }
     value = idx < n ? value : 0;
     value = blockReduceSum(value);
@@ -93,7 +93,7 @@ updmat(int jmp, double* U, double* Uold){
         Uold[i] = U[i];
     }
 }
-/*
+
  __global__ void 
  diff(int jmp, double* U, double* Uold,double* dpart){
  
@@ -102,7 +102,7 @@ updmat(int jmp, double* U, double* Uold){
          dpart[i] =1; // U[i]-Uold[i];
      }
  }
-*/
+
  __global__ void 
 jacgpu(int jmp, double* U, double* Uold,double* F){
     double onesixth = 1.0/6.0;
@@ -137,10 +137,10 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          cudaDeviceSynchronize();
          
          //Calculate d
-         //diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
+         diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
          //cudaDeviceSynchronize();
 
-         //reduction_presum<<<jmp*jmp*jmp/B,B>>>(U,Uold, jmp*jmp*jmp, &res);
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
          //cudaDeviceSynchronize();
          printf("d: %f\n",res);
          //printf("%f",res);
