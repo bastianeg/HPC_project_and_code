@@ -102,15 +102,14 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
 }
  
  void
- jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* dpart) { 
+ jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* d_res) { 
      int B=10; // Block size
      double ts, te; // for timing
      //define norm and max_iter and Uold and iter and threshold
      int iter = 0;
      int jmp = N+2;
      double d=tol+8.0;
-     double *d_res;
-     double res;
+     //double *d_res;
      //double res = 0.0;
      //cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
      // update Uold = U
@@ -123,7 +122,6 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      {
          res = 0.0;
          cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
-
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
          cudaDeviceSynchronize();
          

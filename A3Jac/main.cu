@@ -166,9 +166,11 @@ main(int argc, char *argv[]) {
     #ifdef _JACOBITOL
     double tolerance = 1.5e-3;
     tolerance = atof(argv[3]);  // tolerance
-    double* dpart;
-    cudaMalloc((void**) &dpart, (N+2)*(N+2)*(N+2)*sizeof(double));
-    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,dpart);
+    double *d_res;
+    double res = 0.0;
+    cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
+
+    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,d_res);
     #endif
 
     //move u back to host
