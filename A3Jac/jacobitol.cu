@@ -7,6 +7,7 @@
  
  #include <math.h>
  #include <stdio.h>
+ #include <helper_cuda.h>
  
 
  __inline__ __device__
@@ -141,7 +142,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          cudaDeviceSynchronize();
 
          reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
-         cudaDeviceSynchronize();
+         cudaCheckErrors(cudaDeviceSynchronize());
          printf("d: %f\n",res);
          //printf("%f",res);
          //update iteration and Uold
