@@ -109,6 +109,8 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      int jmp = N+2;
      double d = tol*N*N*N+10;
      double res;
+     n_blocks = N/B + (int) (N%B!=0);
+     jmp_blocks = jmp/B + (int) (jmp%B!=0);
 
      // update Uold = U
      initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F);
@@ -120,10 +122,10 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      {
          res = 0.0;
          cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
-         jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
+         jacgpu<<<dim3(n_blocks,n_blocks,n_blocks),dim3(B,B,B)>>>(jmp, U, Uold,F);
          cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(U,Uold, jmp*jmp*jmp, d_res);
+         reduction_presum<<<jmp*jmp*jmp_blocks/(B*B),(B*B*B)>>>(U,Uold, jmp*jmp*jmp, d_res);
          checkCudaErrors(cudaDeviceSynchronize());
          cudaMemcpy(&res,d_res,sizeof(double),cudaMemcpyDeviceToHost);
 
@@ -131,7 +133,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          //update iteration and Uold
          iter ++;
 
-         updmat<<<jmp*jmp*jmp/(B*B*B),(B*B*B)>>>(jmp, U,Uold);
+         updmat<<<jmp*jmp*jmp_blocks/(B*B),(B*B*B)>>>(jmp, U,Uold);
          cudaDeviceSynchronize();
      }
      te = omp_get_wtime() - ts;
