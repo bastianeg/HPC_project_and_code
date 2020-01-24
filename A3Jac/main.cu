@@ -81,7 +81,6 @@ main(int argc, char *argv[]) {
     double*  f = NULL;
     int i,j,k;
     int iter_max = 100;
-    double tolerance = 1.5e-3;
 
     /* get the paramters from the command line */
     N         = atoi(argv[1]);	// grid size
@@ -168,7 +167,8 @@ main(int argc, char *argv[]) {
     #endif
 
     #ifdef _JACOBITOL
-    jacobitol(D_u, D_f, N, iter_max,tolerance);
+    double tolerance = 1.5e-3;
+    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance);
     #endif
 
     //move u back to host
