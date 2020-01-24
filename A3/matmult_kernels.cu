@@ -64,7 +64,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
 }
 
 __global__ void
-matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
+matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,const int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
 
     int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
