@@ -47,19 +47,19 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     
 
     if((i<n)&&(j<m)){
-        //additional j to compute (here, either 1 or 0)
-        int j_add = MIN(1,n-1-i);
+        //additional i to compute (here, either 1 or 0)
+        int i_add = MIN(1,n-1-i);
         
         for(int p=0; p<k; p++){
             //row of A and col of B
             #pragma unroll
             for(int u=0; u<=j_add; u++){
-                tmp[u] += A[i*k+p] * B[p*n+j+u];
+                tmp[u] += A[(i+u)*k+p] * B[p*n+j];
             }
         }
         #pragma unroll
         for(int u=0;  u<=j_add; u++){
-            C[i*n+j+u] = tmp[u];
+            C[(i+u)*n+j] = tmp[u];
         }
     }
 }
