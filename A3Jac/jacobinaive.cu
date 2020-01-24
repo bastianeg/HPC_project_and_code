@@ -42,10 +42,13 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
 void
 jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int B=10; // Block size
+    int jmp = N+2;
+    n_blocks = N/B + (int) (N%B!=0);
+    jmp_blocks = jmp/B + (int) (jmp%B!=0);
     double ts, te; // for timing
     //define norm and max_iter and Uold and iter and threshold
     int iter = 0;
-    int jmp = N+2;
+    
 
     // update Uold = U
     initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold,F);
@@ -55,7 +58,8 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     //while condition is not satisfied
     while(iter < iter_max)
     {
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
+        
+        jacgpu<<<dim3(n_blocks,n_blocks,n_blocks),dim3(B,B,B)>>>(jmp, U, Uold,F);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
