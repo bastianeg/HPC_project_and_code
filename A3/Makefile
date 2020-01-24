@@ -10,7 +10,7 @@ XOPT  = -Xptxas=-v # use -lineinfo for profiler, use -G for debugging
 XARCH = -arch=sm_70
 
 CXX	= nvcc
-CXXFLAGS = --compiler-options "$(OPT) $(PIC) $(OMP)" $(XARCH) $(XOPT) $(XPIC)
+CXXFLAGS = --compiler-options "$(OPT) $(PIC) $(OMP)" $(XARCH) $(XOPT) $(XPIC) 
 
 CUDA_PATH ?= /appl/cuda/10.2
 INCLUDES = -I$(CUDA_PATH)/include \
