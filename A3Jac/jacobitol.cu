@@ -108,8 +108,8 @@ double blockReduceSum(double value) {
      while(iter<iter_max); //(d>tol) && (iter < iter_max))
      {
          
-         jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
-         cudaDeviceSynchronize();
+        //  jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
+        //  cudaDeviceSynchronize();
          
         //  //Calculate d
         //  diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, res);
@@ -121,8 +121,8 @@ double blockReduceSum(double value) {
         //  // update iteration and Uold
          iter ++;
 
-         updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
-         cudaDeviceSynchronize();
+        //  updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
+        //  cudaDeviceSynchronize();
          
         
          
