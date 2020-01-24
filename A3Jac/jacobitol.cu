@@ -99,7 +99,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
  
  void
  jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* dpart) { 
-     int B=32; // Block size
+     int B=10; // Block size
      double ts, te; // for timing
      //define norm and max_iter and Uold and iter and threshold
      int iter = 0;
