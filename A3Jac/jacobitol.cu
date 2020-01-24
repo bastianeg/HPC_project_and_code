@@ -95,7 +95,7 @@ updmat(int jmp, double* U, double* Uold){
 }
 
  __global__ void 
- diff(int jmp, double* U, double* Uold,double* dpart){
+ diff(int jmp,double* dpart){ // double* U, double* Uold
  
      int i = blockIdx.x*blockDim.x+threadIdx.x;
      if(i<jmp*jmp*jmp){
@@ -137,11 +137,11 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          cudaDeviceSynchronize();
          
          //Calculate d
-         diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
+         diff<<<jmp*jmp*jmp/B,B>>>(jmp,dpart);
          cudaDeviceSynchronize();
 
-         //reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
-         //cudaDeviceSynchronize();
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
+         cudaDeviceSynchronize();
          printf("d: %f\n",res);
          //printf("%f",res);
          //update iteration and Uold
