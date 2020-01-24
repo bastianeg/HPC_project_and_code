@@ -64,7 +64,7 @@ $(MAIN_MUL):
 	$(CXX) -o $@ -D _JACOBIMULTI $(CXXFLAGS) -c main.cu
 
 $(MAIN_TOL):
-	$(CXX) -o $@ -D _JACOBITOL $(CXXFLAGS) -c main.cu
+	$(CXX) -o $@ -D _JACOBITOL $(CXXFLAGS) -arch=sm_61 -c main.cu
 
 clean:
 	@/bin/rm -f core *.o *~
