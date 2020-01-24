@@ -115,8 +115,7 @@ double blockReduceSum(double value) {
          cudaDeviceSynchronize();
          
          //Calculate d
-         reduction_presum<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(U, N+2, Uold);
-         cudaDeviceSynchronize();
+         
 
      }
      te = omp_get_wtime() - ts;
