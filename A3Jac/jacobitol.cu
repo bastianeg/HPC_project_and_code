@@ -45,6 +45,7 @@ double blockReduceSum(double value) {
  __global__ void 
  reduction_presum (double *U, double *Uold, int n, double *res)
  {
+    printf("%f\n",*res);
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     double tmp;
@@ -122,6 +123,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      {
          res = 0.0;
          cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
+
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
          cudaDeviceSynchronize();
          
