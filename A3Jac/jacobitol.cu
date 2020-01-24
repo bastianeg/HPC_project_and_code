@@ -121,9 +121,9 @@ double blockReduceSum(double value) {
          diff<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold, dpart);
          cudaDeviceSynchronize();
 
-         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, res);
+         reduction_presum<<<jmp*jmp*jmp/B,B>>>(dpart, jmp*jmp*jmp, &res);
          cudaDeviceSynchronize();
-         printf("%f",res[0]);
+         printf("%f",res);
         //  update iteration and Uold
          iter ++;
 
