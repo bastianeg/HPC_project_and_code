@@ -12,9 +12,9 @@
  __inline__ __device__
  double warpReduceSum(double value) {
     printf("%f  ",value);
-    value=2.0;
     for (int i = 16; i > 0; i /= 2){
         printf("%i  ",i);
+        printf("%f  ",value);
         value += __shfl_down_sync(-1, value, i);
     }
     return value;
@@ -75,11 +75,11 @@ double blockReduceSum(double value) {
  }
 
  __global__ void 
- diff(int jmp, double* U, double* Uold,double* res){
+ diff(int jmp, double* U, double* Uold,double* dpart){
  
      int i = blockIdx.x*blockDim.x+threadIdx.x;
      if(i<jmp*jmp*jmp){
-         res[i] =1; // U[i]-Uold[i];
+         dpart[i] =1; // U[i]-Uold[i];
      }
  }
  
