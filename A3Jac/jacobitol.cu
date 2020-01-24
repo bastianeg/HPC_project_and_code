@@ -109,8 +109,8 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      int jmp = N+2;
      double d = tol*N*N*N+10;
      double res;
-     n_blocks = N/B + (int) (N%B!=0);
-     jmp_blocks = jmp/B + (int) (jmp%B!=0);
+     int n_blocks = N/B + (int) (N%B!=0);
+     int jmp_blocks = jmp/B + (int) (jmp%B!=0);
 
      // update Uold = U
      initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F);
