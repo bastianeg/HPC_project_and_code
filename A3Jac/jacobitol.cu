@@ -45,7 +45,6 @@ double blockReduceSum(double value) {
  __global__ void 
  reduction_presum (double *U, double *Uold, int n, double *res)
  {
- 
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     double value = 0.0;
     double tmp;
@@ -108,7 +107,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      //define norm and max_iter and Uold and iter and threshold
      int iter = 0;
      int jmp = N+2;
-     double d=tol+8.0;
+     double d = tol*N*N*N+10;
      double res;
 
      // update Uold = U
@@ -117,7 +116,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
 
      ts = omp_get_wtime();
      //while condition is not satisfied
-     while(iter<iter_max) //(d>tol) && (iter < iter_max))
+     while((d/sqrt(N*N*N)>tol) && (iter < iter_max)) //(d>tol) && (iter < iter_max))
      {
          res = 0.0;
          cudaMemcpy(d_res,&res,sizeof(double),cudaMemcpyHostToDevice);
@@ -128,7 +127,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          checkCudaErrors(cudaDeviceSynchronize());
          cudaMemcpy(&res,d_res,sizeof(double),cudaMemcpyDeviceToHost);
 
-         printf("d: %f\n",res);
+         d = sqrt(res);
          //update iteration and Uold
          iter ++;
 
