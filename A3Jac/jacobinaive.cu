@@ -40,7 +40,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
 }
 
 void
-jacobinaive(double **U, double *F, double *Uold, int N, int iter_max) {
+jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int B=10; // Block size
     double ts, te; // for timing
     //define norm and max_iter and Uold and iter and threshold
