@@ -25,7 +25,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         smem[threadIdx.x] = 0;
         __syncthreads();
-        // value = warpReduceSum(value);
+        value = warpReduceSum(value);
     }
     if (threadIdx.x % warpSize == 0){
         smem[threadIdx.x / warpSize] = value;
@@ -34,7 +34,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         value = smem[threadIdx.x];
     }
-    return warpReduceSum(value);
+    return // warpReduceSum(value);
 }
 
  __global__ void 
@@ -120,7 +120,7 @@ double blockReduceSum(double value) {
          reduction_presum<<<jmp*jmp*jmp/B,B>>>(U, jmp, res);
          cudaDeviceSynchronize();
          printf("%f",res);
-         // update iteration and Uold
+        //  update iteration and Uold
          iter ++;
 
          updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
