@@ -90,7 +90,7 @@ jacobimulti(double* D0U,double* D1U, double* D0F, double* D1F, double* D0Uold, d
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
-    //while condition is not satisfied
+
     while((iter < iter_max))
     {
 
