@@ -32,7 +32,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         value = smem[threadIdx.x];
     }
-    return warpReduceSum(value);
+    return 1; // warpReduceSum(value);
 }
 
  __global__ void 
