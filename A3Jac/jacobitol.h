@@ -6,6 +6,6 @@
 #ifndef __JACOBITOL
 #define __JACOBITOL
 
-void jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol);
+void jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol,double* res);
 
 #endif

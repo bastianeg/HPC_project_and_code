@@ -72,7 +72,6 @@ void init_data(int N, double *U, double *F, double start_T){
 
 int
 main(int argc, char *argv[]) {
-
     int 	N = N_DEFAULT;
     double	start_T;
     int		output_type = 0;
@@ -81,12 +80,10 @@ main(int argc, char *argv[]) {
     double*  f = NULL;
     int i,j,k;
     int iter_max = 100;
-    double tolerance = 1.5e-3;
 
     /* get the paramters from the command line */
     N         = atoi(argv[1]);	// grid size
     iter_max  = atoi(argv[2]);  // max. no. of iterations
-    tolerance = atof(argv[3]);  // tolerance
     start_T   = atof(argv[4]);  // start T for all inner grid points
     if (argc == 6) {
 	output_type = atoi(argv[5]);  // ouput type
@@ -122,15 +119,14 @@ main(int argc, char *argv[]) {
     //move u to GPU
     cudaMemcpy(D_u, u, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(D_f, f, (N+2)*(N+2)*(N+2)*sizeof(double), cudaMemcpyHostToDevice);
-
+    
     //--->> iterations
     #ifdef _JACOBISEQ
     jacobiseq(D_u, D_f, D_u_old, N, iter_max);
     #endif
 
     #ifdef _JACOBINAIVE
-    double *tmp;
-    jacobinaive(&D_u, D_f, &D_u_old, N, iter_max,&tmp);
+    jacobinaive(D_u, D_f, D_u_old, N, iter_max);
     #endif
     
     #ifdef _JACOBIMULTI
@@ -168,7 +164,11 @@ main(int argc, char *argv[]) {
     #endif
 
     #ifdef _JACOBITOL
-    jacobitol(D_u, D_f, N, iter_max,tolerance);
+    double tolerance = 1.5e-3;
+    tolerance = atof(argv[3]);  // tolerance
+    double* res;
+    cudaMalloc((void**) &res, (N+2)*(N+2)*(N+2)*sizeof(double));
+    jacobitol(D_u, D_f, D_u_old, N, iter_max,tolerance,res);
     #endif
 
     //move u back to host
@@ -180,7 +180,7 @@ main(int argc, char *argv[]) {
     cudaFree(D_u_old);
     cudaFree(D_f);
     
-    for(i = 0; i<N+2; i++){
+    for(i = 0; i<2; i++){
         printf("k=%d\n",i-1);
         for(j = 0; j<N+2; j++){
             for(k = 0; k<N+2; k++){

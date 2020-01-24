@@ -6,6 +6,6 @@
 #ifndef __JACOBINAIVE
 #define __JACOBINAIVE
 
-void jacobinaive(double **U, double *F, double **Uold, int N, int iter_max,double **tmp);
+void jacobinaive(double *U, double *F, double *Uold, int N, int iter_max);
 
 #endif
