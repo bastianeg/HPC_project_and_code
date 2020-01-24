@@ -48,14 +48,14 @@ jacobinaive(double *U, double *F, double *Uold, int N, int iter_max) {
     int jmp = N+2;
 
     // update Uold = U
-    initmat<<<jmp*jmp*jmp/B,B>>>(jmp, *U, *Uold,F);
+    initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold,F);
     cudaDeviceSynchronize();
 
     ts = omp_get_wtime();
     //while condition is not satisfied
     while(iter < iter_max)
     {
-        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, *U, *Uold,F);
+        jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F);
         cudaDeviceSynchronize();
 
         // update iteration and Uold
