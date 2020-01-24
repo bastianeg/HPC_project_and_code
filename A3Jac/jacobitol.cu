@@ -14,7 +14,7 @@
     for (int i = 16; i > 0; i /= 2){
         value += __shfl_down_sync(-1, value, i);
     }
-    return value;
+    return 1; // value;
  }
 
  __inline__ __device__
@@ -32,7 +32,7 @@ double blockReduceSum(double value) {
     if (threadIdx.x < warpSize){
         value = smem[threadIdx.x];
     }
-    return 1; // warpReduceSum(value);
+    return warpReduceSum(value);
 }
 
  __global__ void 
