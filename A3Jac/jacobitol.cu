@@ -11,6 +11,7 @@
 
  __inline__ __device__
  double warpReduceSum(double value) {
+    printf("AA")
     for (int i = 16; i > 1; i /= 2){
         value += __shfl_down_sync(-1, value, i);
     }
