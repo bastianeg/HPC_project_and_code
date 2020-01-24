@@ -46,9 +46,9 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
     //compute C(i,j) and C(i,j+1)
     int j = 2*(blockIdx.x*blockDim.x+threadIdx.x); //looping through n (only half as many threads/blocks)
     int i = blockIdx.y*blockDim.y+threadIdx.y;     //looping through m
-    double tmp[2];
-    
-
+    //double tmp[2];
+    double tmp1;
+    double tmp2;
     if((j<n)&&(i<m)){
 
         //additional i to compute (here, either 1 or 0)
@@ -57,14 +57,22 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
         for(int p=0; p<k; p++){
             //row of A and col of B
             //#pragma unroll
-            for(int u=0; u<=j_add; u++){
-                tmp[u] += A[i*k+p] * B[p*n+j+u];
-            }
+            //for(int u=0; u<=j_add; u++){
+            //    tmp[u] += A[i*k+p] * B[p*n+j+u];
+            //}
+            tmp1 += A[i*k+p] * B[p*n+j+0];
+            if(j_add ==1)
+                tmp2 += A[i*k+p] * B[p*n+j+1];
+
         }
         //#pragma unroll
-        for(int u=0;  u<=j_add; u++){
-            C[i*n+j+u] = tmp[u];
-        }
+        //for(int u=0;  u<=j_add; u++){
+        //    C[i*n+j+u] = tmp[u];
+        //}
+        C[i*n+j+0] = tmp1;
+        if(j_add ==1)
+            C[i*n+j+1] = tmp2;
+        
     }
     
 }
