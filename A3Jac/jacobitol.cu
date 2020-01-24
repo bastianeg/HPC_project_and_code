@@ -92,6 +92,7 @@ double blockReduceSum(double value) {
  
  void
  jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol, double* res) {
+    printf("AAA");
      int B=10; // Block size
      double ts, te; // for timing
      double deltasq = 4.0/((double) N * (double) N);
