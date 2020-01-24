@@ -91,27 +91,21 @@ double blockReduceSum(double value) {
  }
  
  void
- jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol, double* res) {
-     printf("%f",tol); 
+ jacobitol(double *U, double *F, double *Uold, int N, int iter_max, double tol, double* res) { 
      int B=10; // Block size
      double ts, te; // for timing
      double deltasq = 4.0/((double) N * (double) N);
      //define norm and max_iter and Uold and iter and threshold
-     printf("%f",tol);
      int iter = 0;
      double onesixth = 1.0/6.0;
      int jmp = N+2;
      double d=tol+8.0;
      // update Uold = U
-     printf("%f",tol);
      initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F,deltasq);
      cudaDeviceSynchronize();
-     printf("%f",tol);
      ts = omp_get_wtime();
      //while condition is not satisfied
-     printf("%f",tol);
-     printf("%d",d);
-     while((d>tol) && (iter < iter_max))
+     while((iter < iter_max))
      {
          
          jacgpu<<<dim3(N/B,N/B,N/B),dim3(B,B,B)>>>(jmp, U, Uold,F, onesixth);
