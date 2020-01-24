@@ -88,7 +88,7 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
         int real_j_add = MIN(s-1,n-1-j);
         #pragma unroll
         for(int u=0; u<=j_add; u++){
-            if(u<real_j_add)
+            if(u<=real_j_add)
                 tmp[u] = 0.0;
         }
 
@@ -96,13 +96,13 @@ matmult_kernel4(int m, int n, int k, double *A, double *B, double *C, int s){
             //row of A and col of B
             #pragma unroll
             for(int u=0; u<=j_add; u++){
-                if(u<real_j_add)
+                if(u<=real_j_add)
                     tmp[u] += A[i*k+p] * B[p*n+j+u];
             }
         }
         #pragma unroll
         for(int u=0;  u<=j_add; u++){
-            if(u<real_j_add)
+            if(u<=real_j_add)
                 C[i*n+j+u] = tmp[u];
         }
     }
