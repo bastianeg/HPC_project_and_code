@@ -36,14 +36,14 @@ double blockReduceSum(double value) {
 }
 
  __global__ void 
- reduction_presum (double *a, int n, double *res)
+ reduction_presum (double *a, int n, double* res)
  {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
-    double value = 0;
+    double value = 0.0;
     for (int i = idx; i < n; i += blockDim.x * gridDim.x){
         value += a[i];
     }
-    value = idx < n ? value : 0;
+    value = idx < n ? value : 0.0;
     value = blockReduceSum(value);
     if (threadIdx.x == 0)
         atomicAdd(res, value);
