@@ -25,16 +25,16 @@ matmult_kernel1(int m, int n, int k, double *A, double *B, double *C){
 __global__ void
 matmult_kernel2(int m, int n, int k, double *A, double *B, double *C){
     
-    int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
-    int j = blockIdx.y*blockDim.y+threadIdx.y; //looping through n
-
-    if((i<m)&&(j<n)){
+    int j = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
+    int i = blockIdx.y*blockDim.y+threadIdx.y; //looping through n
+    double tmp;
+    if((i<n)&&(j<m)){
         //init C to zero
-        C[i*n+j] = 0.0;
         for(int p=0; p<k; p++){
             //read row of A and col of B
-            C[i*n+j] += A[i*k+p] * B[p*n+j];
+            tmp += A[i*k+p] * B[p*n+j];
         }
+        C[i*n+j] = tmp;
     }
 }
 
@@ -69,6 +69,7 @@ matmult_kernel3(int m, int n, int k, double *A, double *B, double *C){
 __global__ void
 matmult_kernel4(int m, int n, int k, double *A, double *B, double *C,int s){
     //compute C(i,j), C(i,j+1), ... C(i,j+s)
+
     int i = blockIdx.x*blockDim.x+threadIdx.x; //looping through m
     int j = s*(blockIdx.y*blockDim.y+threadIdx.y); //looping through n (only 1/s as many threads/blocks)
 
