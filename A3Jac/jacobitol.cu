@@ -127,6 +127,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
      // update Uold = U
      initmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold,F);
      cudaDeviceSynchronize();
+
      ts = omp_get_wtime();
      //while condition is not satisfied
      while(iter<iter_max) //(d>tol) && (iter < iter_max))
@@ -146,7 +147,7 @@ jacgpu(int jmp, double* U, double* Uold,double* F){
          //update iteration and Uold
          iter ++;
 
-         updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U, Uold);
+         updmat<<<jmp*jmp*jmp/B,B>>>(jmp, U,Uold);
          cudaDeviceSynchronize();
      }
      te = omp_get_wtime() - ts;
