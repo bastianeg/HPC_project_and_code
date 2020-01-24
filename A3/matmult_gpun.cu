@@ -108,10 +108,11 @@ extern "C"{
     void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C){
 
         //number of elements to compute in each thread
+        const int s;
         if(getenv("NUM_ELEM_PER_THREAD")!=NULL){
-            const int s = atoi(getenv("NUM_ELEM_PER_THREAD"));
-        }else{
-            const int s = 8;
+            s = atoi(getenv("NUM_ELEM_PER_THREAD"));
+        } else{
+            s = 8;
         }
         //allocate memory on GPU
         double* d_A;
